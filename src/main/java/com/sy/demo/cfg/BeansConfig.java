@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.github.pagehelper.PageHelper;
 
 @Configuration
-@MapperScan(basePackages = { "com.sy.dao" })
+@MapperScan(basePackages = { "com.sy.demo.dao" })
 public class BeansConfig {
 
 	/**
