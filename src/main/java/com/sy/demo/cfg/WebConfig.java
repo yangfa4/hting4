@@ -58,8 +58,8 @@ public class WebConfig implements WebMvcConfigurer {
 	* @description: 注册WebSocket endpoint站点服务,单元测试的时候需要注释这个配置【非常重要】
 	* @return
 	 */
-	@Bean
+	/*@Bean
     public ServerEndpointExporter serverEndpointExporter() {
         return new ServerEndpointExporter();
-    }
+    }*/
 }
