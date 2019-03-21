@@ -16,4 +16,7 @@ public class ForumBiz {
 		return dao.findBlock();
 	}
 	
+	public List<Forummanagement> findColumn(Integer pid){
+		return dao.findColumn(pid);
+	}
 }
