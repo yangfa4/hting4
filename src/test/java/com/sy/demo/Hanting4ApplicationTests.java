@@ -21,10 +21,13 @@ public class Hanting4ApplicationTests {
 	@Test
 	public void contextLoads() {
 	}
+	
 	@Test
 	public void test() {
 	 	List<Forummanagement> list= biz.findBlock();
-	 	
+	 	for (Forummanagement f : list) {
+			System.out.println(f);
+		}
 		
 	}
 
