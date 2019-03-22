@@ -19,4 +19,8 @@ public class ForumBiz {
 	public List<Forummanagement> findColumn(Integer pid){
 		return dao.findColumn(pid);
 	}
+	
+	public Forummanagement findTitleName(Integer fmid) {
+		return dao.findTitleName(fmid);
+	}
 }
