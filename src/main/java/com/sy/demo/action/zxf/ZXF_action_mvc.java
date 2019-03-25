@@ -32,15 +32,33 @@ public class ZXF_action_mvc {
 		return path;
 	}
 
+	/**
+	 * 去商家中心
+	 * 
+	 * @methodName: toshop
+	 * @param uid
+	 * @param session
+	 * @return
+	 *
+	 */
 	@RequestMapping("toshop")
 	public String toshop(Integer uid, HttpSession session) {
 		User us = biz.queryby(uid); // 获取当前登录用户信息
-		String path = "zxf//grzx-index.html"; // 默认url《个人中心》
+		String path = "zxf//sjzx-index"; // 默认url《商家中心》
+		session.setAttribute("user", us);
 		if (us.getMerchantType() == 0) { // 0：不是商家
 			path = "zxf//sjrz-yktsj";
-			session.setAttribute("user", us);
 		}
 		return path;
+	}
+
+	@RequestMapping("totxzl")
+	public String totxzl(HttpSession session, Model mod) {
+		mod.addAttribute("servicetypeList", biz.QueryservicetypeAll());
+		mod.addAttribute("liveCityList", biz.QueryShareaAll());
+		mod.addAttribute("languagetypeList", biz.QueryLanguagetypeAll());
+		mod.addAttribute("majortypeList", biz.QuerymajortypeAll());
+		return "zxf//sjrz-txzl";
 	}
 
 }

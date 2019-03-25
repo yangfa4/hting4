@@ -90,11 +90,13 @@
 				<dd>
 					<input type="hidden" name="serviceID" />
 					<div class="sel_sev_style">
-						<!-- th:remove="${servicetypeList.size()==0?'none':'all-but-first'}" -->
-						<!-- <a th:each="temp,index : ${servicetypeList}" href="javascript:void(0);" th:text="${temp.stname}" th:attr="data-id=${temp.stid}">自驾游</a> -->
-						<a href="javascript:void(0);">微整形</a> <a
-							href="javascript:void(0);">留学中介</a> <a href="javascript:void(0);">韩语翻译</a>
-						<a href="javascript:void(0);">学习资源</a>
+						<a th:remove="${servicetypeList.size()==0?'none':'all-but-first'}"
+							th:each="temp,index : ${servicetypeList}"
+							href="javascript:void(0);"><span th:text="${temp.stName}"
+							th:attr="data-id=${temp.stid}">自驾游</span></a> <a
+							href="javascript:void(0);">微整形</a> <a href="javascript:void(0);">留学中介</a>
+						<a href="javascript:void(0);">韩语翻译</a> <a
+							href="javascript:void(0);">学习资源</a>
 					</div>
 					<p class="c_4 mt10">每名商家可以选择两个服务类别，选择以后不能更改，请仔细考虑。</p>
 				</dd>
@@ -204,17 +206,18 @@
 						<select class="sel_f sel_f2 sel_b2" name="country" id="country"
 							@change="querySharea($event)">
 							<option value="0">请选择</option>
-							<!-- 	<option th:each="temp,iterState : ${shareaList}" th:value="${temp.areaid}" th:text="${temp.mergername}"></option> -->
+							<option th:each="temp,iterState : ${shareaList }"
+								th:value="${temp.areaID}" th:text="${temp.mergerName}"></option>
 						</select> <select class="sel_f sel_f2 sel_b2" name="provincialid"
 							id="provincialid" @change="querySharea($event)">
 							<option value="0">省</option>
-							<option v-for="(temp,index) in provinceList" :value="temp.areaid"
-								v-text="temp.mergername"></option>
+							<option v-for="(temp,index) in provinceList" :value="temp.areaID"
+								v-text="temp.mergerName"></option>
 						</select> <select class="sel_f sel_f2 sel_b2 validate[required]"
 							name="cityid" id="cityid" required="">
 							<option value="0">市</option>
-							<option v-for="(temp,index) in cityList" :value="temp.areaid"
-								v-text="temp.mergername"></option>
+							<option v-for="(temp,index) in cityList" :value="temp.areaID"
+								v-text="temp.mergerName"></option>
 						</select> <input name="addetail" type="text" value=""
 							class="input_c inf_inc validate[required]" id="addetail"
 							required="">
@@ -291,8 +294,8 @@
 					<span th:each="temp,iterState : ${languagetypeList}"
 						class="mrsp_10"> <label> <input type="checkbox"
 							name="langs[]" class="checkbox_input validate[required]"
-							id="langs[]" th:value="${temp.languageid}"> <span
-							th:text="${temp.languagename}"></span>
+							id="langs[]" th:value="${temp.languageID}"> <span
+							th:text="${temp.languageName}"></span>
 					</label>
 					</span> <span class="mrsp_10"> <label> <input
 							type="checkbox" name="langs[]"
@@ -313,8 +316,8 @@
 				<dd th:remove="${majortypeList.size()==0?'none':'all-but-first'}">
 					<span class="mrsp_10" th:each="temp,iterState : ${majortypeList}">
 						<label> <input type="checkbox" name="majors[]"
-							th:value="${temp.majorid}" class="checkbox_input"> <span
-							th:text="${temp.majorname}"></span>
+							th:value="${temp.majorID}" class="checkbox_input"> <span
+							th:text="${temp.majorName}"></span>
 					</label>
 					</span> <span class="mrsp_10"> <label> <input
 							type="checkbox" name="majors[]" value="12" class="checkbox_input">
@@ -334,7 +337,7 @@
 					<select name="livecityid" class="sel_f sel_f2 sel_b3" id="cityid"
 						th:remove="${liveCityList.size()==0?'none':'all-but-first'}">
 						<option th:each="temp,iterState : ${liveCityList}"
-							th:value="${temp.areaid}" th:text="${temp.mergername}"></option>
+							th:value="${temp.areaID}" th:text="${temp.mergerName}"></option>
 						<option value="402">首尔特别市</option>
 					</select>
 				</dd>
@@ -1204,7 +1207,7 @@
 		KindEditor.ready(function(k){
 		    editor = k.create('#content',{
 		        resizeType: 0,
-		        cssPath : ['/js/kindeditor/plugins/code/prettify.css'],
+		        cssPath : ['/Public/js/kindeditor/plugins/code/prettify.css'],
 		        filterMode: true,
 		        allowFileManager: true,
 		        uploadJson: '/c/sxy/kindeditor/upload',

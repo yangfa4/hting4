@@ -71,8 +71,8 @@ body {
 
 	<div class="test_box">
 		<div th:if="${session.user.auditStatus==1}" class="waring_show">您已经申请过商家入驻，正在审核中，请等待。</div>
-		<div th:if="${session.user.auditStatus==0}">
-			等待 3 秒后跳转，你也可以单击 <a href="/zxf/mvc/to?path=zxf//sjrz-xz">进行跳转</a>.
+		<div th:if="${session.user.auditStatus==0}" class="waring_show">
+			请先申请商家入驻，等待3秒跳转或点击 <a href="/zxf/mvc/to?path=zxf//sjrz-xz">去申请</a>.
 		</div>
 	</div>
 
