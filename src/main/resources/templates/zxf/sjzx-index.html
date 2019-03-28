@@ -57,8 +57,6 @@
 }
 </style>
 </head>
-<iframe name="topost" id="topost" style="display: none;"></iframe>
-
 <body>
 	<!--header-->
 	<div class="header" id="botop">
@@ -83,7 +81,7 @@
 		<div class="b_box nav_header community_header">
 			<a class="logo my_logo" href="#">御品韩汀</a>
 			<ul class="member_nav_ul">
-				<li class="cur" id="li1"><a href="#">商家中心</a><span
+				<li class="cur" id="li1"><a href="/zxf/mvc/toshop">商家中心</a><span
 					class="my_nav_i"></span></li>
 				<li id="li2"><a href="#">个人中心</a><span class="my_nav_i"></span></li>
 				<li id="li3"><a href="#">账户设置</a><span class="my_nav_i"></span></li>
@@ -100,13 +98,12 @@
 			<div class="member_left">
 				<h1 class="member_left_title seller_title">商家中心</h1>
 				<ul class="member_system_ul sj_left_ul">
-					<li><a
-						href="/c/szy/order/queryAllOrder?orderStatus=0&refundstatus=-1&pageNum=1&pageSize=5&orderID="><span
+					<li><a th:href="|/zxf/mvc/tosddyd?uid=${session.user.userID}|"><span
 							class="msp2 pre_c1"></span>我收到的预定</a></li>
-					<li><a href="/zg/c/getServices?pageNum=1&pageSize=3"><span
+					<li><a th:href="|/zxf/mvc/tofbdfw?uid=${session.user.userID}&p=1&s=3&auditStatus=0&title=|"><span
 							class="msp2 pre_c2"></span>我发布的服务</a></li>
 					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
-					<li><a href="/zg/c/queryEvaluation?pageNum=1&pageSize=2"><span
+					<li><a href="|zxf/mvc/tosddyd?uid='${session.user.userID}'|"><span
 							class="msp2 pre_c4"></span>我收到的评价</a></li>
 					<li><a href="#"><span class="msp2 pre_c5"></span>我发出的物流</a></li>
 					<li><a href="#"><span class="msp2 pre_c6"></span>我收到的退款<span
@@ -147,13 +144,18 @@
 					<a href="javascript:void(0)" target="_blank">店铺主页 </a> <span
 						class="bbs_line"></span> <a href="javascript:void(0);">保证金[[${session.user.guaranteeMoney}]]金币<span
 						class="bzj_i"></span></a> <span class="bbs_line"></span> <a
-						href="javascript:void(0);"  th:if="${session.user.trusteeship==1}">已托管<span></span></a>
-					<a href="javascript:void(0);" th:if="${session.user.trusteeship==0}">未托管<span></span></a>
-					<span class="bbs_line"></span>服务类别 <span class="business_c_a">
+						href="javascript:void(0);" th:if="${session.user.trusteeship==1}">已托管<span></span></a>
+					<a href="javascript:void(0);"
+						th:if="${session.user.trusteeship==0}">未托管<span></span></a> <span
+						class="bbs_line"></span>服务类别 <span class="business_c_a"> <a
+						href="javascript:void(0)" name="stid"
+						th:if="${session.user.firstServiceID}!=null"><span
+							th:each="temp,index:${ servicetype }"
+							th:if="${temp.stid==session.user.firstServiceID}">[[${temp.stName}]]</span></a>
 						<a href="javascript:void(0)" name="stid"
-						th:if="${session.user.firstServiceID}!=null">[[${session.user.firstServiceID}]]</a>
-						<a href="javascript:void(0)" name="stid"
-						th:if="${session.user.secondServiceID}!=null">[[${session.user.secondServiceID}]]</a>
+						th:if="${session.user.secondServiceID}!=null"><span
+							th:each="temp,index: ${servicetype }"
+							th:if="${temp.stid==session.user.secondServiceID}">[[${temp.stName}]]</span></a>
 						<a href="#" class="btna_s2">申请鉴定</a>
 					</span>
 
@@ -307,38 +309,41 @@
 </body>
 <script type="text/javascript" src="/Public/js/sessionHeader.js"></script>
 <script type="text/javascript" src="/Public/js/headLeftNav.js"></script>
-<script type="text/javascript" src="/Public/js/sjzx-href.js"></script>
 <script type="text/javascript" src="/Public/js/grzx-interlinkage.js"></script>
 <script type="text/javascript">
-	var merchantlevel=[[${user.merchantlevel}]];
-	$(".star_pl_sp").css("width",merchantlevel/5*100);
-	$.each($("[name=stid]"),function(i,obj){
-		var stid=$(this).html();
-		var p=$(this);
-		$.getJSON("/c/szy/order/querySerType",{"stid":stid},function(data){
-			p.html(data.stname);
-		})
-	})
-	$.getJSON("/c/szy/order/queryCountOrder",function(data){
-		var jiedan=0;var fuwu=0;var dwc=0;var tuikan=0;var wancheng=0;
-		$.each(data,function(i,obj){
-			if(obj.orderstatus==2){
-				jiedan=jiedan+1;
-			}else if(obj.orderstatus==3){
-				fuwu=fuwu+1;
-			}else if(obj.orderstatus==4){
-				dwc=dwc+1;
-			}else if(obj.orderstatus==5&&obj.refundstatus==0){
-				wancheng=wancheng+1;
-			}else if(obj.orderstatus==5&&obj.refundstatus>0){
-				tuikan=tuikan+1;
-			}
-		})
-		$("[name=jiedan]").html(jiedan);
-		$("[name=fuwu]").html(fuwu);
-		$("[name=dwc]").html(dwc);
-		$("[name=tuikan]").html(tuikan);
-		$("[name=wancheng]").html(wancheng);
-	})
+ShopStarRating([[${session.user.creditScore}]],$(".star_pl .star_pl_sp"));
+ShopLevel([[${session.user.merchantExp}]],$(".jp_ul_list li"));
+//商铺星级评定显示   integral(取User表的信誉积分(默认300/满分500 100为1颗星/50半星)) goals(星级显示目标JQuery对象)
+ function ShopStarRating(integral,goals){
+	    var max = 500;
+	    var min = 100;
+	    if(integral>=max){ //最高5颗星
+	    	$(goals).css("width","100%");
+	    }else if(integral<=min){//最低1颗星
+	    	$(goals).css("width","20%");
+	    }else{
+	      var xingji = parseInt(integral/50);
+	      if(xingji%2==0){
+	    	  $(goals).css("width",xingji*10+"%");
+	      }else{
+	    	  $(goals).css("width",(xingji*10-2)+"%");
+	      }
+	    }	
+   }
+   //商铺等级评定显示 integral(商家经验值金银铜牌商家) goals(星级显示目标/JQuery对象)
+   function ShopLevel(integral,goals){
+	   if(integral<=50){
+		   $(goals).html("铜牌商家");
+	   }else if(integral<=200&&integral>=51){
+		   $(goals).html("银牌商家");
+	   }else if(integral>=201){
+		   $(goals).html("金牌商家");
+	   }
+   }
+   
+   
+   
+   
+   
 </script>
 </html>

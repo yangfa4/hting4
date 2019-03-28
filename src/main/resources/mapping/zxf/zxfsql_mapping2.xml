@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sy.demo.dao.zxf.ZXF_IDao2">
+	<!-- 商家入驻user表修改 -->
+	<update id="sjrz">
+		UPDATE
+		`user`
+		SET
+		<if test="us.userMoney!=null">
+			`userMoney`=#{us.userMoney },
+		</if>
+		`userRealName` = #{us.userRealName },
+		`country` =#{us.country },
+		`provincialID` = #{us.provincialID },
+		`cityID` =#{us.cityID },
+		`countyID` = #{us.countyID },
+		`adDetail`
+		=#{us.adDetail },
+		`merchantType` =#{us.merchantType },
+		`firstServiceID` =
+		#{us.firstServiceID },
+		`secondServiceID`
+		=#{us.secondServiceID },
+		`firstServiceMoney` = 0,
+		`secondServiceMoney` =
+		0,
+		`hospitalName`
+		=#{us.hospitalName },
+		`shopName` = #{us.shopName },
+		`signature`
+		=#{us.signature },
+		`guaranteeMoney` = #{us.guaranteeMoney },
+		`shopImg` =
+		#{us.shopImg },
+		`identityType` = #{us.identityType },
+		`identityNumder` =
+		#{us.identityNumder },
+		`identityRealName`
+		=#{us.identityRealName } ,
+		`identityPositiveImg`
+		=#{us.identityPositiveImg },
+		`identityNegativeImg`
+		=#{us.identityNegativeImg },
+		`identityHandImg`
+		=#{us.identityHandImg } ,
+		`languageNameText` =#{us.languageNameText },
+		`majorNameText`
+		=#{us.majorNameText },
+		`liveCityID` =#{us.liveCityID },
+		`merchantEmail`
+		=#{us.merchantEmail },
+		`merchantPhone`
+		=#{us.merchantPhone },
+		`qq` =
+		#{us.qq },
+		`weChat` = #{us.weChat },
+		`profession` =#{us.profession },
+		`height` =#{us.height },
+		`constellation` =#{us.constellation },
+		`age`
+		=#{us.age },
+		`selfIntroduction` = #{us.selfIntroduction },
+		`experience`
+		=#{us.experience },
+		`experienceStatus` =#{us.experienceStatus },
+		`auditStatus` =1,
+		`creditScore` = 300
+		WHERE `userID` = #{us.userID }
+	</update>
+	<!-- 新增保证金记录 -->
+	<insert id="addBand">
+		INSERT INTO `bond` (
+		`userID`,
+		`bondType`,
+		`goldCoin`,
+		`submitTime`,
+		`auditStatus`
+		)
+		VALUES
+		(
+		#{bd.userID },
+		#{bd.bondType },
+		#{bd.goldCoin },
+		NOW(),
+		1
+		)
+	</insert>
+    <!-- 服务信息查询 -->
+	<select id="queryServices" resultType="Services">
+		SELECT
+		*
+		FROM
+		`services`
+		where `userID`=#{uid }
+		<if test="auditStatus!=0">
+			and `auditStatus` = #{auditStatus }
+		</if>
+		<if test="serviceTitle!=null">
+			and (`serviceTitle`like '%${serviceTitle }%' OR
+			`serviceFuTitle` LIKE '%${serviceTitle }%')
+		</if>
+	</select>
+</mapper>
