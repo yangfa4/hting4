@@ -13,11 +13,13 @@ import com.sy.demo.dao.zxf.ZXF_IDao2;
 import com.sy.demo.pojo.Bond;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
+import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.Services;
 import com.sy.demo.pojo.Servicetype;
 import com.sy.demo.pojo.Sharea;
 import com.sy.demo.pojo.System;
 import com.sy.demo.pojo.User;
+import com.sy.demo.vo.zxf.Ordersvo1;
 
 @Service
 public class ZXF_shopbiz {
@@ -125,9 +127,21 @@ public class ZXF_shopbiz {
 	public Integer addBand(Bond bd) {
 		return dao2.addBand(bd);
 	}
-	
-	
-	
-	
-	
+
+	/**
+	 * 查询商家订单
+	 * 
+	 * @methodName: queryOrders
+	 * @param uid
+	 * @return
+	 *
+	 */
+	public PageInfo<Ordersvo1> queryOrders(Integer uid,String oid, Integer p, Integer s,String oids) {
+		PageHelper.startPage(p, s);
+		return new PageInfo<Ordersvo1>(dao2.queryOrders(uid,oid,oids));
+	}
+
+	public List<Ordersvo1> queryOrders(Integer uid,String oid,String oids) {
+		return dao2.queryOrders(uid,oid,oids);
+	}
 }

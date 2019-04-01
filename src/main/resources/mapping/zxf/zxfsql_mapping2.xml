@@ -87,7 +87,7 @@
 		1
 		)
 	</insert>
-    <!-- 服务信息查询 -->
+	<!-- 服务信息查询 -->
 	<select id="queryServices" resultType="Services">
 		SELECT
 		*
@@ -100,6 +100,36 @@
 		<if test="serviceTitle!=null">
 			and (`serviceTitle`like '%${serviceTitle }%' OR
 			`serviceFuTitle` LIKE '%${serviceTitle }%')
+		</if>
+	</select>
+	<!-- 查询商家订单 -->
+	<resultMap type="Ordersvo1" id="orderMapping">
+		<association property="ser" column="serviceID"
+			select="querybyser" />
+		<association property="u" column="userID"
+			select="querybyuser" />
+	</resultMap>
+	<select id="querybyser" resultType="services">
+		SELECT * FROM services WHERE
+		`serviceID` = #{0 }
+	</select>
+	<select id="querybyuser" resultType="user">
+		SELECT * FROM user WHERE
+		`userID` = #{0 }
+	</select>
+	<select id="queryOrders" resultMap="orderMapping">
+		SELECT
+		*
+		FROM `orders`
+		WHERE
+		<if test="oids!=null">
+			orderID = #{oids }
+		</if>
+		<if test="oids==null">
+			serviceID IN (SELECT serviceID FROM services WHERE userID=#{uid })
+			<if test="oid!=null">
+				and orderID like '%${oid }%'
+			</if>
 		</if>
 	</select>
 </mapper>

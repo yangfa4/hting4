@@ -15,10 +15,10 @@ public class OrderQuantity {
 	private int forservice; // 待服务
 	private int hasservice; // 已服务
 	private int serviceend; // 服务完成
-	private int cancelservice;// 服务取消(待退款)
+	private int cancelservice;// 服务取消
 	private int getmoneyend; // 已退款
 	private int duegetmoneyend;// 未接单
-
+	// 1待付款2待接单3待提供服务4已提供服务6服务完成6服务取消7未接单8已退款
 	public int getAllorder() {
 		return allorder;
 	}
