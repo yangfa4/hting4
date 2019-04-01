@@ -29,7 +29,6 @@ public class Hanting4ApplicationTests {
 	 	for (Forummanagement f : list) {
 			System.out.println(f);
 		}
-		
 	}
 
 }

@@ -15,7 +15,7 @@ public interface IAdvertisementDao {
 	 * 查询首页广告
 	 * @return
 	 */
-	public List<AdvertisementVO> queryByAtid();
+	public List<AdvertisementVO> queryByAtid(@Param("flag")Integer flag);
 	
 	/**
 	 * 首页社区服务星级服务推荐商家

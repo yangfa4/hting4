@@ -22,7 +22,8 @@ public class LhqAdvertisementTest {
 	
 	@Test
 	public void queryByAtid() {
-		List<AdvertisementVO> listVo=advertiseBiz.queryByAtid();
+		
+		List<AdvertisementVO> listVo=advertiseBiz.queryByAtid(1);
 		for (AdvertisementVO list : listVo) {
 			System.out.println("输出："+list);
 			
@@ -33,7 +34,7 @@ public class LhqAdvertisementTest {
 	
 	@Test
 	public void queryRecommendUser() {
-		List<User> user=advertiseBiz.queryRecommendUser(1);
+		List<User> user=advertiseBiz.queryRecommendUser(2);
 		for (User user2 : user) {
 			System.out.println("输出user:"+user2);
 		}

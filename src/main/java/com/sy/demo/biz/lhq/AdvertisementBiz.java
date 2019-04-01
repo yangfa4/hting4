@@ -25,8 +25,8 @@ public class AdvertisementBiz {
 	 * 查询首页广告
 	 * @return
 	 */
-	public List<AdvertisementVO> queryByAtid(){
-		return advertiseDao.queryByAtid();
+	public List<AdvertisementVO> queryByAtid(Integer flag){
+		return advertiseDao.queryByAtid(flag);
 	}
 	
 	/**
