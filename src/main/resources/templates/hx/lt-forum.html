@@ -71,13 +71,13 @@
 				<div class="bbs_left_bar">
 					<h1 class="bbs_left_title">韩汀·论坛</h1>
 					<ul class="bbs_left_list" >
-						<li>
-							<a href="#"><span class="line"></span>热门话题</a>
+						<li data-pid="">
+							<a href="/Forum/findHotPost"><span class="line"></span>热门话题</a>
 						</li>
 						<li>
 							<a href="#"><span class="line"></span>我的韩汀论坛</a>
 						</li>
-						<li th:each="c,i:${list}">
+						<li th:each="c,i:${list}" th:data-pid="${c.fmID}">
 							<a th:href="@{/Forum/findBlock(pid=${c.fmID},essence=0)}"><span class="line"></span>[[${c.fmName}]]</a>
 						</li>
 					<!--
@@ -112,7 +112,7 @@
 					<!-- class="cur"表示按选中条件分类  按条件查询帖子 -->
 					<div class="bbs_tag">
 						<a  th:each="temp,item : ${clist}"  th:text="${temp.fmName}" 
-						th:href="@{/Forum/findBlock(pid=${temp.pid},essence=0,forumid=${temp.fmID})}">	
+						th:href="@{/Forum/findBlock(pid=${temp.pid},essence=0,forumid=${temp.fmID})}" th:data-fmid="${temp.fmID}">	
 						</a>
 					</div>
 					<div class="bbs_rank">
@@ -144,12 +144,12 @@
 							</p>
 							<div class="bbs_user_text">
 								<h3 class="bbs_text_title" > 
-									<img  src="../public/images/i_jh.png" style="padding-bottom:2px" th:if="${temp.essence==true}">
-									<img src="../public/images/i_ding.png" style="padding-bottom:2px" th:if="${temp.solid==true}">
-									<a th:text="${temp.title}"></a>
+									<img  src="../public/images/i_jh.png" style="padding-bottom:2px" th:if="${temp.essence==1}">
+									<img src="../public/images/i_ding.png" style="padding-bottom:2px" th:if="${temp.solid==1}">
+									<a th:text="${temp.title}" th:href="@{/Forum/findPostDes(postId=${temp.PostID})}"></a>
 								</h3>
 								<p class="bbs_user_i">
-									<a th:text="${temp.Forum.FmName}" >韩国大学简介</a><span class="bbs_dot">·</span>
+									<a th:href="@{/Forum/findPostDes(postId=${temp.PostID})}" th:text="${temp.Forum.FmName}" >韩国大学简介</a><span class="bbs_dot">·</span>
 									<a th:text="${temp.User.UserName}">坏坏带点乖.</a><span class="bbs_dot">·</span>
 									<a >
 									<span th:text="${temp.count}">2</span>条回复</a><span class="bbs_dot">·</span><span th:text="${#dates.format(temp.ReleaseTime, 'yyyy-MM-dd HH:mm')}">16</span><span class="bbs_dot"></span>
@@ -240,6 +240,16 @@
 	<script type="text/javascript" src="/Public/js/jquery-1.8.3.min.js"></script>
 	<!-- <script type="text/javascript" src="/Public/js/sessionHeader.js"></script> -->
 	<script type="text/javascript">
-
+		$("[data-pid=[[${param.pid}]]]").addClass("cur");
+		$("[data-fmid=[[${param.forumid}]]]").addClass("cur");
+		$("[data-page=[[${Page_list.pageNum}]]]").addClass("cur");
+		$("[data-orderid=[[${param.orderId}]]]").removeClass("bbscura");
+		function showJh(){
+			var _url = "/Forum/findBlock?pid=[[${param.pid}]]&orderId=[[${param.orderId}]]";
+			if($("[name=jin]").attr('checked')){
+				_url+="&essence=1";
+			}
+			location.href=_url;
+		}
 	</script>
 </html>

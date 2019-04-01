@@ -112,15 +112,77 @@
 		fabulousNumber = (select count(*) FROM postfabulous where postID = #{postId}),
 		collectionNumber = (select count(*) FROM postcollection where pcID = #{postId}),
 		browsenumber = browsenumber+1
-		
 		where postId = #{postId};
+		
 		select
 		*,(select max(reviewtime) from postcomment p where
 		p.postId=po.postId)lasttime
 		from post po
 		where postId = #{postId}
 	</select>
+	
+    <!-- 查询热门话题  -->
+    <select id="FindHostPost" resultMap="PostVoMap">
+    	SELECT *,(SELECT MAX(reviewtime) FROM postcomment p WHERE
+		p.postId=po.postId)lasttime,(SELECT COUNT(1)FROM postcomment p WHERE
+		p.postId=po.postId GROUP BY postId) cocount
+		FROM post po
+		<if test="title!=null">
+			where title like '%${title}%'
+		</if>
+		ORDER BY solid DESC,essence DESC,cocount DESC
+    </select>
     
+    <!-- 查询帖子详情内评论列表 -->
+	<select id="queryComment" resultMap="PostcommentVoMap">
+		select * from postcomment
+		where postId = #{postId}
+		order by reviewtime desc
+	</select>
+    
+    <!-- 查询帖子详情右侧最新话题 -->
+	<select id="queryNewPost" resultMap="PostVoMap">
+		select *
+		from post po
+		where
+		fmid = #{fmid}
+		order by releasetime desc
+		limit 0,3
+	</select>
+
+	<!-- 查询我的韩汀论坛中我的发帖 -->
+	<select id="queryMyPost" resultMap="PostVoMap">
+		SELECT *,(SELECT MAX(reviewtime) FROM postcomment p WHERE
+		p.postId=po.postId)lasttime
+		FROM post po
+		WHERE userId = #{userId}
+		<if test="title!=null">
+			and title like '%${title}%'
+		</if>
+		ORDER BY releasetime DESC
+	</select>
+	
+	<!-- 查询我的韩汀论坛中我的回复 -->
+	<select id="queryMyComment" resultMap="PostVoMap">
+		SELECT * FROM post
+		WHERE postId IN (SELECT postId FROM postcomment
+		WHERE commentator =
+		#{userId})
+		<if test="title!=null">
+			and title like '%${title}%'
+		</if>
+	</select>
+	
+	<!-- 查询我的韩汀论坛中我的收藏 -->
+	<select id="queryMyCollection" resultMap="PostVoMap">
+		SELECT * FROM post
+		WHERE postId IN (SELECT postId FROM postfabulous
+		WHERE userId =
+		#{userId})
+		<if test="title!=null">
+			and title like '%${title}%'
+		</if>
+	</select>
     
     
     </mapper>

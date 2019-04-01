@@ -9,14 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.github.pagehelper.PageInfo;
 import com.sy.demo.biz.hx.ForumBiz;
 import com.sy.demo.pojo.Forummanagement;
+import com.sy.demo.pojo.User;
+import com.sy.demo.vo.hx.PostVo;
 
 @Controller
 @RequestMapping("/Forum")
@@ -49,13 +53,33 @@ public class ForumAction {
 		return "hx/lt-forum";
 	}
 	
-	@GetMapping("findPostDes")
-	public String findDesils(Integer postId,Model model) {
-		model.addAttribute("PostDes", biz.findPostDes(postId));
-		return "hx/lt-postDetail";
+	@GetMapping("findHotPost")
+	public String findHostPost(@RequestParam(defaultValue="1") Integer p,
+			@RequestParam(defaultValue="5")Integer s,String title,Model mo) {
+		mo.addAttribute("list", biz.findBlock());
+		mo.addAttribute("HOTPOST", biz.FindHostPost(title, p, s));
+		return "hx/lt-hotforum";
 	}
 	
 	
+	@GetMapping("findPostDes")
+	public String findDesils(Integer postId,Model model,@RequestParam(defaultValue="1") Integer p,
+			@RequestParam(defaultValue="5")Integer s) {
+		model.addAttribute("PostDes", biz.findPostDes(postId));
+		model.addAttribute("PAGE_INFO", biz.findcomment(postId,p,s));
+		model.addAttribute("HOTPOST", biz.FindHostPost(null, 1, 5));
+		
+		return "hx/lt-postDetail";
+	}
+	
+	@PostMapping("login")
+	public String login(HttpSession session) {
+		User u=new User();
+		u.setUserID(26);
+		u.setUserName("倾心");
+		session.setAttribute("login", u);
+		return "hx/lt-myforum";
+	}
 	
 	
 	

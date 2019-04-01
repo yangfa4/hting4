@@ -1,3 +1,4 @@
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
@@ -58,7 +59,7 @@
 		<div class="h_top">
 			<div class="b_box">
 				<div class="top_nav">
-					<a th:href="@{/c/lsm/homeUrl}">首页</a><span class="ht_line"></span>
+					<a href="@{/c/lsm/homeUrl}">首页</a><span class="ht_line"></span>
 					<a href="javascript:;">商家入驻</a><span class="ht_line"></span> <a
 						href="/fw-bzzx.html">帮助中心</a><span class="ht_line"></span> <a
 						href="/fw-gyht.html">关于韩汀</a><span class="ht_line"></span> <a
@@ -111,49 +112,49 @@
 						<!--<img src="/Public/images/bbs_user_i.png" alt=""
 							class="bdu_img_hgi2">-->
 						<a
-							th:href="@{/c/sxy/toCenter(userId=${POSTVO.user.userid},type=1,page=1)}">
-							<img th:src="${POSTVO.user.userimgpath}"
-							th:alt="${POSTVO.user.username}">
+							th:href="@{/c/sxy/toCenter(userId=${PostDes.User.UserID},type=1,page=1)}">
+							<img th:src="${PostDes.User.UserImgPath}"
+							th:alt="${PostDes.User.UserName}">
 						</a>
 					</dt>
 					<dd>
 						<h1 class="tz_h1_title">
 							<div class="tz_title_right">
-								<a th:if="${POSTVO.solid==true}" href="javascript:void(0);"
-									class="ria1">顶</a> <a th:if="${POSTVO.essence==true}"
+								<a th:if="${PostDes.solid==1}" href="javascript:void(0);"
+									class="ria1">顶</a> <a th:if="${PostDes.essence==true}"
 									href="javascript:void(0);" class="ria2">精</a>
 							</div>
-							<span th:text="${POSTVO.title}">延世大学排名及专业介绍</span>
-							<div th:if="${user.userid==POSTVO.user.userid}"
+							<span th:text="${PostDes.title}">延世大学排名及专业介绍</span>
+							<!-- <div th:if="${user.userid==PostDes.User.UserID}"
 								class="tz_title_right">
 								<a th:href="@{/c/sxy/toUpdatePost(postId=${param.postId})}"
 									class="ria3">编辑</a>
-							</div>
+							</div> -->
 						</h1>
 						<div class="tz_in_t2">
 							<span
-								th:text="${#dates.format(POSTVO.releasetime, 'yyyy-MM-dd HH:mm')}">2017/03/19</span><span
+								th:text="${#dates.format(PostDes.ReleaseTime, 'yyyy-MM-dd HH:mm')}">2017/03/19</span><span
 								class="dot_i3">•</span><a
-								th:href="@{/c/sxy/toCenter(userId=${POSTVO.user.userid},type=1,page=1)}"><span
-								th:text="${POSTVO.user.username}">坏坏带点乖</span>.</a><span
+								th:href="@{/c/sxy/toCenter(userId=${PostDes.User.UserID},type=1,page=1)}"><span
+								th:text="${PostDes.User.UserName}">坏坏带点乖</span>.</a><span
 								class="dot_i3">•</span><a><span
-								th:text="${POSTVO.browsenumber}">381</span>人浏览</a><span
+								th:text="${PostDes.BrowseNumber}">381</span>人浏览</a><span
 								class="dot_i3">•</span><a href="#comment"><span
-								th:text="${POSTVO.commentnumber}">2</span>&nbsp;评论</a><span
+								th:text="${PostDes.CommentNumber}">2</span>&nbsp;评论</a><span
 								class="dot_i3">•</span><a href="###" class="btna_a_jb">举报</a>
 						</div>
 					</dd>
 				</dl>
 
 				<div class="tz_con">
-					<div class="bbs_dcontext" th:utext="${POSTVO.content}"></div>
+					<div class="bbs_dcontext" th:utext="${PostDes.content}"></div>
 					<div class="tz_detail_btn_a" id="sharediv">
 						<a href="javascript:void(0);" name="good" class="sc_btn"><span
 							class="sc_ic zan_i"></span>赞&nbsp;<font
-							th:text="${POSTVO.fabulousnumber}">6</font></a> <a
+							th:text="${PostDes.FabulousNumber}">6</font></a> <a
 							href="javascript:void(0);" name="collec" class="sc_btn"><span
 							class="sc_ic"></span>收藏&nbsp;<font
-							th:text="${POSTVO.collectionnumber}">3</font></a>
+							th:text="${PostDes.CollectionNumber}">3</font></a>
 						<div class="shear_show_d">
 							<div class="bdsharebuttonbox bdshare-button-style0-24"
 								data-bd-bind="1539914596776">
@@ -168,16 +169,16 @@
 
 				</div>
 				<!--登录后需要隐藏的-->
-				<div th:if="${user.userid==null}"
+				<div 
 					class="hy_box member_bt_btm2 hy_box2">
 					<a href="javascript:void(0);" class="btna_acancel">登录后评论</a> <a
 						href="javascript:void(0);">新用户注册</a>
-				</div>
+				</div><!-- th:if="${user.userid==null}" -->
 				<!--登录后需要隐藏的 end-->
 
 
 				<!-- 登录后显示的评论框 -->
-				<div th:if="${user.userid!=null}" class="login_after_pl_box"
+				<!-- <div th:if="${user.userid!=null}" class="login_after_pl_box"
 					id="response_box" style="display: block">
 					<input type="hidden" name="mid" id="mid" value="0">
 					<textarea class="login_after_pl_textarea" placeholder="回应"
@@ -188,7 +189,7 @@
 					<div class="member_bt_btm2 tosubmit">
 						<a href="javascript:void(0);">发布</a>
 					</div>
-				</div>
+				</div> -->
 				<!-- 登录后显示的评论框  end-->
 
 				<h2 class="news_hy_h2">最新回应</h2>
@@ -197,31 +198,31 @@
 					<li th:if="${PAGE_INFO.list.size()!=0}" class="last"
 						th:each="temp,item : ${PAGE_INFO.list}">
 						<p class="my_evaluation_img">
-							<img th:src="${temp.user.userimgpath}"
-								th:alt="${temp.user.username}">
+							<img th:src="${temp.User.UserImgPath}"
+								th:alt="${temp.User.UserName}">
 						</p>
 						<p class="date_p fr"
-							th:text="${#dates.format(temp.reviewtime, 'yyyy-MM-dd HH:mm')}">2018-09-08
+							th:text="${#dates.format(temp.ReviewTime, 'yyyy-MM-dd HH:mm')}">2018-09-08
 							10:39:57</p>
 						<div class="my_evaluation_text">
 							<h3 class="bbs_text_title">
 								<a
-									th:href="@{/c/sxy/toCenter(userId=${temp.user.userid},type=1,page=1)}"
-									class="name_a_2" th:text="${temp.user.username}">许超雄</a>
+									th:href="@{/c/sxy/toCenter(userId=${temp.User.UserID},type=1,page=1)}"
+									class="name_a_2" th:text="${temp.User.userName}">许超雄</a>
 							</h3>
 
 							<!--  回复 -->
 							<div th:if="${temp.pc!=null}" class="hf_show">
 								<span th:text="${temp.pc.content}">墨墨</span> <a
-									th:href="@{/c/sxy/toCenter(userId=${temp.pc.user.userid},type=1,page=1)}"
-									class="btna_s2" th:text="${temp.pc.user.username}">倾心</a>
+									href="@{/c/sxy/toCenter(userId=${temp.pc.user.userid},type=1,page=1)}"
+									class="btna_s2" th:text="${temp.pc.User.UserName}">倾心</a>
 							</div>
 
 							<p class="pt_text2" th:text="${temp.content}">666</p>
 							<p class="f12 t_r mt0">
-								<a th:if="${user.userid==temp.user.userid}" href="javascript:;"
-									class="c_4 response_btn remove">删除</a>&nbsp;&nbsp;&nbsp; <a
-									href="javascript:void(0);" th:data-pcid="${temp.pcid}"
+								<a  href="javascript:;"
+									class="c_4 response_btn remove">删除<!--th:data-pcid="${temp.pcid}" th:if="${user.userid==temp.User.Userid}" --></a>&nbsp;&nbsp;&nbsp; <a
+									href="javascript:void(0);" 
 									class="c_4 response_btn backcomment">回应</a>
 							</p>
 						</div>
@@ -240,13 +241,13 @@
 								class="page_prev prevdisabled"
 								th:href="@{/c/sxy/postDetail(page=${PAGE_INFO.prePage},postId=${param.postId},fmid=${param.fmid},pfmid=${param.pfmid},fmname=${param.fmname})}">上一页</a>
 							<a
-								th:href="@{/c/sxy/postDetail(page=${item.count},postId=${param.postId},fmid=${param.fmid},pfmid=${param.pfmid},fmname=${param.fmname})}"
+								href="@{/c/sxy/postDetail(page=${item.count},postId=${param.postId},fmid=${param.fmid},pfmid=${param.pfmid},fmname=${param.fmname})}"
 								th:data-page="${item.count}"
 								th:each="temp,item : ${PAGE_INFO.navigatepageNums}"
 								th:text="${item.count}">1</a> <a
 								th:if="${PAGE_INFO.isHasNextPage()}"
 								class="page_next nextdisabled"
-								th:href="@{/c/sxy/postDetail(page=${PAGE_INFO.nextPage},postId=${param.postId},fmid=${param.fmid},pfmid=${param.pfmid},fmname=${param.fmname})}">下一页</a>
+								href="@{/c/sxy/postDetail(page=${PAGE_INFO.nextPage},postId=${param.postId},fmid=${param.fmid},pfmid=${param.pfmid},fmname=${param.fmname})}">下一页</a>
 						</div>
 					</div>
 				</div>
@@ -260,10 +261,10 @@
 				<div class="br_part">
 					<h2 class="bbs_r_say_title">
 						韩汀•论坛 - <a
-							th:href="@{/c/sxy/column(pid=${param.pfmid},page=1,orderId=0,essence=0)}"
-							th:text="${FORUM.fmname}">留学简介</a> - <a
-							th:href="@{/c/sxy/column(pid=${param.pfmid},page=1,forumId=${param.fmid},orderId=0,essence=0)}"
-							th:text="${FMNAME}">韩国大学简介</a>
+							href="@{/c/sxy/column(pid=${param.pfmid},page=1,orderId=0,essence=0)}"
+							text="${FORUM.fmname}">留学简介</a> - <a
+							href="@{/c/sxy/column(pid=${param.pfmid},page=1,forumId=${param.fmid},orderId=0,essence=0)}"
+						text="${FMNAME}">韩国大学简介</a>
 					</h2>
 					<!-- 版主 
 					<p class="f14 c_4">
@@ -278,13 +279,13 @@
 					<ul class="news_talk_ul_list">
 						<!-- 详情右侧根据版块对应栏目的最新话题列表 -->
 						<li th:each="temp,item : ${NEWLIST}"><a
-							th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"
+							href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"
 							class="ntul_atext" th:text="${temp.title}">韩语翻译</a>
 							<p class="ntul_infoa">
 								<a
-									th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"></a><span
+									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"></a><span
 									class="dot_i3">•</span><a
-									th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span
+									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span
 									th:text="${temp.commentnumber}">0</span>&nbsp;回复</a>
 							</p></li>
 					</ul>
@@ -299,13 +300,13 @@
 					<h2 class="news_talk_title">热门话题</h2>
 					<ul class="news_talk_ul_list">
 						<li th:each="temp,item : ${HOT.list}"><a
-							th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"
+							href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"
 							class="ntul_atext" th:text="${temp.title}"> 韩语越说越地道</a>
 							<p class="ntul_infoa">
 								<a
-									th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"></a><span
+									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"></a><span
 									class="dot_i3">•</span><a
-									th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span
+									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span
 									th:text="${temp.commentnumber}">4</span>&nbsp;回复</a>
 							</p></li>
 					</ul>
@@ -575,7 +576,7 @@
 	$(".tosubmit").click(function() {
 		var userId = "[[${user.userid}]]";
 		var obj = new Object();
-		obj["postid"] = "[[${POSTVO.postid}]]";
+		obj["postid"] = "[[${PostDes.postid}]]";
 		obj["commentator"] = userId;
 		obj["pid"] = $("[name=mid]").val();
 		obj["content"] = $("[name=msg]").val();
