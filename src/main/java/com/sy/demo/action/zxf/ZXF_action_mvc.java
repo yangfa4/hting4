@@ -15,11 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.github.pagehelper.PageInfo;
 import com.sy.demo.biz.zxf.ZXF_shopbiz;
 import com.sy.demo.pojo.Bond;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
+import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.User;
+import com.sy.demo.util.zxf.Number;
+import com.sy.demo.vo.zxf.OrderQuantity;
+import com.sy.demo.vo.zxf.Ordersvo1;
 
 @Controller
 @RequestMapping("/zxf/mvc")
@@ -27,6 +32,8 @@ public class ZXF_action_mvc {
 
 	@Autowired
 	private ZXF_shopbiz biz;
+
+	private OrderQuantity oq = null;
 
 	/**
 	 * 访问页面
@@ -54,15 +61,18 @@ public class ZXF_action_mvc {
 	public String toshop(Integer uid, HttpSession session, Model mod) {
 		User us = (User) session.getAttribute("user");
 		String path = "zxf//sjzx-index"; // 默认url《商家中心》
-		if (us == null) {
+		if (uid != null) {
 			us = biz.queryby(uid); // 获取当前登录用户信息
 			session.setAttribute("user", us);
 		}
 		session.setAttribute("system", biz.Querysystem().get(0));
-		if (us.getMerchantType() == 0) { // 0：不是商家-------有点点错误
-			path = "zxf//sjrz-yktsj";
-		} else {
+		System.out.println(us.getAuditStatus());
+		if (us.getAuditStatus() == 2) { // 2：是商家
 			mod.addAttribute("servicetype", biz.QueryservicetypeAll());
+			oq = Number.OrderNumber(biz.queryOrders(us.getUserID(), null, null));
+			mod.addAttribute("num", oq);
+		} else {
+			path = "zxf//sjrz-yktsj";
 		}
 		return path;
 	}
@@ -114,7 +124,7 @@ public class ZXF_action_mvc {
 			user.setUserMoney(user.getUserMoney() - 500); // 扣钱500保证金
 		}
 		List<Languagetype> list = biz.QueryLanguagetypeAll();
-		if(langs!=null) {
+		if (langs != null) {
 			for (int i = 0; i < langs.length; i++) {
 				if (langs[i] != " " && langs[i].length() > 0) {
 					for (Languagetype Lang : list) {
@@ -129,7 +139,7 @@ public class ZXF_action_mvc {
 				}
 			}
 		}
-		
+
 		List<Majortype> list2 = biz.QuerymajortypeAll();
 		if (majors != null) {
 			for (int i = 0; i < majors.length; i++) {
@@ -161,8 +171,27 @@ public class ZXF_action_mvc {
 	}
 
 	@RequestMapping("tosddyd")
-	public String sddyd(Model mod, Integer uid) {
-
+	public String sddyd(Model mod, Integer uid, String oidtxt, Integer p, Integer s, String orderID) {
+		System.out.println(uid);
+		System.out.println(oidtxt);
+		System.out.println(p);
+		System.out.println(orderID);
+		if (p == null) {
+			p = 1;
+		}
+		if (s == null) {
+			s = 3;
+		}
+		if (orderID != null) {
+			mod.addAttribute("order", biz.queryOrders(uid, oidtxt, p, s, orderID).getList().get(0));
+			return "zxf//sjrz-order-deatil";
+		}
+		if (oidtxt == null && orderID == null) {
+			oq = Number.OrderNumber(biz.queryOrders(uid, null, null));
+		}
+		mod.addAttribute("num", oq);
+		mod.addAttribute("oidtxt", oidtxt);
+		mod.addAttribute("pageInfo", biz.queryOrders(uid, oidtxt, p, s, orderID));
 		return "zxf//sjzx-order";
 	}
 
@@ -174,4 +203,12 @@ public class ZXF_action_mvc {
 		mod.addAttribute("PAGE_INFO", biz.queryServices(uid, title, auditStatus, p, s));
 		return "zxf//sjzx-services";
 	}
+	
+	
+    @RequestMapping("tofbfw")
+    public String tofbfw(String sid,Model mod) {
+    	mod.addAttribute("sid", "sid");
+    	System.out.println(sid);
+    	return "zxf//sjzx-fbfw";
+    }
 }
