@@ -72,6 +72,22 @@ public class ForumAction {
 		return "hx/lt-postDetail";
 	}
 	
+	@GetMapping("findUserPost")
+	public String findUserPost(Integer type,Integer userId,
+			@RequestParam(defaultValue="1") Integer p,
+			@RequestParam(defaultValue="5")Integer s,
+			String title,Model model) {
+		
+		if(type==1) {
+			model.addAttribute("POST", biz.findUserPost(p, s, userId, title));
+			model.addAttribute("COMMENT", biz.findUserComment(p, s, userId, title));
+			model.addAttribute("COLLECT",biz.findUserCollect(p, s, userId, title));
+		}else if(type==2) {
+			
+		}
+		return "zjw-dongtai.html";
+	}
+	
 	@PostMapping("login")
 	public String login(HttpSession session) {
 		User u=new User();

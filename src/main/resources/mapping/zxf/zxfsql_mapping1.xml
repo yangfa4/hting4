@@ -2,9 +2,48 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="com.sy.demo.dao.zxf.ZXF_IDao">
-      
-      <select id="queryuser" resultType="user">
-        select * from `hanting4`.`user` where `userID` = #{uid }
-      </select>
-    </mapper>
+<mapper namespace="com.sy.demo.dao.zxf.ZXF_IDao1">
+	<!-- 测试查1 -->
+	<select id="queryuser" resultType="user">
+		select * from
+		`hanting4`.`user` where `userID` = #{uid }
+	</select>
+     <!-- 查系统配置 -->
+	<select id="Querysystem" resultType="System">
+		SELECT
+		*
+		FROM
+		`system`
+	</select>
+	<!-- 查申请服务类别 -->
+	<select id="QueryservicetypeAll" resultType="Servicetype">
+		SELECT
+		*
+		FROM
+		`servicetype`
+	</select>
+	<!--查中韩行政地区 -->
+	<select id="QueryShareaAll" resultType="Sharea">
+		SELECT
+		*
+		FROM
+		`sharea`
+	</select>
+	<!--查服务语言 -->
+	<select id="QueryLanguagetypeAll" resultType="Languagetype">
+		SELECT
+		*
+		FROM
+		`languagetype`
+	</select>
+	<!--查专业 -->
+	<select id="QuerymajortypeAll" resultType="Majortype">
+		SELECT
+		*
+		FROM
+		`majortype`
+	</select>
+
+
+
+</mapper>

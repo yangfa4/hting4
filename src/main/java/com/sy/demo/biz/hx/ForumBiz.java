@@ -88,5 +88,19 @@ public class ForumBiz {
 		return new PageInfo<PostcommentVo>(dao.queryComment(postId));
 	}
 	
+	public PageInfo<PostVo> findUserPost(Integer page,Integer size,Integer userId,String title){
+		PageHelper.startPage(page, size);
+		return new PageInfo<PostVo>(dao.queryMyPost(userId,title));
+	}
+	
+	public PageInfo<PostVo> findUserComment(Integer page,Integer size,Integer userId,String title){
+		PageHelper.startPage(page, size);
+		return new PageInfo<PostVo>(dao.queryMyComment(userId,title));
+	}
+	
+	public PageInfo<PostVo> findUserCollect(Integer page,Integer size,Integer userId,String title){
+		PageHelper.startPage(page, size);
+		return new PageInfo<PostVo>(dao.queryMyCollection(userId, title));
+	}
 	
 }

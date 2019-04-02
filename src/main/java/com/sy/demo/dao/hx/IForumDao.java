@@ -65,4 +65,12 @@ public interface IForumDao {
 	 * @return
 	 */
 	public List<PostcommentVo> queryComment(@Param("postId")Integer postId);
+	
+	
+	public List<PostVo>queryMyPost(@Param("userId")Integer userId,@Param("title")String title);
+	
+	public List<PostVo>queryMyComment(@Param("userId")Integer userId,@Param("title")String title);
+	
+	public List<PostVo>queryMyCollection(@Param("userId")Integer userId,@Param("title")String title);
+	
 }
