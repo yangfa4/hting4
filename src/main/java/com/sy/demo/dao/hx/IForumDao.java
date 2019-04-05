@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.sy.demo.pojo.Forummanagement;
+import com.sy.demo.pojo.User;
 import com.sy.demo.vo.hx.PostVo;
 import com.sy.demo.vo.hx.PostcommentVo;
 
@@ -50,7 +51,7 @@ public interface IForumDao {
 	 * @param title
 	 * @return
 	 */
-	public List<PostVo> FindHostPost(@Param("title")String title);
+	public List<PostVo> FindHostPost(@Param("title")String title,@Param("postid")Integer postid);
 	
 	/**
 	 * 查询详情 浏览数加一
@@ -66,11 +67,19 @@ public interface IForumDao {
 	 */
 	public List<PostcommentVo> queryComment(@Param("postId")Integer postId);
 	
+	/**
+	 * 查询最新帖子
+	 * @param fmid
+	 * @return
+	 */
+	public List<PostVo> queryNewPost(@Param("fmid")Integer fmid);
 	
 	public List<PostVo>queryMyPost(@Param("userId")Integer userId,@Param("title")String title);
 	
 	public List<PostVo>queryMyComment(@Param("userId")Integer userId,@Param("title")String title);
 	
 	public List<PostVo>queryMyCollection(@Param("userId")Integer userId,@Param("title")String title);
+	
+	public User queryUserInfo(@Param("userId")Integer userId);
 	
 }

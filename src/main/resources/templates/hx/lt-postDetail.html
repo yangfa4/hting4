@@ -278,15 +278,15 @@
 					<h2 class="news_talk_title">最新话题</h2>
 					<ul class="news_talk_ul_list">
 						<!-- 详情右侧根据版块对应栏目的最新话题列表 -->
-						<li th:each="temp,item : ${NEWLIST}"><a
-							href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"
+						<li th:each="temp,item : ${POSTNEW}"><a
+							th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"
 							class="ntul_atext" th:text="${temp.title}">韩语翻译</a>
 							<p class="ntul_infoa">
 								<a
-									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"></a><span
+									th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"></a><span
 									class="dot_i3">•</span><a
-									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span
-									th:text="${temp.commentnumber}">0</span>&nbsp;回复</a>
+									th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"><span
+									th:text="${temp.CommentNumber}">0</span>&nbsp;回复</a>
 							</p></li>
 					</ul>
 				</div>
@@ -299,15 +299,15 @@
 				<div class="br_part2">
 					<h2 class="news_talk_title">热门话题</h2>
 					<ul class="news_talk_ul_list">
-						<li th:each="temp,item : ${HOT.list}"><a
-							href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"
-							class="ntul_atext" th:text="${temp.title}"> 韩语越说越地道</a>
+						<li th:each="temp,item : ${HOTPOST.list}"><a
+							th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"
+							class="ntul_atext" th:text="${temp.Title}"> 韩语越说越地道</a>
 							<p class="ntul_infoa">
 								<a
-									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"></a><span
+									th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"></a><span
 									class="dot_i3">•</span><a
-									href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span
-									th:text="${temp.commentnumber}">4</span>&nbsp;回复</a>
+									th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"><span
+									th:text="${temp.CommentNumber}">4</span>&nbsp;回复</a>
 							</p></li>
 					</ul>
 				</div>

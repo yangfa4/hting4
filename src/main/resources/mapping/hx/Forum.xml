@@ -130,6 +130,9 @@
 		<if test="title!=null">
 			where title like '%${title}%'
 		</if>
+		<if test="postid!=null">
+			where PostID!= #{postid}
+		</if>
 		ORDER BY solid DESC,essence DESC,cocount DESC
     </select>
     
@@ -182,6 +185,13 @@
 		<if test="title!=null">
 			and title like '%${title}%'
 		</if>
+	</select>
+	
+	
+	<!-- 用户资料查询 -->
+	<select id="queryUserInfo" resultType="user">
+		select * from user
+		where userId = #{userId}
 	</select>
     
     

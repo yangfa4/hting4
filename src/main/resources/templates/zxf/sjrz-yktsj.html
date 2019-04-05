@@ -71,7 +71,7 @@ body {
 
 	<div class="test_box">
 		<div th:if="${session.user.auditStatus==1}" class="waring_show">您已经申请过商家入驻，正在审核中，请等待。</div>
-		<div th:if="${session.user.auditStatus==0}" class="waring_show">
+		<div th:if="${session.user.auditStatus==0||session.user.auditStatus==3}" class="waring_show">
 			请先申请商家入驻，等待3秒跳转或点击 <a href="/zxf/mvc/to?path=zxf//sjrz-xz">去申请</a>.
 		</div>
 	</div>
@@ -125,7 +125,7 @@ body {
 <script type="text/javascript" src="/Public/js/sessionHeader.js"></script>
 <script type="text/javascript" src="/Public/js/headLeftNav.js"></script>
 <script type="text/javascript">
-if([[${session.user.auditStatus==0}]]){
+if([[${session.user.auditStatus==0||session.user.auditStatus==3}]]){
    setTimeout(" window.location.href ='/zxf/mvc/to?path=zxf//sjrz-xz';", 3*1000);
 }else{
 	  setTimeout(" window.location.href ='/zxf/mvc/to?path=zxf//grzx-index';", 3*1000);

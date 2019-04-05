@@ -31,18 +31,16 @@ public class ZXF_action_api {
 		List<Sharea> lt2 = new CopyOnWriteArrayList<Sharea>();
 		for (Sharea shar : lt)
 			if (shar.getPid() == pid)
-				lt2.add(shar);
+				lt2.add(shar);  
 		return lt2;
 	}
     
 	@GetMapping(value="/sfz_yz/{sfz}", produces = "text/html;charset=UTF-8")
 	public String sfz_yz(@PathVariable String sfz) throws Exception {
-		System.out.println(sfz);
 		return jhyz("http://apis.juhe.cn/idcard/index?cardno=" + sfz + "&key=4cf775e1c696f52197d642506442fbe8");
 	}
 	@GetMapping(value="/dh_yz/{dh}", produces = "text/html;charset=UTF-8")
 	public String dh_yz(@PathVariable String dh) throws Exception {
-		System.out.println(dh);
 		return jhyz("http://apis.juhe.cn/mobile/get?phone=" + dh + "&key=5ddfdcb65ee003df0f458e8e518c7080");
 	}
 	/**

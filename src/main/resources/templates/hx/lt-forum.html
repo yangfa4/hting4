@@ -120,9 +120,9 @@
 							<span class="ft_i"></span>发帖
 						</a>
 						排序:
-						<a href="#" class="bbs_a bbscura" data-orderid="0" >最新发帖</a><!--@{/c/sxy/column(pid=${param.pid},page=1,orderId=0,essence=0)}-->
+						<a th:href="@{/Forum/findBlock(pid=${param.Pid},essence=0,forumid=${param.fmId},orderid=0)}" class="bbs_a bbscura" data-orderid="0" >最新发帖</a>
 						<span class="bbs_line"></span>
-						<a href="#" class="bbs_a bbscura" data-orderid="1" >最新回复</a><!--@{/c/sxy/column(pid=${param.pid},page=1,orderId=1,essence=0)}-->
+						<a th:href="@{/Forum/findBlock(pid=${param.Pid},essence=0,forumid=${param.fmId},orderid=1)}" class="bbs_a bbscura" data-orderid="1" >最新回复</a><!--@{/c/sxy/column(pid=${param.pid},page=1,orderId=1,essence=0)}-->
 						<span class="bbs_sx">
 							筛选：
 							<label>
@@ -146,7 +146,7 @@
 								<h3 class="bbs_text_title" > 
 									<img  src="../public/images/i_jh.png" style="padding-bottom:2px" th:if="${temp.essence==1}">
 									<img src="../public/images/i_ding.png" style="padding-bottom:2px" th:if="${temp.solid==1}">
-									<a th:text="${temp.title}" th:href="@{/Forum/findPostDes(postId=${temp.PostID})}"></a>
+									<a th:text="${temp.title}" th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}"></a>
 								</h3>
 								<p class="bbs_user_i">
 									<a th:href="@{/Forum/findPostDes(postId=${temp.PostID})}" th:text="${temp.Forum.FmName}" >韩国大学简介</a><span class="bbs_dot">·</span>
