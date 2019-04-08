@@ -12,6 +12,7 @@ import com.sy.demo.biz.lhq.AdvertisementBiz;
 import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.lhq.AdvertisementVO;
+import com.sy.demo.vo.lhq.HomePostVO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,14 +23,20 @@ public class LhqAdvertisementTest {
 	
 	@Test
 	public void queryByAtid() {
-		
+		/*
 		List<AdvertisementVO> listVo=advertiseBiz.queryByAtid(1);
 		for (AdvertisementVO list : listVo) {
 			System.out.println("输出："+list);
 			
 		    System.out.println("输出图片大小："+list.getImgsize());
 			
+		}*/
+		
+		List<HomePostVO> homePostVOList=advertiseBiz.queryHomePostVO();
+		for (HomePostVO homePostVO : homePostVOList) {
+			System.out.println("输出美妆版块帖子"+homePostVO);
 		}
+		
 	}
 	
 	@Test

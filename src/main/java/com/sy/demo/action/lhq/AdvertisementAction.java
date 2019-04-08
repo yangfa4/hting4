@@ -24,10 +24,6 @@ public class AdvertisementAction {
 	@Autowired
 	private AdvertisementBiz advertiseBiz;
 	
-	@GetMapping("oks")
-	public String dd() {
-		return "lhq/ok";
-	}
 	
 	/**
 	 * MVC:首页地址
@@ -54,19 +50,27 @@ public class AdvertisementAction {
 		//星级商家
 		List<User> user=advertiseBiz.queryRecommendUser(1);
 		List<User> recommendStidByOneList = advertiseBiz.queryRecommendUser(1);//自驾游
+		for (User user2 : recommendStidByOneList) {
+			System.out.println("输出星级"+user2.getMerchantLevel());
+		}
 		List<User> recommendStidByTwoList = advertiseBiz.queryRecommendUser(2);//微整形
 		List<User> recommendStidByThreeList = advertiseBiz.queryRecommendUser(3);//留学中介
 		List<User> recommendStidByFourList = advertiseBiz.queryRecommendUser(4);//韩语翻译
 		List<User> recommendStidByFiveList = advertiseBiz.queryRecommendUser(5);//学习资源
 		//首页帖子
 		List<HomePostVO> homePostVOList=advertiseBiz.queryHomePostVO();
-		
+		for (HomePostVO homePostVO : homePostVOList) {
+			System.out.println("输出帖子"+homePostVO.getReplyUserName());
+		}
 		//美妆版块帖子
 		List<Post> homePostMakeUpList=advertiseBiz.queryHomePostByMakeup();
-		System.out.println("输出listVo"+listVo);
+		
+		for (Post post : homePostMakeUpList) {
+			System.out.println("输出美妆版块帖子"+post.getCoverPath());
+		}
 		System.out.println("输出recommendStidByOneList"+recommendStidByOneList);
-		System.out.println("输出homePostVOList"+homePostVOList);
-		System.out.println("输出homePostMakeUpList"+homePostMakeUpList);
+		/*System.out.println("输出homePostVOList"+homePostVOList);
+		System.out.println("输出homePostMakeUpList"+homePostMakeUpList);*/
 		model.addAttribute("homeSlideshowList",homeSlideshowList);
 		model.addAttribute("homeMidAdvertingList",homeMidAdvertingList);
 		model.addAttribute("recommendStidByOneList",recommendStidByOneList);

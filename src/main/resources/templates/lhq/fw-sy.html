@@ -123,7 +123,7 @@
 											<div class="star_user_name_s">
 												<h3 class="star_user_name" th:text="${temp.userName}">
 												</h3>
-												<div class="star_pl">
+												<div class="star_pl"><!--  -->
 													<span class="star_pl_sp"
 														th:style="|width:${temp.merchantLevel*20}%;|"></span>
 												</div>
@@ -431,7 +431,7 @@
 													<dd>
 														<p class="study_p1">
 															<a href="javascript:void(0);" th:text="${temp.userName}">say
-																goodbye</a> • <a
+									                            goodbye</a> • <a
 																href="/index.php/Home/Bbs/lists/cid/109.html"
 																th:text="${temp.fmName}">财经类</a> •
 															[[${temp.replyUserTime!=null&&temp.replyUserTime!=''?temp.replyUserTime+'前':''}]]<span
@@ -485,15 +485,15 @@
 												</dl></li>
 										</ul>
 
-										<div class="study_right">
+										<div class="111 study_right">
 											<a href="/index.php/Home/Bbs/lists/cid/9.html"
 												class="study_style">美妆天地</a>
 											<ul class="study_video_ul">
 												<li class="last" th:each="temp,iter : ${homePostMakeUpList}"
 													th:if="${iter.count<=3}">
 													<div class="study_video_img">
-														<a href="javascript:void(0);"><img
-															th:src="${temp.coverpath}" th:alt="${temp.title}"
+														<a href="javascript:void(0);">
+														<img th:src="${temp.coverPath}" th:alt="${temp.title}"
 															width="170" height="100"><span class="video_tiem"
 															th:text="${temp.time}">12分13秒</span></a>
 													</div>
@@ -581,7 +581,7 @@
 												</dl></li>
 										</ul>
 
-										<div class="study_right">
+										<div class="222 study_right">
 											<a href="/index.php/Home/Bbs/lists/cid/9.html"
 												class="study_style">美妆天地</a>
 											<ul class="study_video_ul">
@@ -589,7 +589,7 @@
 													th:if="${iter.count>=4&&iter.count<=6}">
 													<div class="study_video_img">
 														<a href="javascript:void(0);"><img
-															th:src="${temp.coverpath}" th:alt="${temp.title}"
+															th:src="${temp.coverPath}" th:alt="${temp.title}"
 															width="170" height="100"><span class="video_tiem"
 															th:text="${temp.time}">12分13秒</span></a>
 													</div>
@@ -677,7 +677,7 @@
 												</dl></li>
 										</ul>
 
-										<div class="study_right">
+										<div class="333 study_right">
 											<a href="/index.php/Home/Bbs/lists/cid/9.html"
 												class="study_style">美妆天地</a>
 											<ul class="study_video_ul">
@@ -685,7 +685,7 @@
 													th:if="${iter.count>=7&&iter.count<=9}">
 													<div class="study_video_img">
 														<a href="javascript:void(0);"><img
-															th:src="${temp.coverpath}" th:alt="${temp.title}"
+															th:src="${temp.coverPath}" th:alt="${temp.title}"
 															width="170" height="100"><span class="video_tiem"
 															th:text="${temp.time}">12分13秒</span></a>
 													</div>
