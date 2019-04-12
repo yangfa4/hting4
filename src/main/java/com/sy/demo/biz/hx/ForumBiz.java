@@ -10,6 +10,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sy.demo.dao.hx.IForumDao;
 import com.sy.demo.pojo.Forummanagement;
+import com.sy.demo.pojo.Postcollection;
+import com.sy.demo.pojo.Postfabulous;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.hx.PostVo;
 import com.sy.demo.vo.hx.PostcommentVo;
@@ -103,23 +105,95 @@ public class ForumBiz {
 		return new PageInfo<PostVo>(dao.queryMyPost(userId,title));
 	}
 	
-	
+	/**
+	 * 查询新帖子
+	 * @param fmid
+	 * @return
+	 */
 	public List<PostVo> findNewPost(Integer fmid){
 		return dao.queryNewPost(fmid);
 	}
-	
+	/**
+	 * 查询用户我的评论
+	 * @param page
+	 * @param size
+	 * @param userId
+	 * @param title
+	 * @return
+	 */
 	public PageInfo<PostVo> findUserComment(Integer page,Integer size,Integer userId,String title){
 		PageHelper.startPage(page, size);
 		return new PageInfo<PostVo>(dao.queryMyComment(userId,title));
 	}
 	
+	/**
+	 * 查询用户 我的收藏
+	 * @param page
+	 * @param size
+	 * @param userId
+	 * @param title
+	 * @return
+	 */
 	public PageInfo<PostVo> findUserCollect(Integer page,Integer size,Integer userId,String title){
 		PageHelper.startPage(page, size);
 		return new PageInfo<PostVo>(dao.queryMyCollection(userId, title));
 	}
 	
+	/**
+	 * 查询用户资料
+	 * @param userId
+	 * @return
+	 */
 	public User findUserInfo(Integer userId) {
 		return dao.queryUserInfo(userId);
 	}
 	
+	/**
+	 * 验证是否收藏或点赞自己帖子
+	 * @param postId
+	 * @param userId
+	 * @return
+	 */
+	public int checkIsSelf(Integer postId,Integer userId) {
+		return dao.checkIsSelf(postId, userId);
+	}
+	
+	/**
+	 * 检查是否重复点赞
+	 * @param postId
+	 * @param userId
+	 * @return
+	 */
+	public Integer checkHasFabulous(Integer postId,Integer userId) {
+		return dao.checkHasFabulous(postId, userId);
+	}
+	
+	/**
+	 * 点赞
+	 * @param fabu
+	 * @return
+	 */
+	public Integer saveFabulous(Postfabulous fabu) {
+		return dao.saveFabulous(fabu);
+	}
+	
+
+	/**
+	 * 验证是否重复收藏
+	 * @param postId
+	 * @param userId
+	 * @return
+	 */
+	public int checkHasCollection(Integer postId,Integer userId) {
+		return dao.checkHasCollection(postId, userId);
+	}
+	
+	/**
+	 * 收藏
+	 * @param coll
+	 * @return
+	 */
+	public Integer saveCollection(Postcollection coll) {
+		return dao.savaCollection(coll);
+	}
 }

@@ -23,7 +23,7 @@
 <script src="/Public/js/jquery-1.8.3.min.js"></script>
 <script src="/Public/js/layer/layer.js"></script>
 <link rel="stylesheet"
-	href="http://www.yphting.com/Public/js/layer/skin/layer.css"
+	href="/Public/js/layer/skin/layer.css"
 	id="layui_layer_skinlayercss" style="">
 <script>
 	_weburl = 'http://www.yphting.com';
@@ -31,10 +31,7 @@
 <meta property="wb:webmaster" content="1a0bb5a2cb580b9f">
 <meta name="__hash__"
 	content="7f7418b74e88ee86446521ffaa06f686_98345e7d9252a993b1514a431135b51a">
-<script
-	src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=427753"></script>
-<link rel="stylesheet"
-	href="http://bdimg.share.baidu.com/static/api/css/share_style0_24.css">
+
 <style type="text/css">
 .tz_detail_btn_a a {
 	padding: 0;
@@ -124,7 +121,7 @@
 									class="ria1">顶</a> <a th:if="${PostDes.essence==true}"
 									href="javascript:void(0);" class="ria2">精</a>
 							</div>
-							<span th:text="${PostDes.title}">延世大学排名及专业介绍</span>
+							<span th:text="${PostDes.postID}">延世大学排名及专业介绍</span>
 							<!-- <div th:if="${user.userid==PostDes.User.UserID}"
 								class="tz_title_right">
 								<a th:href="@{/c/sxy/toUpdatePost(postId=${param.postId})}"
@@ -147,12 +144,16 @@
 				</dl>
 
 				<div class="tz_con">
-					<div class="bbs_dcontext" th:utext="${PostDes.content}"></div>
+					<div class="bbs_dcontext" th:text="${PostDes.content}"></div>
 					<div class="tz_detail_btn_a" id="sharediv">
-						<a href="javascript:void(0);" name="good" class="sc_btn"><span
-							class="sc_ic zan_i"></span>赞&nbsp;<font
-							th:text="${PostDes.FabulousNumber}">6</font></a> <a
-							href="javascript:void(0);" name="collec" class="sc_btn"><span
+					
+						<a href="javascrpt:void(0)" name="good" id="good" class="sc_btn good">
+						
+							<span class="sc_ic zan_i"></span>赞&nbsp;<font
+							th:text="${PostDes.FabulousNumber}">6</font></a>
+							
+							 <a
+							href="javascript:void(0)" name="collec" class="sc_btn"><span
 							class="sc_ic"></span>收藏&nbsp;<font
 							th:text="${PostDes.CollectionNumber}">3</font></a>
 						<div class="shear_show_d">
@@ -178,7 +179,7 @@
 
 
 				<!-- 登录后显示的评论框 -->
-				<!-- <div th:if="${user.userid!=null}" class="login_after_pl_box"
+				 <div  class="login_after_pl_box"
 					id="response_box" style="display: block">
 					<input type="hidden" name="mid" id="mid" value="0">
 					<textarea class="login_after_pl_textarea" placeholder="回应"
@@ -189,7 +190,7 @@
 					<div class="member_bt_btm2 tosubmit">
 						<a href="javascript:void(0);">发布</a>
 					</div>
-				</div> -->
+				</div> 
 				<!-- 登录后显示的评论框  end-->
 
 				<h2 class="news_hy_h2">最新回应</h2>
@@ -457,8 +458,8 @@
 	</div>
 	<!--联系我们的浮层 end-->
 
-	<script src="/Public/js/jquery.scrollto.js"></script>
-	<script src="/Public/js/common.js"></script>
+	<!-- <script src="/Public/js/jquery.scrollto.js"></script> -->
+	<!-- <script src="/Public/js/common.js"></script> -->
 
 
 	<!--pop bg-->
@@ -502,10 +503,8 @@
 
 	<!--pop bg end-->
 </body>
-<script type="text/javascript" src="/Public/js/sessionHeader.js"></script>
 <script type="text/javascript">
 	$("[data-page=[[${PAGE_INFO.pageNum}]]]").addClass("cur");
-
 	//收藏
 	$("[name=collec]").click(function() {
 		var obj = new Object();
@@ -518,7 +517,7 @@
 		var second = new Date().getSeconds();year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;*/
 		obj["collectiontime"] = new Date();
 		$.ajax({
-			url : "/c/sxy/saveCollection",
+			url : "/Forum/saveCollection",
 			data : JSON.stringify(obj),
 			type : "post",
 			dataType : "json",
@@ -540,7 +539,7 @@
 	})
 
 	//点赞
-	$("[name=good]").click(function() {
+	$("#good").click(function() {
 		var obj = new Object();
 		obj["postid"] = "[[${param.postId}]]";
 		/*var year = new Date().getFullYear();
@@ -551,7 +550,7 @@
 		var second = new Date().getSeconds();year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;*/
 		obj["fabuloustime"] = new Date();
 		$.ajax({
-			url : "/c/sxy/saveFabulous",
+			url : "/Forum/saveFabulous",
 			data : JSON.stringify(obj),
 			type : "post",
 			dataType : "json",
@@ -574,9 +573,9 @@
 
 	//评论发布事件
 	$(".tosubmit").click(function() {
-		var userId = "[[${user.userid}]]";
+		var userId = "[[${User.UserID}]]";
 		var obj = new Object();
-		obj["postid"] = "[[${PostDes.postid}]]";
+		obj["postid"] = "[[${PostDes.postID}]]";
 		obj["commentator"] = userId;
 		obj["pid"] = $("[name=mid]").val();
 		obj["content"] = $("[name=msg]").val();
