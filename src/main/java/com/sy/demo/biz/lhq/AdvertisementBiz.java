@@ -2,6 +2,7 @@ package com.sy.demo.biz.lhq;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sy.demo.dao.lhq.IAdvertisementDao;
+import com.sy.demo.pojo.Advertisementapply;
 import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.lhq.AdvertisementVO;
@@ -51,5 +53,37 @@ public class AdvertisementBiz {
 	public List<Post> queryHomePostByMakeup(){
 		return advertiseDao.queryHomePostByMakeup();
 	}
+	
+	
+	/**
+	 * 查看商家星级
+	 * @param merchantLevel
+	 * @return
+	 */
+	public User getUser(Integer userID) {
+		return advertiseDao.getUser(userID);
+	}
+	
+	/**
+	 * 商家申请广告位
+	 * @param advertisementapply
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = false)
+	public void  saveAdvertisementapply(Advertisementapply advertisementapply) {
+		advertiseDao.saveAdvertisementapply(advertisementapply);
+	}
+	
+	/**
+	 * 后台审批前台商家申请的广告位
+	 * @param aaID
+	 * @param auditStatus
+	 * @return
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.READ_COMMITTED, readOnly = false)
+	public void updateAdvertisementapply(Integer aaID,Integer auditStatus) {
+		advertiseDao.updateAdvertisementapply(aaID, auditStatus);
+	}
+	
 
 }

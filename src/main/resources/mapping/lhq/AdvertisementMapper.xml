@@ -77,4 +77,18 @@
 	<select id="queryHomePostByMakeup" resultType="com.sy.demo.pojo.Post">
 		SELECT *FROM post WHERE `fmID` = 29 ORDER  BY releaseTime DESC limit 9
 	</select>
+	
+	<select id="getUser" resultType="com.sy.demo.pojo.User">
+	    select *from user where userID=${userID}
+	</select>
+	
+	<insert id="saveAdvertisementapply" parameterType="com.sy.demo.pojo.Advertisementapply">
+	    insert into advertisementapply(userID,aid,aimgPath,apcUrl,aappUrl,price,rentAMonth,startTime,endTime,applyTime,auditTime,auditStatus)
+	    values
+	    (#{apply.userID},#{apply.aid},#{apply.aimgPath},#{apply.apcUrl},#{apply.aappUrl},#{apply.price},#{apply.rentAMonth},#{apply.startTime},#{apply.endTime},#{apply.applyTime},#{apply.auditTime},#{apply.auditStatus});
+	</insert>
+	
+	<update id="updateAdvertisementapply" parameterType="Advertisementapply">
+	    update advertisementapply  set auditStatus=${auditStatus} where aaID=${aaID}
+	</update>
 </mapper>

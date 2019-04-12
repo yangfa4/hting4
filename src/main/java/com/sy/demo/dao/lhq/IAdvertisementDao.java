@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.sy.demo.pojo.Advertisementapply;
 import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.lhq.AdvertisementVO;
@@ -35,5 +36,26 @@ public interface IAdvertisementDao {
 	 */
 	public List<Post> queryHomePostByMakeup();
 	
-
+	/**
+	 * 查看商家星级
+	 * @param merchantLevel
+	 * @return
+	 */
+	public User getUser(@Param("userID")Integer userID);
+	
+	/**
+	 * 商家申请广告位
+	 * @param advertisementapply
+	 * @return
+	 */
+	public int  saveAdvertisementapply(@Param("apply")Advertisementapply advertisementapply);
+	
+	/**
+	 * 后台审批前台商家申请的广告位
+	 * @param aaID
+	 * @param auditStatus
+	 * @return
+	 */
+	public int updateAdvertisementapply(@Param("aaID")Integer aaID,@Param("auditStatus")Integer auditStatus);
+	
 }
