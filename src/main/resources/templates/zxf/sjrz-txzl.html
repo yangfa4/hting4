@@ -69,16 +69,19 @@
 	</div>
 
 	<div class="b_box pt1" id="vmCnt">
-		<form method="post" id="formreg" target="_blank"
-			action="/c/lsm/merchantEnter" enctype="multipart/form-data"
-			onsubmit="return formValidate()">
+		<form method="post" id="formreg"
+			action="/zxf/mvc/shrz" enctype="multipart/form-data"
+			onsubmit=" return formValidate()">
 			<h2 class="index_h2_title in2_h2_title c_10">商家入驻申请资料认证</h2>
+			<input style="display: none;" type="text"
+				th:value="${session.user.userID }" name="userID"> <input
+				type="hidden" name="userMoney" th:value="${session.user.userMoney}" />
 			<dl class="info_form_dl">
 				<dt>
 					<span class="c_x">*</span>商家类别
 				</dt>
 				<dd class="sel_business_users">
-					<input type="hidden" name="merchanttype" value="1"> <a
+					<input type="hidden" name="merchantType" value="1"> <a
 						href="javascript:void(0);" class="cur">大陆商家用户</a> <a
 						href="javascript:void(0);">海外商家用户</a>
 				</dd>
@@ -87,26 +90,28 @@
 				<dt>
 					<span class="c_x">*</span>申请服务类别
 				</dt>
+
 				<dd>
 					<input type="hidden" name="serviceID" />
-					<div class="sel_sev_style">
-						<a th:remove="${servicetypeList.size()==0?'none':'all-but-first'}"
-							th:each="temp,index : ${servicetypeList}"
-							href="javascript:void(0);"><span th:text="${temp.stName}"
-							th:attr="data-id=${temp.stid}">自驾游</span></a> <a
+					<div class="sel_sev_style"
+						th:remove="${servicetypeList.size()==0?'none':'all-but-first'}">
+						<a th:each="temp,index : ${servicetypeList}"
+							href="javascript:void(0);" th:if="${temp.stPid==null}"
+							th:text="${temp.stName}" th:attr="data-id=${temp.stid}">自驾游</a> <a
 							href="javascript:void(0);">微整形</a> <a href="javascript:void(0);">留学中介</a>
 						<a href="javascript:void(0);">韩语翻译</a> <a
 							href="javascript:void(0);">学习资源</a>
 					</div>
 					<p class="c_4 mt10">每名商家可以选择两个服务类别，选择以后不能更改，请仔细考虑。</p>
 				</dd>
+
 			</dl>
 			<dl class="info_form_dl hospital" style="display: none;">
 				<dt>
 					<span class="c_x">*</span>医院名称
 				</dt>
 				<dd>
-					<input type="text" name="hospitalname" id="hospital" value=""
+					<input type="text" name="hospitalName" id="hospital" value=""
 						class="input_c inf_inc">
 				</dd>
 			</dl>
@@ -115,7 +120,7 @@
 					<span class="c_x">*</span>店铺名称
 				</dt>
 				<dd>
-					<input type="text" name="shopname" value=""
+					<input type="text" name="shopName" value=""
 						class="input_c inf_inc validate[required]" required="">
 				</dd>
 			</dl>
@@ -124,7 +129,7 @@
 					<span class="c_x">*</span>真实姓名
 				</dt>
 				<dd>
-					<input type="text" name="userrealname" value=""
+					<input type="text" name="userRealName" value=""
 						class="input_c inf_inc validate[required]" required="">
 				</dd>
 			</dl>
@@ -135,17 +140,35 @@
 						class="input_c inf_inc">
 				</dd>
 			</dl>
-			<dl class="info_form_dl">
+
+			<dl class="info_form_dl" id="notfree">
 				<dt>
 					<span class="c_x">*</span>店铺保证金
 				</dt>
 				<dd>
-					<span class="shop_margin">500金币</span> <span class="c_4"
-						style="display: none;">您的金币余额不足，请先<a
+					<span class="shop_margin">500金币</span> <span> <input
+						style="background-color: white; font-size: 14px; border: solid 2px #aecc6f; padding: 7px 0; width: 120px; text-align: center;"
+						type="button" id="mfty" value="免费体验"
+						onclick=" $('#free').toggle();$('#notfree').toggle();$('#isfree').val(1);$('#nofreesubmit').toggle();$('#freesubmit').toggle();" />
+					</span> <span class="c_4" style="display: none;">您的金币余额不足，请先<a
 						href="/zsp/c/getLogisticsById" class="btna_s2 mlr10">充值</a>后再申请
 					</span>
 				</dd>
 			</dl>
+			<input type="hidden" value="0" id="isfree" name="experienceStatus" />
+			<dl class="info_form_dl" id="free" style="display: none;">
+				<dt>
+					<span class="c_x"></span>免费体验
+				</dt>
+				<dd>
+					<span class="shop_margin">6个月</span> <span> <input
+						type="button" id="zsru" value="正式入驻"
+						style="background-color: white; font-size: 14px; border: solid 2px #aecc6f; padding: 7px 0; width: 120px; text-align: center;"
+						onclick=" $('#free').toggle();$('#notfree').toggle();$('#isfree').val(0);$('#nofreesubmit').toggle();$('#freesubmit').toggle();" />
+					</span>
+				</dd>
+			</dl>
+
 			<dl class="info_form_dl">
 				<dt class="mopa">
 					<span class="c_x">*</span>商家店铺图片
@@ -155,7 +178,7 @@
 						此图片会出现在商家主页商家介绍以及商家推荐展示图<br>格式要求：支持.jpg .jpeg .bmp .gif
 						.png格式照片，大小不超过5M。
 					</p>
-					<input name="shopimgData" type="file" id="shopimgData"
+					<input name="Img1" type="file" id="shopimgData"
 						style="display: none;"> <img src="" style="display: none;"
 						width="100">
 					<div class="sel_file_d">
@@ -180,7 +203,7 @@
 						<span class="c_x">*</span>登入证姓名
 					</dt>
 					<dd>
-						<input name="identityrealname" type="text" value=""
+						<input name="identityRealName" type="text" value=""
 							class="input_c inf_inc" id="idname">
 					</dd>
 				</dl>
@@ -190,11 +213,11 @@
 						<span class="c_x">*</span>身份证
 					</dt>
 					<dd>
-						<select id="identitytype" name="identitytype"
+						<select id="identitytype" name="identityType"
 							class="sel_f sel_f2 sel_b2 mt00">
 							<option value="1">身份证号码</option>
 							<option value="2">护照号码</option>
-						</select> <input name="identitynumder" type="text" value=""
+						</select> <input name="identityNumder" type="text" value=""
 							class="input_c inf_inc8" id="idcard1">
 					</dd>
 				</dl>
@@ -203,22 +226,24 @@
 						<span class="c_x">*</span>身份住址
 					</dt>
 					<dd>
+
 						<select class="sel_f sel_f2 sel_b2" name="country" id="country"
 							@change="querySharea($event)">
 							<option value="0">请选择</option>
-							<option th:each="temp,iterState : ${shareaList }"
-								th:value="${temp.areaID}" th:text="${temp.mergerName}"></option>
-						</select> <select class="sel_f sel_f2 sel_b2" name="provincialid"
+							<option th:each="temp,iterState : ${liveCityList }"
+								th:if="${temp.level==0 }" th:value="${temp.areaID}"
+								th:text="${temp.mergerName}"></option>
+						</select> <select class="sel_f sel_f2 sel_b2" name="provincialID"
 							id="provincialid" @change="querySharea($event)">
 							<option value="0">省</option>
 							<option v-for="(temp,index) in provinceList" :value="temp.areaID"
 								v-text="temp.mergerName"></option>
 						</select> <select class="sel_f sel_f2 sel_b2 validate[required]"
-							name="cityid" id="cityid" required="">
+							name="cityID" id="cityid" required="">
 							<option value="0">市</option>
 							<option v-for="(temp,index) in cityList" :value="temp.areaID"
 								v-text="temp.mergerName"></option>
-						</select> <input name="addetail" type="text" value=""
+						</select> <input name="adDetail" type="text" value=""
 							class="input_c inf_inc validate[required]" id="addetail"
 							required="">
 					</dd>
@@ -233,9 +258,9 @@
 							<span class="stype2">请提交登入证。 </span> <span class="stype1">请提交中华人民共和国居民身份证，无居民身份证的内地居民可提交《临时居民身份证》。</span>
 							<br>格式要求：支持.jpg .jpeg .bmp .gif .png格式照片，大小不超过5M。
 						</p>
-						<input name="identitypositiveimgData" type="file"
-							id="identitypositiveimgData" style="display: none;"> <img
-							src="" style="display: none;" width="100">
+						<input name="Img2" type="file" id="identitypositiveimgData"
+							style="display: none;"> <img src=""
+							style="display: none;" width="100">
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" class="sel_file_a" id="picbt3"
 								onclick="identitypositiveimgData.click();">上传图片</a>
@@ -252,9 +277,9 @@
 							<span class="stype2">请提交登入证。 </span> <span class="stype1">请提交中华人民共和国居民身份证，无居民身份证的内地居民可提交《临时居民身份证》。
 							</span> <br>格式要求：支持.jpg .jpeg .bmp .gif .png格式照片，大小不超过5M。
 						</p>
-						<input name="identitynegativeimgData" type="file"
-							id="identitynegativeimgData" style="display: none;"> <img
-							src="" style="display: none;" width="100">
+						<input name="Img3" type="file" id="identitynegativeimgData"
+							style="display: none;"> <img src=""
+							style="display: none;" width="100">
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" class="sel_file_a" id="picbt3"
 								onclick="identitynegativeimgData.click();">上传图片</a>
@@ -271,9 +296,9 @@
 							<span class="stype2">请提交登入证。 </span> <span class="stype1">请提交本人手持中华人民共和国居民身份证照片，无居民身份证的内地居民可提交《临时居民身份证》。
 							</span> <br>格式要求：支持.jpg .jpeg .bmp .gif .png格式照片，大小不超过5M。
 						</p>
-						<input name="identityhandimgData" type="file"
-							id="identityhandimgData" style="display: none;"> <img
-							src="" style="display: none;" width="100">
+						<input name="Img4" type="file" id="identityhandimgData"
+							style="display: none;"> <img src=""
+							style="display: none;" width="100">
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" class="sel_file_a" id="picbt3"
 								onclick="identityhandimgData.click();">上传图片</a>
@@ -293,34 +318,33 @@
 				<dd th:remove="${languagetypeList.size()==0?'none':'all-but-first'}">
 					<span th:each="temp,iterState : ${languagetypeList}"
 						class="mrsp_10"> <label> <input type="checkbox"
-							name="langs[]" class="checkbox_input validate[required]"
-							id="langs[]" th:value="${temp.languageID}"> <span
+							name="langs" class="checkbox_input validate[required]"
+							id="langs[]" th:value="${temp.languageID}"><span
 							th:text="${temp.languageName}"></span>
 					</label>
 					</span> <span class="mrsp_10"> <label> <input
-							type="checkbox" name="langs[]"
+							type="checkbox" name="langs"
 							class="checkbox_input validate[required]" id="langs[]" value="2"
 							required=""> 韩语
 					</label>
 					</span> <span class="mrsp_10"> <label> <input
-							type="checkbox" name="langs[]"
-							class="checkbox_input validate[required]" id="langs[]" value="9"
-							required=""> 其它
+							type="checkbox" name="" class="checkbox_input validate[required]"
+							id="langs[]" value="9" required=""> 其它
 					</label>
 					</span>
 				</dd>
-				<input type="hidden" name="languagenametext" />
+				<input type="hidden" name="languageNameText" />
 			</dl>
 			<dl class="info_form_dl" id="majornametext">
 				<dt class="mopa">擅长专业</dt>
 				<dd th:remove="${majortypeList.size()==0?'none':'all-but-first'}">
 					<span class="mrsp_10" th:each="temp,iterState : ${majortypeList}">
-						<label> <input type="checkbox" name="majors[]"
+						<label> <input type="checkbox" name="majors"
 							th:value="${temp.majorID}" class="checkbox_input"> <span
 							th:text="${temp.majorName}"></span>
 					</label>
 					</span> <span class="mrsp_10"> <label> <input
-							type="checkbox" name="majors[]" value="12" class="checkbox_input">
+							type="checkbox" name="majors" value="12" class="checkbox_input">
 							人口学
 					</label>
 					</span> <span class="mrsp_10"> <label> <input
@@ -329,15 +353,16 @@
 					</label>
 					</span>
 				</dd>
-				<input type="hidden" name="majornametext" />
+				<input type="hidden" name="majorNameText" />
 			</dl>
 			<dl class="info_form_dl">
 				<dt>所在城市</dt>
 				<dd>
-					<select name="livecityid" class="sel_f sel_f2 sel_b3" id="cityid"
+					<select name="liveCityID" class="sel_f sel_f2 sel_b3" id="cityid2"
 						th:remove="${liveCityList.size()==0?'none':'all-but-first'}">
-						<option th:each="temp,iterState : ${liveCityList}"
-							th:value="${temp.areaID}" th:text="${temp.mergerName}"></option>
+						<option th:each="temp,iterState : ${liveCityList}" class="szcs"
+							th:value="${temp.areaID}" th:if="${temp.level==2}"
+							th:text2="${temp.pid }" th:text="${temp.mergerName}"></option>
 						<option value="402">首尔特别市</option>
 					</select>
 				</dd>
@@ -345,7 +370,7 @@
 			<dl class="info_form_dl">
 				<dt>邮箱地址</dt>
 				<dd>
-					<input name="merchantemail" type="email" value=""
+					<input name="merchantEmail" type="email"
 						class="input_c inf_inc validate[custom[email]]" id="email">
 				</dd>
 			</dl>
@@ -354,7 +379,7 @@
 					<span class="c_x">*</span>联系电话
 				</dt>
 				<dd>
-					<input name="merchantphone" type="tel" value=""
+					<input name="merchantPhone" type="tel" value=""
 						class="input_c inf_inc3 validate[required,custom[number]]"
 						id="tel" required="">
 				</dd>
@@ -369,7 +394,7 @@
 			<dl class="info_form_dl">
 				<dt>微信</dt>
 				<dd>
-					<input name="wechat" type="text" value="" class="input_c inf_inc3"
+					<input name="weChat" type="text" value="" class="input_c inf_inc3"
 						id="wechat">
 				</dd>
 			</dl>
@@ -420,7 +445,7 @@
 					<span class="c_x">*</span>自我介绍
 				</dt>
 				<dd>
-					<textarea name="selfintroduction" id="content"
+					<textarea name="selfIntroduction" id="content"
 						style="width: 700px; height: 300px; display: none;"></textarea>
 				</dd>
 			</dl>
@@ -1142,6 +1167,45 @@
 <script type="text/javascript" th:src="@{/Public/js/sessionHeader.js}"></script>
 <script type="text/javascript" th:src="@{/Public/js/headLeftNav.js}"></script>
 <script th:inline="javascript">
+var bool;
+chengshi(1);
+function chengshi(pd){
+	var sz1 = $(".szcs");
+	for(i =0;i<sz1.size();i++){
+	if(pd==1){   //国内
+	    if($(sz1[i]).attr("text2")==2){
+		 $(sz1[i]).hide();
+	     }else{
+	    	 $(sz1[i]).show();
+	     }
+	}else{  //国外
+	   if($(sz1[i]).attr("text2")!=2){
+	   $(sz1[i]).hide();
+	   }else{
+	    	 $(sz1[i]).show();
+	     }
+	 }
+	}
+	var a = document.getElementById("cityid2");//mySelect是select 的Id
+	for(i=0;i<$(a.options).size();i++){
+	    if($(a.options[i]).css("display")=="block"){
+	    	a.options[i].selected = true;
+	    	break;
+	    }
+	}
+}
+
+//选择服务语言
+jQuery("[name='langs']").click(function(){
+	   alert(11);
+  alert(jQuery(this).prop("checked"));
+	   
+});
+jQuery("[name='majors']").click(function(){
+	   alert(jQuery(this).prop("checked"));
+	  	   
+	     });
+   
 		var vm = new Vue({
 			el : "#vmCnt",
 			data:{
@@ -1151,7 +1215,7 @@
 			},
 			created:function(){
 				var vm = this;
-				if([[${userMoney}]]<[[${bond}]]){
+				if([[${session.user.userMoney}]]<[[${session.system.bond}]]){
 					vm.flag=false;
 					jQuery("span.c_4").show();
 					jQuery(".business_btn_d.busi_rz .btn_jy_a").text("您的金币余额不足，请先充值后再申请");
@@ -1166,10 +1230,10 @@
 					if(pid==0&&name=="country"){
 						vm.provinceList = {};
 						vm.cityList = {};
-					}else if(pid==0&&name=="provincialid"){
+					}else if(pid==0&&name=="provincialID"){
 						vm.cityList = {};
 					}else{
-						jQuery.getJSON("/c/lsm/api/querySharea",{"pid":pid},function(data){
+						jQuery.getJSON("/zxf/api/getsharea",{"pid":pid},function(data){
 							if(name=="country"){
 								vm.provinceList = data;
 								vm.cityList = {};
@@ -1198,10 +1262,13 @@
 		})
 		//点击回到顶部触发
 		jQuery(".rn_top").click(function() {
-			jQuery('body,html').animate({
-				scrollTop: 0
-			}, 500);
+			totao(0);
 		});
+		function totao(th){
+			jQuery('body,html').animate({
+				scrollTop: th
+			}, 1800);
+		}
 		//富文本
 		var editor = null;
 		KindEditor.ready(function(k){
@@ -1224,7 +1291,7 @@
 				jQuery(this).removeAttr("class");
 				jQuery("[name=serviceID]").val(jQuery("[name=serviceID]").val().replace(jQuery(this).attr("data-id"),"").replace(",",""));
 				if(jQuery(this).text()=="微整形"){
-					jQuery("[name=hospitalname]").val("");
+					jQuery("[name=hospitalName]").val("");
 					jQuery(".info_form_dl.hospital").hide();
 				}
 			}else if(jQuery(".sel_sev_style a.cur").length!=2){
@@ -1243,19 +1310,21 @@
 		jQuery(".sel_business_users a").click(function(){
 			jQuery(this).attr("class","cur").siblings().removeAttr("class");
 			if(jQuery(this).text()=="大陆商家用户"){
-				jQuery("[name=merchanttype]").val(1);
+				chengshi(1);
+				jQuery("[name=merchantType]").val(1);
 				jQuery(".info_form_dl.stype2").hide();
 				jQuery(".info_form_dl.stype1").show();
-				jQuery("#idcard1").attr("name","identitynumder");
+				jQuery("#idcard1").attr("name","identityNumder");
 				jQuery("#idcard2").removeAttr("name");
-				jQuery("[name=identityrealname]").val("");
-				jQuery("#identitytype").attr("name","identitytype");
+				jQuery("[name=identityRealName]").val("");
+				jQuery("#identitytype").attr("name","identityType");
 				jQuery("span.stype2").hide().siblings("span").css("display","inline");
 			}else{
-				jQuery("[name=merchanttype]").val(2);
+				chengshi(2);
+				jQuery("[name=merchantType]").val(2);
 				jQuery(".info_form_dl.stype2").show();
 				jQuery(".info_form_dl.stype1").hide();
-				jQuery("#idcard2").attr("name","identitynumder");
+				jQuery("#idcard2").attr("name","identityNumder");
 				jQuery("#idcard1").removeAttr("name");
 				jQuery("#identitytype").removeAttr("name");
 				jQuery("span.stype2").css("display","inline").siblings("span").hide();
@@ -1293,83 +1362,99 @@
 			var hzFlag = /^\d{8}$/;
 			var phoneFlag = /^1[3,4,5,7,8]\d{9}$/;
 			var emailFlag = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
-
 			//获取自我介绍内容
 			var selfintroduction = $(".ke-edit-iframe").contents().find(".ke-content").html();
 			//将内容赋值给textarea标签
-			jQuery("[name=selfintroduction]").text(selfintroduction);
+			jQuery("[name=selfIntroduction]").text(selfintroduction);
 			if(!vm.flag){
 				return false;
 			}
 			else if(jQuery("[name=serviceID]").val()==""){
+				totao(180);
 				alert("请选择申请服务类别！");
-				return false;
-			}else if(jQuery(".info_form_dl.hospital").css("display")=="block"&&jQuery("[name=hospitalname]").val()==""){
+			}else if(jQuery(".info_form_dl.hospital").css("display")=="block"&&jQuery("[name=hospitalName]").val()==""){
 				alert("请填写医院名称！");
-				return false;
-			}else if(jQuery("[name=shopname]").val()==""){
+				jQuery("[name=hospitalName]").focus();
+			
+			}else if(jQuery("[name=shopName]").val()==""){
 				alert("请填写店铺名称！");
-				return false;
-			}else if(jQuery("[name=userrealname]").val()==""){
+				jQuery("[name=shopName]").focus();
+			
+			}else if(jQuery("[name=userRealName]").val()==""){
 				alert("请填写真实姓名！");
-				return false;
-			}else if(jQuery("[name=shopimgData]").val()==""){
+				jQuery("[name=userRealName]").focus();
+			
+			}else if(jQuery("[name=Img1]").val()==""){
 				alert("请上传商家店铺图片！");
-				return false;
-			}else if(jQuery("[name=merchanttype]").val()==1&&jQuery("[name=identitytype]").val()==1&&jQuery("[name=identitynumder]").val()==""){
-				alert("请填写身份证号码！");
-				return false;
-			}else if(jQuery("[name=merchanttype]").val()==1&&jQuery("[name=identitytype]").val()==2&&jQuery("[name=identitynumder]").val()==""){
+				totao(480);
+			
+			}else if(jQuery("[name=merchantType]").val()==1&&jQuery("[name=identityType]").val()==1&&jQuery("[name=identityNumder]").val()==""){
+				alert("请填写身份证号");
+				jQuery("[name=identityNumder]").focus();
+			
+			}else if(jQuery("[name=merchantType]").val()==1&&jQuery("[name=identityType]").val()==2&&jQuery("[name=identityNumder]").val()==""){
 				alert("请填写护照号码！");
-				return false;
+				jQuery("[name=identityNumder]").focus();
+			
 			}
-			else if(jQuery("[name=merchanttype]").val()==1&&jQuery("[name=identitytype]").val()==1&&!idCardFlag.test(jQuery("[name=identitynumder]").val())){
+			else if(jQuery("[name=merchantType]").val()==1&&jQuery("[name=identityType]").val()==1&&!idCardFlag.test(jQuery("[name=identityNumder]").val())){
 				alert("请填写正确的身份证号，为18位！");
-				return false;
+				jQuery("[name=identityNumder]").focus();
+			
 			}
-			else if(jQuery("[name=merchanttype]").val()==1&&jQuery("[name=identitytype]").val()==2&&!hzFlag.test(jQuery("[name=identitynumder]").val())){
+			else if(jQuery("[name=merchantType]").val()==1&&jQuery("[name=identityType]").val()==2&&!hzFlag.test(jQuery("[name=identityNumder]").val())){
 				alert("请填写正确的护照号码，为8位！");
-				return false;
+				jQuery("[name=identityNumder]").focus();
+			
 			}
-			else if(jQuery("[name=merchanttype]").val()==2&&jQuery("[name=identitynumder]").val()==""){
+			else if(jQuery("[name=merchantType]").val()==2&&jQuery("[name=identityNumder]").val()==""){
 				alert("请填写外国登入证号码！");
-				return false;
-			}else if(jQuery("[name=merchanttype]").val()==2&&jQuery("[name=identityrealname]").val()==""){
+				jQuery("[name=identityNumder]").focus();
+		
+			}else if(jQuery("[name=merchantType]").val()==2&&jQuery("[name=identityRealName]").val()==""){
 				alert("请填写登入证姓名！");
-				return false;
-			}else if(jQuery("#country").val()==0||jQuery("#provincialid").val()==0||jQuery("#cityid").val()==0||jQuery("[name=addetail]").val()==""){
+				jQuery("[name=identityRealName]").focus();
+		
+			}else if(jQuery("#country").val()==0||jQuery("#provincialid").val()==0||jQuery("[name=adDetail]").val()==""){
 				alert("请将身份住址填写完整！");
-				return false;
-			}else if(jQuery("[name=identitypositiveimgData]").val()==""){
+				jQuery("[name=adDetail]").focus();
+	
+			}else if(jQuery("[name=Img2]").val()==""){
 				alert("请上传证件正面图片！");
-				return false;
-			}else if(jQuery("[name=identitynegativeimgData]").val()==""){
+				totao(1000);
+		
+			}else if(jQuery("[name=Img3]").val()==""){
 				alert("请上传证件反面图片！");
-				return false;
-			}else if(jQuery("[name=identityhandimgData]").val()==""){
+				totao(1100);
+			
+			}else if(jQuery("[name=Img4]").val()==""){
 				alert("请上传手持证件正面图片！");
-				return false;
+				totao(1300);
+			
 			}else if(jQuery("#languagenametext dd .mrsp_10 input:checked").length==0){
 				alert("请选择服务语言！");
-				return false;
-			}else if(jQuery("[name=merchantemail]").val()!=''&&!emailFlag.test(jQuery("[name=merchantemail]").val())){
+				totao(1500);
+			
+			}else if(jQuery("[name=merchantEmail]").val()!=''&&!emailFlag.test(jQuery("[name=merchantEmail]").val())){
 				alert("请输入正确的邮箱！");
-				return false;
-			}else if(jQuery("[name=merchantphone]").val()==""){
+				jQuery("[name=merchantEmail]").focus();
+		
+			}else if(jQuery("[name=merchantPhone]").val()==""){
 				alert("请填写联系电话！");
-				return false;
-			}else if(!phoneFlag.test(jQuery("[name=merchantphone]").val())){
+				jQuery("[name=merchantPhone]").focus();
+	
+			}else if(!phoneFlag.test(jQuery("[name=merchantPhone]").val())){
 				alert("请填写正确的中国电信、联通、移动的手机号码！");
-				return false;
-			}else if(jQuery("[name=selfintroduction]").text()==""){
+				jQuery("[name=merchantPhone]").focus();
+			}else if(jQuery("[name=selfIntroduction]").text()==""){
 				alert("请填写自我介绍！");
-				return false;
+				jQuery("[name=selfIntroduction]").focus();
 			}else{
 				if(jQuery("#country").val()==1){	//是中国地址
-					jQuery("#provincialid").attr("name","provincialid");
-					jQuery("#cityid").attr("name","cityid");
+					jQuery("#provincialid").attr("name","provincialID");
+					jQuery("#cityid").attr("name","cityID");
 				}else if(jQuery("#country").val()==2){	//是韩国地址
-					jQuery("#provincialid").attr("name","cityid");
+					jQuery("#provincialid").attr("name","cityID");
 					jQuery("#cityid").attr("name","countyid");
 				}
 				jQuery("[name=languagenametext]").val("");	//清空服务语言隐藏域值
@@ -1389,9 +1474,31 @@
 					}else{
 						jQuery("[name=majornametext]").val(jQuery("[name=majornametext]").val()+" "+jQuery(obj).next().text());
 					}
-				});
-				return true;
+				 });
+				$.ajaxSettings.async = false;
+				bool = false ;
+				$.getJSON("/zxf/api/dh_yz/"+$.trim(jQuery("[name=merchantPhone]").val()),function(json){
+    				if(json.resultcode!="200"){
+    					alert("电话号码不存在!");
+    					jQuery("[name=merchantPhone]").focus();
+    				}else{
+    					if($("#identitytype").val()=="1"){
+    					$.getJSON("/zxf/api/sfz_yz/"+$.trim(jQuery("[name=identityNumder]").val()),function(json1){
+    	    				if(json1.resultcode!="200"){
+    	    					alert("身份证号不存在");
+    	    					jQuery("[name=identityNumder]").focus();
+    	    				}else{
+    	    					bool =  true;
+    	    				}	
+    	    			});
+    					}else{
+    						bool =  true;
+    					}
+    				}	
+    			});
+				return bool;
 			}
+			return false;
 		}
 	</script>
 </html>
