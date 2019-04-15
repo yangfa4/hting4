@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace="com.sy.demo.dao.zsm.zsmMoneyDao">
+   
+   <select id="SelectMoneyAll" resultType="com.sy.demo.vo.zsm.moneyVo">
+   SELECT u.userID,u.userName,u.userMoney,g.recordID,g.acquisitionMode,g.recordDate,g.recordDescribe,g.recordInAndOut,g.auditStatus FROM 
+	user AS u
+	 JOIN goldnotes AS g
+	ON u.userID=g.userID
+	<where>
+	<if test="userID!=null">
+	and u.userID=#{userID}
+	</if>
+	<if test="acquisitionMode!=null">
+  and g.acquisitionMode=#{acquisitionMode}
+	</if>
+	</where>  
+	ORDER  BY g.`recordDate` DESC
+   </select>
+   
+   <select id="selectUser" resultType="com.sy.demo.pojo.User">
+   select*from user where userID=#{userID}
+   </select>
+   
+   
+   <select id="SelectByBank" resultType="com.sy.demo.pojo.Banktype">
+   select*from banktype
+   </select>
+   
+   
+   <insert id="insertGoldnotes">
+   INSERT INTO goldnotes(
+  `userID`,
+  `acquisitionMode`,
+  `recordDate`,
+  `recordDescribe`,
+  `recordInAndOut`,
+  `auditStatus`
+) 
+VALUES
+  (
+    #{userID},
+    8,
+    NOW(),
+    #{recordDescribe},
+    #{recordInAndOut},
+    1
+  ) ;
+   </insert>
+   
+   <insert id="insertPutforward">
+   
+INSERT INTO putforward(
+  `userID`,
+  `putName`,
+  `bankID`,
+  `bankAccount`,
+  `openBankName`,
+  `submitTime`,
+  `money`,
+  `auditStatus`
+) 
+VALUES
+  (
+    #{userID},
+    #{putName},
+    #{bankID},
+    #{bankAccount},
+    #{openBankName},
+   NOW(),
+    #{money},
+    1
+  ) ;
+   
+   </insert>
+   <insert id="insertPutforwardRecord">
+   INSERT INTO putforwardrecord(
+  `userID`,
+  `bankAccount`,
+  `bankID`,
+  `submitTime`,
+  `money`
+) 
+VALUES
+  (
+    #{userID},
+    #{bankAccount},
+    #{bankID},
+   NOW(),
+    #{money}
+  );
+   
+   </insert>
+   </mapper>

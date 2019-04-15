@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>登陆_韩汀社区</title>
-<link rel="stylesheet" href="../demo/css/common.css" />
-<script type="text/javascript" src="../demo/js/jquery-1.12.4.js"></script>
-<script type="text/javascript" src="../demo/js/code.js"></script>
+<link rel="stylesheet" href="/Public/css/common.css" />
+<script type="text/javascript" src="/Public/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/Public/js/code.js"></script>
 <style type="text/css">
 .yzmCode {
 	background: #F7E7F3;
@@ -50,7 +50,7 @@
 			<dl class="login_dl">
 				<dt>
 					<a href=""><img
-						src="../demo/images/20180429124619-44314.jpg" width="680"
+						src="/Public/images/20180429124619-44314.jpg" width="680"
 						height="420" alt="首页登入图-gif"></a>
 				</dt>
 				<dd>
@@ -90,7 +90,7 @@ response_type=token&client_id=101562443&redirect_uri=http://www.googleweb.cn/qq/
 		<dl class="footer_dl">
 			<dt>
 				<div class="footer_ewm_box">
-					<img src="../demo/images/footer_ewm.png" alt="">
+					<img src="/Public/images/footer_ewm.png" alt="">
 				</div>
 				<span class="ft_ewm_name">御品韩汀</span>
 			</dt>
@@ -115,7 +115,7 @@ response_type=token&client_id=101562443&redirect_uri=http://www.googleweb.cn/qq/
 			<div class="over_show kf_tel">0731-2286-7673</div></li>
 		<li><a href="" class="rn_wx">官方微信</a>
 			<div class="over_show">
-				<img src="../demo/images/r_ewm.jpg" alt="" class="gw_ewm">
+				<img src="/Public/images/r_ewm.jpg" alt="" class="gw_ewm">
 			</div></li>
 		<li><a href="" class="rn_kf">在线客服</a></li>
 		<li><a href="" class="rn_top">Back top</a></li>
@@ -157,7 +157,7 @@ response_type=token&client_id=101562443&redirect_uri=http://www.googleweb.cn/qq/
 	           		$.getJSON("http://127.0.0.1:1234/lz/signin",{"email":email,"password":password},function(result){
 	           			if(result.code=="200"){
 	           				alert("登陆成功！");
-	           				location.href="/c/lhy/center/home";
+	           				location.href="http://127.0.0.1:1234/lhq/fw-sy";
 	           			}else if(result.code=="500"){
 	           				alert("登陆失败！账户或密码错误");
 	           				$("[name=password]").val("");
@@ -171,6 +171,6 @@ response_type=token&client_id=101562443&redirect_uri=http://www.googleweb.cn/qq/
 			})
 		})
 	</script>
-	<script type="text/javascript" src="../demo/js/headLeftNav.js"></script>
+	<script type="text/javascript" src="/Public/js/headLeftNav.js"></script>
 	
 </html>
