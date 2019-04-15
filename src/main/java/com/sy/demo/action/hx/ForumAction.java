@@ -3,6 +3,7 @@ package com.sy.demo.action.hx;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
-
+import com.sy.demo.pojo.Post;
 import com.github.pagehelper.PageInfo;
 import com.sy.demo.biz.hx.ForumBiz;
+import com.sy.demo.pojo.Forummanagement;
 import com.sy.demo.pojo.Postcollection;
+import com.sy.demo.pojo.Postcomment;
 import com.sy.demo.pojo.Postfabulous;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.hx.PostVo;
@@ -45,7 +49,7 @@ public class ForumAction {
 			@RequestParam(required=false) Integer orderId,
 			Integer essence,
 			@RequestParam(defaultValue="1") Integer p,
-			@RequestParam(defaultValue="5")Integer s){
+			@RequestParam(defaultValue="5")Integer s,HttpSession session){
 		if(pid==null) {
 			pid=biz.findBlock().get(0).getFmID();
 		}
@@ -53,6 +57,8 @@ public class ForumAction {
 		model.addAttribute("clist", biz.findColumn(pid));
 		model.addAttribute("lname", biz.findTitleName(pid));
 		model.addAttribute("Page_list", biz.findPostList(pid, title, forumid, orderId, essence, p, s));
+		User u=biz.findUserInfo(26);
+		session.setAttribute("USER", u);
 		return "hx/lt-forum";
 	}
 	/**
@@ -80,9 +86,10 @@ public class ForumAction {
 	 */
 	@GetMapping("findPostDes")
 	public String findDesils(Integer postId,Model model,@RequestParam(defaultValue="1") Integer p,
-			@RequestParam(defaultValue="5")Integer s,Integer fmid) {
-		model.addAttribute("User",biz.findUserInfo(26));
-		System.out.println(biz.findUserInfo(26));
+			@RequestParam(defaultValue="5")Integer s,Integer fmid,HttpSession session) {
+		System.err.println(session.getAttribute("USER"));
+		
+		model.addAttribute("User",session.getAttribute("USER"));
 		model.addAttribute("PostDes", biz.findPostDes(postId));
 		model.addAttribute("Fname", biz.findTitleName(fmid));
 		model.addAttribute("PAGE_INFO", biz.findcomment(postId,p,s));
@@ -186,14 +193,111 @@ public class ForumAction {
 		return map;
 	}
 	
+	/**
+	 * 评论
+	 * @param comm
+	 * @return
+	 */
+	@PostMapping("saveComment")
+	@ResponseBody
+	public Map<String,String> saveComment(@RequestBody Postcomment comm){
+		Map<String,String> map=new HashMap<>();
+		//int result = biz.queryCommentCount(comm.getCommentator());
+		//int commuser = biz.queryCommentAtor(comm.getPostid());
+		biz.saveComment(comm);
+		//if(result>10||commuser==comm.getCommentator()) {
+			map.put("code", "200");
+		//}else {
+		//	map.put("code", "300");
+			//biz.updateCommentJIntegral(comm);
+		//}
+		return map;
+	}
+	
+	/**
+	 * 跳转到发帖页面
+	 * @param pid
+	 * @param fmid
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	@GetMapping("toAddForum")
+	public String toAddForum(Integer pid,@RequestParam(required=false)Integer fmid,Model model,HttpSession session) {
+		User user = (User)session.getAttribute("USER");
+		if(user==null) {
+			return "szy-login.html";
+		}else {
+			//显示版块下拉框
+			List<Forummanagement> list = biz.findBlock();
+			model.addAttribute("BLIST", list);
+			model.addAttribute("pid", pid);
+			model.addAttribute("fmid", fmid);
+			return "hx/lt-addForum";
+		}
+	}
+	
+	/**
+	 * 显示栏目下拉框
+	 * @param pid
+	 * @return
+	 */
+	@GetMapping("showColumn")
+	@ResponseBody
+	public List<Forummanagement> showColumn(Integer pid){
+		List<Forummanagement> list = biz.findColumn(pid);
+		return list;
+	}
 	
 	
-	@PostMapping("login")
+	/**
+	 * 发布帖子
+	 * @param post
+	 * @return
+	 */
+	@PostMapping("savePost")
+	@ResponseBody
+	public Map<String,String> savePost(@RequestBody Post post,HttpSession session) {
+		Integer userId = ((User)session.getAttribute("USER")).getUserID();
+		Map<String,String> map=new HashMap<>();
+		post.setUserID(userId);
+		int result = biz.savePost(post);
+		int postCount = biz.checkPostCount(userId);
+		if(result>0) {
+			if(postCount>3) {
+				map.put("code", "200");
+			}else {
+				//新增积分
+				biz.updateJIntegral(userId);
+				map.put("code", "300");
+			}
+		}else {
+			map.put("code", "400");
+		}
+		return map;
+	}
+
+	@GetMapping("MyPost")
+	public String Mypost(HttpSession session,Model model,Integer type,@RequestParam(required=false)String title,@RequestParam(defaultValue="1") Integer p) {
+		User u=(User)session.getAttribute("USER");
+		 PageInfo<PostVo> mypost = null;
+		List<Forummanagement> list=biz.findBlock();
+		if(type==1) {
+			mypost=biz.findUserPost(p, 5, u.getUserID(), title);
+		}else if(type==2) {
+			mypost=biz.findUserCollect(p, 5, u.getUserID(), title);
+		}else if(type==3) {
+			mypost=biz.findUserComment(p, 5, u.getUserID(), title);
+		}
+		model.addAttribute("LIST",list);
+		model.addAttribute("MYPOST", mypost);
+		return "hx/lt-myforum";
+	}
+	
+	@GetMapping("login")
 	public String login(HttpSession session) {
-		User u=new User();
-		u.setUserID(26);
-		u.setUserName("倾心");
-		session.setAttribute("login", u);
+		User u=biz.findUserInfo(26);
+		session.setAttribute("USER", u);
 		return "hx/lt-myforum";
 	}
 	

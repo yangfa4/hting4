@@ -31,7 +31,10 @@
 <meta property="wb:webmaster" content="1a0bb5a2cb580b9f">
 <meta name="__hash__"
 	content="7f7418b74e88ee86446521ffaa06f686_98345e7d9252a993b1514a431135b51a">
-
+<script
+	src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=427753"></script>
+<link rel="stylesheet"
+	href="http://bdimg.share.baidu.com/static/api/css/share_style0_24.css">
 <style type="text/css">
 .tz_detail_btn_a a {
 	padding: 0;
@@ -121,7 +124,7 @@
 									class="ria1">顶</a> <a th:if="${PostDes.essence==true}"
 									href="javascript:void(0);" class="ria2">精</a>
 							</div>
-							<span th:text="${PostDes.postID}">延世大学排名及专业介绍</span>
+							<span th:text="${PostDes.title}">延世大学排名及专业介绍</span>
 							<!-- <div th:if="${user.userid==PostDes.User.UserID}"
 								class="tz_title_right">
 								<a th:href="@{/c/sxy/toUpdatePost(postId=${param.postId})}"
@@ -144,14 +147,11 @@
 				</dl>
 
 				<div class="tz_con">
-					<div class="bbs_dcontext" th:text="${PostDes.content}"></div>
+					<div class="bbs_dcontext" th:utext="${PostDes.content}"></div>
 					<div class="tz_detail_btn_a" id="sharediv">
-					
 						<a href="javascrpt:void(0)" name="good" id="good" class="sc_btn good">
-						
 							<span class="sc_ic zan_i"></span>赞&nbsp;<font
 							th:text="${PostDes.FabulousNumber}">6</font></a>
-							
 							 <a
 							href="javascript:void(0)" name="collec" class="sc_btn"><span
 							class="sc_ic"></span>收藏&nbsp;<font
@@ -170,16 +170,16 @@
 
 				</div>
 				<!--登录后需要隐藏的-->
-				<div 
+				<div th:if="${User==null}" 
 					class="hy_box member_bt_btm2 hy_box2">
 					<a href="javascript:void(0);" class="btna_acancel">登录后评论</a> <a
 						href="javascript:void(0);">新用户注册</a>
-				</div><!-- th:if="${user.userid==null}" -->
+				</div>
 				<!--登录后需要隐藏的 end-->
 
 
 				<!-- 登录后显示的评论框 -->
-				 <div  class="login_after_pl_box"
+				 <div th:if="${User!=null}" class="login_after_pl_box"
 					id="response_box" style="display: block">
 					<input type="hidden" name="mid" id="mid" value="0">
 					<textarea class="login_after_pl_textarea" placeholder="回应"
@@ -188,7 +188,7 @@
 						<a href="javascript:void(0);">切换评论</a>
 					</div>
 					<div class="member_bt_btm2 tosubmit">
-						<a href="javascript:void(0);">发布</a>
+						<a href="javascript:void(0);" >发布</a>
 					</div>
 				</div> 
 				<!-- 登录后显示的评论框  end-->
@@ -573,7 +573,7 @@
 
 	//评论发布事件
 	$(".tosubmit").click(function() {
-		var userId = "[[${User.UserID}]]";
+		var userId = "[[${User.userID}]]";
 		var obj = new Object();
 		obj["postid"] = "[[${PostDes.postID}]]";
 		obj["commentator"] = userId;
@@ -589,7 +589,7 @@
 		if ($("[name=msg]").val() == "") {
 			alert("请填写评论内容。");
 		} else {
-			queryLastcomment(obj);
+			savecomment(obj);
 		}
 	})
 
@@ -623,7 +623,7 @@
 	//新增评论
 	function savecomment(obj) {
 		$.ajax({
-			url : "/c/sxy/saveComment",
+			url : "/Forum/saveComment",
 			type : "post",
 			data : JSON.stringify(obj),
 			dataType : "json",
@@ -648,7 +648,7 @@
 		var pcid = $(this).next().attr("data-pcid");
 		if (confirm("确定删除该条评论吗？")) {
 			$.ajax({
-				url : "/c/sxy/removeComment",
+				url : "/Forum/removeComment",
 				type : "post",
 				data : {
 					"pcid" : pcid

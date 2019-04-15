@@ -77,7 +77,7 @@
                                 -->
 								<select class="sel_f" id="pid" name="pid" onchange="getChild(this.value)">
 									<option value="">选择栏目</option>
-									<option th:each="temp,item : ${BLIST}" th:value="${temp.fmid}" th:text="${temp.fmname}">留学简介</option>
+									<option th:each="temp,item : ${BLIST}" th:value="${temp.fmID}" th:text="${temp.fmName}">留学简介</option>
 								</select>
 								<select class="sel_f validate[required]" name="catid" id="catid">
 									<option value="">选择栏目</option>
@@ -228,7 +228,7 @@
 					</div>
 					<div class="clear"></div>
 				</div>
-			</div>
+			</div>      
 			<input type="file" name="imgFile" style="position: absolute; margin: -5px 0px 0px -175px; padding: 0px; width: 220px; height: 30px; font-size: 14px; opacity: 0; cursor: pointer; display: none; z-index: 2147483583;"><input type="file" name="imgFile" style="position: absolute; margin: -5px 0px 0px -175px; padding: 0px; width: 220px; height: 30px; font-size: 14px; opacity: 0; cursor: pointer; display: none; z-index: 2147483583;"><input type="file" name="imgFile" style="position: absolute; margin: -5px 0px 0px -175px; padding: 0px; width: 220px; height: 30px; font-size: 14px; opacity: 0; cursor: pointer; display: none; z-index: 2147483583;">
 			</body>			
 			<script type="text/javascript" src="/Public/js/jquery-1.8.3.min.js"></script>
@@ -274,14 +274,14 @@
 				})
 			function showCount(pid,callback){
 				$.ajax({
-					url:"/c/sxy/showColumn",
+					url:"/Forum/showColumn",
 					data:{"pid":pid},
 					type:"get",
 					dataType:"json",
 					success:function(data){
 						$("[name=catid]").find("option:gt(0)").remove();
 						$.each(data,function(i,obj){
-							var option = $("<option></option>").val(obj.fmid).html(obj.fmname);;
+							var option = $("<option></option>").val(obj.fmID).html(obj.fmName);;
 							$("[name=catid]").append(option);
 						})
 						if(callback){
@@ -315,7 +315,7 @@
 			
 			function savePost(obj){
 			 	$.ajax({
-			 		url:"/c/sxy/savePost",
+			 		url:"/Forum/savePost",
 			 		type:"post",
 			 		data:JSON.stringify(obj),
 					contentType:"application/json",
@@ -324,12 +324,12 @@
 							alert("发布成功,增加5积分。");
 							$("[name=subject]").val("");
 							$("[name=content]").val("");
-							location.href="/c/sxy/column?pid=1&orderId=1&essence=1";
+							location.href="/Forum/findBlock?pid=1&essence=0";
 						}else if(data.code=="200"){
 							alert("发布成功。");
 							$("[name=subject]").val("");
 							$("[name=content]").val("");
-							location.href="/c/sxy/column?pid=1&orderId=1&essence=1";
+							location.href="/Forum/findBlock?pid=1&essence=0";
 						}else{
 							alert("发布失败。");
 							$("[name=subject]").val("");

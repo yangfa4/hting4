@@ -229,6 +229,34 @@
 		where postId=#{coll.pcID} 
 	</insert>
 	
+	<!-- 发布评论 -->
+	<insert id="saveComment">
+		insert into
+		postcomment(`postID`,`commentator`,`pid`,`content`,`reviewTime`)
+		values(#{comm.postID},#{comm.commentator},#{comm.pid},#{comm.content},#{comm.reviewTime})
+	</insert>
+	
+	<!-- 发布帖子 -->
+	<insert id="savePost">
+		insert into
+		post(`userID`,`fmID`,`title`,`content`,`releaseTime`)
+		values(#{post.userID},#{post.fmID},#{post.title},#{post.content},#{post.releaseTime})
+	</insert>
+	
+	<!-- 每前3次发帖增加5积分 -->
+	<update id="updateJIntegral">
+		update user set userIntegral = userIntegral+5
+		where
+		userId = #{userId}
+	</update>
+	
+	<!-- 验证用户在当天发帖数 -->
+	<select id="checkPostCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM post
+		WHERE TO_DAYS(`releasetime`) = TO_DAYS(NOW())
+		AND userId = #{userId}
+	</select>
+	
 	<!-- 用户资料查询 -->
 	<select id="queryUserInfo" resultType="user">
 		select * from user
