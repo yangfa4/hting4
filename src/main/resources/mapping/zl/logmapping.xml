@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+    <mapper namespace="com.sy.demo.dao.zl.ILogInDao">
+   
+   <insert id="LoginUserDao" useGeneratedKeys="true" parameterType="com.sy.demo.pojo.User" keyProperty="userID">
+INSERT INTO USER(userRealName,mailboxVerification,userRegistrationTime,recentEntry,trusteeshipStartTime,auditTime,merchantRegistrationTime)
+VALUES (#{user.userRealName},1,current_date(),current_date(),current_date(),current_date(),current_date());
+</insert>
+<insert id="LoginlgnDao">
+INSERT INTO login(userID,loginType,userEmail,userPwd)
+VALUES (#{login.userID},#{login.loginType},#{login.userEmail},#{login.userPwd})
+</insert>
+<select id="MailboxValidation" resultType="int">
+SELECT count(*) FROM login
+WHERE userEmail=#{mail}
+</select>
+<select id="LoginDao" resultType="login" parameterType="com.sy.demo.pojo.Login">
+SELECT * FROM login
+WHERE userEmail=#{lgn.userEmail} and userPwd=#{lgn.userPwd}
+</select>
+<select id="SignInDao" resultType="user" parameterType="com.sy.demo.pojo.User">
+SELECT * FROM user
+WHERE userID=#{userid}
+</select>
+  </mapper>
