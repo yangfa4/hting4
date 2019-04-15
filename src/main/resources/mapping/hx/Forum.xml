@@ -187,6 +187,47 @@
 		</if>
 	</select>
 	
+	<!-- 验证是否收藏或点赞自己帖子 -->
+	<select id="checkIsSelf" resultType="java.lang.Integer">
+		select count(1) from post
+		where postId = #{postId} and userId = #{userId}
+	</select>
+	
+	<!-- 验证是否重复点赞 -->
+	<select id="checkHasFabulous" resultType="java.lang.Integer">
+		select count(1) from
+		postfabulous
+		WHERE TO_DAYS(`fabulousTime`) = TO_DAYS(NOW())
+		and postId = #{postId} and userId = #{userId}
+	</select>
+	
+	<!-- 点赞 -->
+	<insert id="saveFabulous">
+		insert into
+		postfabulous(`userID`,`postID`,`fabulousTime`)
+		values(#{fabu.userID},#{fabu.postID},#{fabu.fabulousTime});
+		update post
+		set fabulousNumber = fabulousNumber+1
+		where postId = #{fabu.postID}
+	</insert>
+	
+	
+	
+	<!-- 验证是否重复收藏 -->
+	<select id="checkHasCollection" resultType="java.lang.Integer">
+		select count(1) from
+		postcollection
+		where pcId = #{postId} and userId = #{userId}
+	</select>
+	
+	<!-- 收藏 -->
+	<insert id="savaCollection">
+		insert postcollection (pcID,userID,collectionTime)
+		value(#{coll.pcID},#{coll.userID},#{coll.collectionTime});
+		update post 
+		set collectionNumber=collectionNumber+1
+		where postId=#{coll.pcID} 
+	</insert>
 	
 	<!-- 用户资料查询 -->
 	<select id="queryUserInfo" resultType="user">

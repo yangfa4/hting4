@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.sy.demo.dao.zsm.zsmOrdersDao">
+    
+	<select id="SelectOrdes" resultType="com.sy.demo.vo.zsm.OrdersVo">
+		SELECT o.orderID,o.totalPrice,t.stName,u.userName,o.orderTime,s.serviceTitle,s.serviceFuTitle,o.orderStatus,o.number,o.paymentTime,o.uploadPath,o.commentstatus,o.refundstatus,o.filesatus,o.documentpath,s.serviceCoverImg,o.population,o.serviceID FROM 
+		orders AS o
+		LEFT JOIN services AS s
+		ON o.serviceID=s.serviceID
+		LEFT JOIN resouroe AS r
+		ON o.resouroeID=r.resouroeID
+		LEFT JOIN servicetype AS t
+		ON s.stid=t.stid
+		LEFT JOIN `user` AS u
+		ON o.userID=u.userID
+			<where>
+			<if test="userID!=null">
+			and o.userID=#{userID}
+			</if>
+			<if test="orderStatus!=null">
+			AND o.orderStatus=#{orderStatus}
+			</if>
+			<if test="orderID!=null">
+			AND o.orderID=#{orderID}
+			</if>
+			<if test="commentstatus!=null">
+			and o.commentstatus=#{commentstatus}
+			</if>
+			</where>
+			ORDER BY o.orderTime DESC
+			</select>
+			
+			
+		<select id="findByInt" resultType="int">
+			SELECT COUNT(orderStatus)
+		FROM orders
+		<where>
+			<if test="orderStatus!=null">
+				and orderStatus=#{orderStatus}
+			</if>
+			<if test="commentstatus!=null">
+				and commentstatus=#{commentstatus}
+			</if>
+				and userID=#{userID}
+		</where> 
+		</select>
+		
+		<select id="SelectOrdersVoOne" resultType="com.sy.demo.vo.zsm.OrdersVo">
+		SELECT o.orderID,o.totalPrice,t.stName,u.userName,o.orderTime,s.serviceTitle,s.serviceFuTitle,o.orderStatus,o.number,o.paymentTime,o.uploadPath,o.commentstatus,o.refundstatus,o.filesatus,o.documentpath,s.serviceCoverImg,o.receiptTime,o.completeTime,o.provideServicesTime,o.population,o.serviceID FROM 
+		orders AS o
+		LEFT JOIN services AS s
+		ON o.serviceID=s.serviceID
+		LEFT JOIN resouroe AS r
+		ON o.resouroeID=r.resouroeID
+		LEFT JOIN servicetype AS t
+		ON s.stid=t.stid
+		LEFT JOIN `user` AS u
+		ON o.userID=u.userID		
+		WHERE orderID=#{orderID}
+		</select>
+		
+		
+		<select id="SelectByuser" resultType="com.sy.demo.pojo.User">
+		SELECT*FROM `user` WHERE userID=#{userID}
+		</select>
+		
+		
+		<select id="Selectcrzxzuixing" resultType="com.sy.demo.vo.zsm.OrdersVo">
+		
+		SELECT o.orderID,o.totalPrice,t.stName,u.userName,o.orderTime,s.serviceTitle,s.serviceFuTitle,o.orderStatus,o.number,o.paymentTime,o.uploadPath,o.commentstatus,o.refundstatus,o.filesatus,o.documentpath,s.serviceCoverImg,o.population,o.serviceID FROM 
+		orders AS o
+		LEFT JOIN services AS s
+		ON o.serviceID=s.serviceID
+		LEFT JOIN resouroe AS r
+		ON o.resouroeID=r.resouroeID
+		LEFT JOIN servicetype AS t
+		ON s.stid=t.stid
+		LEFT JOIN `user` AS u
+		ON o.userID=u.userID
+		WHERE u.userID=#{userID}
+		ORDER BY o.orderTime DESC
+		</select>
+		
+		<select id="SelectqdTime" resultType="Date">
+		SELECT iRDate  FROM integralRecord WHERE userID=#{userID} ORDER BY iRDate DESC LIMIT 1
+		</select>
+		<update id="updateUserjf">	
+			UPDATE 
+			  `user`
+			SET
+			  `userIntegral` = userIntegral+10
+			WHERE `userID` = #{userID}
+		</update>
+		<insert id="insertIntegralrecord">
+		INSERT INTO integralrecord(`userID`,`iRDate`,`iRDescribe`,`recordInAndOut`,`auditStatus`) 
+        VALUES(#{Integralrecord.userID},NOW(),#{Integralrecord.iRDescribe},#{Integralrecord.recordInAndOut, jdbcType=BIGINT},2) ;
+		</insert>
+		
+		
+		<update id="updateOrders">
+		UPDATE 
+		  `orders`
+			<set>
+ 		 	<if test="orderStatus!=null">
+ 		 	`orderStatus` = #{orderStatus},
+ 		 	</if>
+ 		 	<if test="commentstatus!=null">
+ 		 	`commentstatus` = #{commentstatus},
+ 		 	</if>
+ 		 	<if test="refundstatus!=null">
+ 		 	`refundstatus` = #{refundstatus},
+ 		 	</if>
+ 		 	</set>
+			WHERE `orderID` = #{orderID};
+		</update>
+		<select id="selectByuserOr" resultType="com.sy.demo.pojo.Orders">
+		   SELECT*FROM orders WHERE orderID=#{orderID}
+		</select>
+		<insert id="insertGoldnotes">
+				INSERT INTO goldnotes(
+		  `userID`,
+		  `recordDate`,
+		  `recordDescribe`,
+		   `acquisitionMode`,
+		  `recordInAndOut`,
+		  auditStatus
+		) 
+		VALUES
+		  (
+		    #{userID},
+		    NOW(),
+		    #{recordDescribe},
+		    5,
+		    #{recordInAndOut},
+		    2
+		  ) ;
+		</insert>
+			<update id="updateOredrsBymoney">
+		UPDATE 
+		  `orders`
+ 		 	set  `orderStatus` =2,
+ 		 	 paymentTime=now()
+			WHERE `orderID` = #{orderID};
+		</update>
+		<update id="updateUserMoney">
+		UPDATE 	`user` SET `userMoney` =userMoney-#{userMoney} WHERE `userID` = #{userID};
+		</update>
+		
+		<insert id="insertEvaluationService">
+			INSERT INTO evaluationservice(
+			  `serviceID`,
+			  `userID`,
+			  `serviceAppraiseContent`,
+			  `serviceAppraiseDate`,
+			  `serviceAppraiseLevel`,
+			  `serviceAppraisePID`
+			) 
+			VALUES
+			  (
+			    #{serviceID},
+			    #{userID},
+			    #{serviceAppraiseContent},
+			    NOW(),
+			    #{serviceAppraiseLevel},
+			    0
+			  ) ;
+		</insert>
+		<update id="updatepinglun">
+			UPDATE 
+		  `orders`
+ 		 	set  `commentstatus` =2
+			WHERE `orderID` = #{orderID};
+		</update>
+		
+		<select id="selectTuikuanxq" resultType="com.sy.demo.pojo.Orders">
+		SELECT*FROM orders WHERE orderID=#{orderID}
+		</select>
+		<select id="selectRefund" resultType="com.sy.demo.pojo.Refund">
+		SELECT*FROM refund WHERE orderID=#{orderID}	
+		</select>
+		<select id="SelectTkuser" resultType="com.sy.demo.pojo.User">
+		select*from `user` where userID=#{userID}
+		</select>
+		<select id="SelectTkService" resultType="com.sy.demo.pojo.Services">
+		select*from services where serviceID=#{serviceID}
+		</select>
+		<select id="SelectTkshangjia" resultType="com.sy.demo.pojo.User">
+		select*from `user` where userID=#{userID}
+		</select>
+		
+		<insert id="insertRefund">
+		INSERT INTO refund(
+		  `point`,`orderID`,`userID`,`refundReason`,`refundExplain`,`refundImg`,`applyRefundMoney`,`applicationTime`,`auditStatus`
+		) 
+		VALUES
+		  (
+		    #{point},
+		    #{orderID},
+		    #{userID},
+		    #{refundReason},
+		    #{refundExplain},
+		    #{refundImg},
+		    #{applyRefundMoney},
+		    NOW(),
+		    #{auditStatus}
+		  );
+	</insert>
+	<select id="SelectServoceVo" resultType="com.sy.demo.vo.zsm.servoceVo">
+	SELECT s.`orderID`,s.`totalPrice`,u.`shopName`
+		FROM orders AS s
+		LEFT JOIN services AS b
+		ON s.`serviceID`=b.`serviceID`
+		LEFT JOIN `user` AS u
+		ON b.`userID`=u.`userID`
+		WHERE orderID=#{orderID}
+	</select>
+</mapper>

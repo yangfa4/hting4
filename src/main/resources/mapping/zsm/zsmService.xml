@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.sy.demo.dao.zsm.zsmserviceDao">
+
+<select id="SelectBysl" resultType="com.sy.demo.vo.zsm.servicebtVo">
+			SELECT t.stName,COUNT(e.stid) sl
+			FROM servicecollection AS s
+			JOIN `services` AS e
+			ON s.`serviceID`=e.serviceID
+			JOIN serviceType AS t
+			ON e.stid=t.stid
+			WHERE s.`userID`=#{userID}
+			GROUP BY e.stid
+</select>
+
+
+<select id="SelectService" resultType="com.sy.demo.vo.zsm.serviceVo">
+SELECT e.serviceID,s.serColleID,e.serviceTitle,e.serviceFuTitle,e.servicePrice,u.`creditScore`,e.serviceCoverImg,u.`userName`
+FROM servicecollection AS s
+LEFT JOIN services AS e
+ON s.`serviceID`=e.serviceID
+LEFT JOIN `user` AS u
+ON e.userID=u.`userID`
+LEFT JOIN serviceType AS t
+ON e.stid=t.stid
+ <where>
+ <if test="serviceTitle!=null">
+  and e.serviceTitle=#{serviceTitle}
+ </if>
+ <if test="stName!=null">
+ and t.stName=#{stName}
+ </if>
+ <if test="userID!=null">
+ and s.`userID`=#{userID} 
+ </if>
+ </where>
+</select>
+<delete id="deleteServiceByid">
+DELETE 
+FROM
+  servicecollection
+WHERE `serColleID` = #{serColleID};
+</delete>
+
+
+
+
+
+
+</mapper>

@@ -135,7 +135,7 @@
 					<ul class="bbs_list_ul">
 						<li th:each="temp,item : ${Page_list.list}">
 							<p class="bbs_user_photo">
-								<a ><!--th:href="@{/c/sxy/toCenter(userId=${temp.user.userid},type=1,page=1)}"-->
+								<a th:href="@{/Forum/findUserPost(userId=${temp.User.userID},type=1)}">
 									<img th:src="${temp.User.UserImgPath}" th:alt="${temp.User.UserName}">
 									<!--  商铺帖子
 									<img src="../public/images/bbs_user_i.png" alt="" class="bbs_user_i">
@@ -150,11 +150,11 @@
 								</h3>
 								<p class="bbs_user_i">
 									<a th:href="@{/Forum/findPostDes(postId=${temp.PostID})}" th:text="${temp.Forum.FmName}" >韩国大学简介</a><span class="bbs_dot">·</span>
-									<a th:text="${temp.User.UserName}">坏坏带点乖.</a><span class="bbs_dot">·</span>
+									<a th:href="@{/Forum/findUserPost(userId=${temp.User.userID},type=1)}" th:text="${temp.User.UserName}">坏坏带点乖.</a><span class="bbs_dot">·</span>
 									<a >
 									<span th:text="${temp.count}">2</span>条回复</a><span class="bbs_dot">·</span><span th:text="${#dates.format(temp.ReleaseTime, 'yyyy-MM-dd HH:mm')}">16</span><span class="bbs_dot"></span>
 									<span th:if="${temp.count!=0}"><span>·&nbsp;&nbsp;&nbsp;&nbsp;</span>最后回复
-									<a class="lst_nem"  th:text="${temp.Lastcomment.User.UserName}" >chaki</a></span>
+									<a class="lst_nem" th:href="@{/Forum/findUserPost(userId=${temp.Lastcomment.User.userID},type=1)}" th:text="${temp.Lastcomment.User.UserName}" >chaki</a></span>
 								</p>
 							</div>
 						</li>

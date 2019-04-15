@@ -32,7 +32,6 @@ public class Hanting4ApplicationTests {
 			System.out.println(f.getUser().getUserName());
 			
 		}
-		
 	}
 
 }

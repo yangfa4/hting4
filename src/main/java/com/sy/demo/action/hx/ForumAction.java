@@ -2,6 +2,9 @@ package com.sy.demo.action.hx;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.github.pagehelper.PageInfo;
 import com.sy.demo.biz.hx.ForumBiz;
+import com.sy.demo.pojo.Postcollection;
+import com.sy.demo.pojo.Postfabulous;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.hx.PostVo;
 
@@ -67,7 +75,6 @@ public class ForumAction {
 	 * 查询帖子详情
 	 * @param postId
 	 * @param model
-	 * @param p
 	 * @param s
 	 * @return
 	 */
@@ -75,6 +82,7 @@ public class ForumAction {
 	public String findDesils(Integer postId,Model model,@RequestParam(defaultValue="1") Integer p,
 			@RequestParam(defaultValue="5")Integer s,Integer fmid) {
 		model.addAttribute("User",biz.findUserInfo(26));
+		System.out.println(biz.findUserInfo(26));
 		model.addAttribute("PostDes", biz.findPostDes(postId));
 		model.addAttribute("Fname", biz.findTitleName(fmid));
 		model.addAttribute("PAGE_INFO", biz.findcomment(postId,p,s));
@@ -86,7 +94,7 @@ public class ForumAction {
 	/**
 	 * 查询用户帖子   我的收藏 我的评论 我的帖子 等等
 	 * @param type
-	 * @param userId
+	 * @param userId 
 	 * @param p
 	 * @param s
 	 * @param title
@@ -94,11 +102,11 @@ public class ForumAction {
 	 * @return
 	 */
 	@GetMapping("findUserPost")
-	public String findUserPost(Integer type,Integer userId,
+	public String findUserPost(Integer userId,Integer type,
 			@RequestParam(defaultValue="1") Integer p,
 			@RequestParam(defaultValue="5")Integer s,
-			String title,Model model) {
-		PageInfo<PostVo> user_post=null;
+			@RequestParam(required=false)String title,Model model) {
+		PageInfo<PostVo> user_post=biz.findUserPost(p, s, userId, title);
  		if(type==1) {
 			model.addAttribute("POST", biz.findUserPost(p, s, userId, title));
 			model.addAttribute("COMMENT", biz.findUserComment(p, s, userId, title));
@@ -110,10 +118,75 @@ public class ForumAction {
 		}else if(type==3) {
 			user_post=biz.findUserCollect(p, s, userId, title);
 		}
+ 		model.addAttribute("type", type);
 		model.addAttribute("USER_POST", user_post);
 		model.addAttribute("user",biz.findUserInfo(userId));
-		return "zjw-dongtai.html";
+		return "hx/zjw-dongtai.html";
 	}
+	
+	/**
+	 * 点赞并验证重复和验证是否自己的帖子
+	 * @param fabu
+	 * @param session
+	 * @return
+	 */
+	@PostMapping("saveFabulous")
+	@ResponseBody
+	public Map<String,String> checkFabulous(@RequestBody Postfabulous fabu,HttpSession session){
+		User user = (User)session.getAttribute("USER");
+		Map<String,String> map=new HashMap<>();
+		if(user==null){
+			map.put("code", "100");
+		}else{
+			fabu.setUserID(user.getUserID());
+			//验证点赞重复
+			int rCol = biz.checkHasFabulous(fabu.getPostID(), fabu.getUserID());
+			//验证是否点赞自己帖子
+			int rSef = biz.checkIsSelf(fabu.getPostID(), fabu.getUserID());
+			if(rCol>0) {
+				map.put("code", "300");
+			}else if(rSef>0) {
+				map.put("code", "400");
+			}else {
+				biz.saveFabulous(fabu);
+				map.put("code", "200");
+			}
+		}
+		return map;
+	}
+	
+	/**
+	 * 收藏并验证重复和验证是否自己的帖子
+	 * @param postId
+	 * @param session
+	 * @return
+	 */
+	@PostMapping("saveCollection")
+	@ResponseBody
+	public Map<String,String> checkCollection(@RequestBody Postcollection collec,HttpSession session){
+		User user = (User)session.getAttribute("USER");
+		Map<String,String> map=new HashMap<>();
+		if(user==null){
+			map.put("code", "100");
+		}else{
+			collec.setUserID(user.getUserID());
+			//验证点赞重复
+			int rCol = biz.checkHasCollection(collec.getPcID(),user.getUserID());
+			//验证是否收藏自己帖子
+			int rSef = biz.checkIsSelf(collec.getPcID(), user.getUserID());
+			if(rCol>0) {
+				map.put("code", "300");
+			}else if(rSef>0) {
+				map.put("code", "400");
+			}else {
+				biz.saveCollection(collec);
+				map.put("code", "200");
+			}
+		}
+		return map;
+	}
+	
+	
 	
 	@PostMapping("login")
 	public String login(HttpSession session) {
