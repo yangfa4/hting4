@@ -1,5 +1,6 @@
 package com.sy.demo.biz.zxf;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -20,6 +21,8 @@ import com.sy.demo.pojo.Sharea;
 import com.sy.demo.pojo.System;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.zxf.Ordersvo1;
+import com.sy.demo.vo.zxf.RefundListVo;
+import com.sy.demo.vo.zxf.ServiceTypeVo;
 
 @Service
 public class ZXF_shopbiz {
@@ -129,19 +132,132 @@ public class ZXF_shopbiz {
 	}
 
 	/**
-	 * 查询商家订单
+	 * 查询商家订单1
 	 * 
 	 * @methodName: queryOrders
 	 * @param uid
 	 * @return
 	 *
 	 */
-	public PageInfo<Ordersvo1> queryOrders(Integer uid,String oid, Integer p, Integer s,String oids) {
+	public PageInfo<Ordersvo1> queryOrders(Integer uid, String oid, Integer p, Integer s, String oids, Integer stat) {
 		PageHelper.startPage(p, s);
-		return new PageInfo<Ordersvo1>(dao2.queryOrders(uid,oid,oids));
+		return new PageInfo<Ordersvo1>(dao2.queryOrders(uid, oid, oids, stat));
 	}
 
-	public List<Ordersvo1> queryOrders(Integer uid,String oid,String oids) {
-		return dao2.queryOrders(uid,oid,oids);
+	/**
+	 * 查询商家订单2
+	 * 
+	 * @methodName: queryOrders
+	 * @param uid
+	 * @param oid
+	 * @param oids
+	 * @return
+	 *
+	 */
+	public List<Ordersvo1> queryOrders(Integer uid, String oid, String oids, Integer stat) {
+		return dao2.queryOrders(uid, oid, oids, stat);
+	}
+
+	/**
+	 * 修改订单状态
+	 * 
+	 * @methodName: ordersStatupdate
+	 * @param orderID
+	 * @param stat
+	 * @return
+	 *
+	 */
+	public Integer ordersStatupdate(String orderID, Integer stat, Float money, Integer uid) {
+		if (stat == 3) { // 状态为待服务（接单）
+			dao2.usermoneyupdate(uid, money, 1); // 接单 商家加钱
+		}
+		return dao2.ordersStatupdate(orderID, stat);
+	}
+
+	/**
+	 * 查申请服务类别(包括其子类)
+	 * 
+	 * @methodName: queryservicetypebystpid
+	 * @param stPid
+	 * @return
+	 *
+	 */
+	public List<ServiceTypeVo> queryservicetypebystpid(Integer stPid) {
+		return dao1.queryservicetypebystpid(stPid);
+	}
+
+	/**
+	 * 发布服务
+	 * 
+	 * @methodName: addservices
+	 * @param services
+	 * @return
+	 *
+	 */
+	public Integer addservices(Services services) {
+		return dao2.addservices(services);
+	}
+
+	/**
+	 * 商家收到的退款查询
+	 * 
+	 * @methodName: queryrefund
+	 * @param uid
+	 * @return
+	 *
+	 */
+	public PageInfo<RefundListVo> queryrefund(Integer uid, Integer p, Integer s) {
+		List<RefundListVo> list = dao2.queryrefund(uid);
+		for (RefundListVo rl : list) {
+			List<Ordersvo1> od = dao2.queryOrders(null, null, rl.getOrderID(), null);
+			if (od != null && od.size() != 0) {
+				rl.setOrder(od.get(0));
+			}
+		}
+		PageHelper.startPage(p, s);
+		return new PageInfo<RefundListVo>(list);
+	}
+
+	/**
+	 * 查询退款详情
+	 * 
+	 * @methodName: queryrefundbyid
+	 * @param id
+	 * @return
+	 *
+	 */
+	public RefundListVo queryrefundbyid(@Param("id") Integer id) {
+		RefundListVo rv = dao2.queryrefundbyid(id);
+		if (rv != null) {
+			List<Ordersvo1> od = dao2.queryOrders(null, null, rv.getOrderID(), null);
+			if (od != null && od.size() > 0) {
+				rv.setOrder(od.get(0));
+			}
+			rv.getOrder().setU2(dao1.queryuser(rv.getOrder().getSer().getUserID()));
+		}
+		return rv;
+	}
+
+	/**
+	 * 金币修改,改退款表商家审核状态(同意)
+	 * 
+	 * @methodName: usermoneyupdate
+	 * @param uid
+	 * @param money
+	 * @param jiajian
+	 *            1/加 , 2/减
+	 * @return
+	 *
+	 */
+	public Integer ordersrefundstatusupdate(RefundListVo rv,String businessremarks) {
+		if(businessremarks==null) {
+			dao2.usermoneyupdate(rv.getOrder().getU().getUserID(), rv.getApplyRefundMoney(),1); // 改客户金币 +
+			dao2.usermoneyupdate(rv.getOrder().getU2().getUserID(),rv.getOrder().getTotalPrice(), 2); // 改商家金币 -
+			dao2.ordersrefundstatusupdate(rv.getOrderID(), 5); // 改订单表退款状态
+			return dao2.refundrefundstatusupdate(rv.getRefundID(), 2, null); // 改退款表商家审核状态
+		}else {
+			dao2.ordersrefundstatusupdate(rv.getOrderID(), 2); // 改订单表退款状态
+			return dao2.refundrefundstatusupdate(rv.getRefundID(), 3, businessremarks); // 改退款表商家审核状态
+		}
 	}
 }

@@ -25,10 +25,12 @@
 						href="">关于韩汀</a><span class="ht_line"></span><a href="">联系我们</a>
 				</div>
 
-				<div class="top_right">
-					<a href="">.2304</a> <span class="ht_line"></span><a href="">退出</a>
-					<span class="ht_line"></span><a href=""><img
-						src="Public/images/e_i.png" alt="" /></a>
+				<div class=" login_right" style="margin-left: 80%">
+					<a href="/index.php/Home/Seller/index.html">[[${session.user.userName}]]</a>
+					<span class="ht_line"></span><a
+						href="/index.php/Home/Member/logout.html">退出</a> <span
+						class="ht_line"></span><a href="/index.php/Home/Member/sms.html"><img
+						src="/Public/images/e_i.png" alt=""></a>
 				</div>
 			</div>
 		</div>
@@ -39,14 +41,14 @@
 				<li class="cur" id="li1"><a href="">商家中心</a><span
 					class="my_nav_i"></span></li>
 				<style type="text/css">
-				.layui-layer-btn .layui-layer-btn0 {
-					background: #4c1b98;
-				}
-				
-				.layui-layer-btn .layui-layer-btn0:hover {
-					background: #340d6f;
-				}
-				</style>
+.layui-layer-btn .layui-layer-btn0 {
+	background: #4c1b98;
+}
+
+.layui-layer-btn .layui-layer-btn0:hover {
+	background: #340d6f;
+}
+</style>
 				<li id="li2"><a href="">个人中心</a><span class="my_nav_i"></span></li>
 				<li id="li3"><a href="">账户设置</a><span class="my_nav_i"></span></li>
 				<li id="li4"><a href="">消息</a><span class="my_nav_i"></span></li>
@@ -82,8 +84,8 @@
 			<!--member right-->
 			<div class="member_right sj_right_box">
 				<div class="member_system_r_top mt10">您不同意退款申请</div>
-				<form method="post" id="formpost" action="/c/lhy/refund/no">
-					<input type="hidden" name="orderid" th:value="${orderid}">
+				<form method="post" id="formpost" action="/zxf/mvc/refundno">
+					<input type="hidden" name="refundID" th:value="${rid }">
 					<ul class="member_zl_ul noagree_ul">
 						<li><span class="m_zl_sp">不同意的原因</span>
 							<div class="m_zl_r">
@@ -170,27 +172,7 @@
 		<li><a href="" class="rn_top">Back top</a></li>
 	</ul>
 
-	<script type="text/javascript">
-		function refundOk(orderid) {
-			alert(orderid)
-			$.ajax({
-				url : "/c/lhy/refund/ok",
-				data : {
-					orderid : orderid
-				},
-				type : "post",
-				dataType : "json",
-				success : function(data) {
-					if (data) {
-						alert("同意退款成功");
-					} else {
-						alert("同意退款失败");
-					}
-					location.reload();
-				}
-			})
-		}
-	</script>
+
 </body>
 <script type="text/javascript" src="/Public/js/sessionHeader.js"></script>
 <script type="text/javascript" src="/Public/js/headLeftNav.js"></script>

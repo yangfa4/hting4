@@ -121,15 +121,161 @@
 		SELECT
 		*
 		FROM `orders`
-		WHERE
-		<if test="oids!=null">
-			orderID = #{oids }
-		</if>
-		<if test="oids==null">
-			serviceID IN (SELECT serviceID FROM services WHERE userID=#{uid })
-			<if test="oid!=null">
-				and orderID like '%${oid }%'
+		<where>
+			<if test="oids!=null">
+				orderID = #{oids }
 			</if>
-		</if>
+			<if test="oids==null">
+				serviceID IN (SELECT serviceID FROM services WHERE userID=#{uid })
+				<if test="oid!=null">
+					and orderID like '%${oid }%'
+				</if>
+				<if test="stat!=0">
+					and orderStatus = #{stat }
+				</if>
+			</if>
+		</where>
 	</select>
+	<!-- 修改订单状态 -->
+	<update id="ordersStatupdate">
+		UPDATE
+		`orders`
+		SET
+		`orderStatus` = #{stat }
+
+		WHERE
+		`orderID` = #{orderID }
+	</update>
+
+	<insert id="addservices">
+		INSERT INTO `services` (
+		`stid`,
+		`userID`,
+		`resourceID`,
+		`serviceTitle`,
+		`serviceFuTitle`,
+		`downloadTitle`,
+		`servicePrice`,
+		`serviceCoverImg`,
+		`serviceImgUrlOne`,
+		`serviceImgUrlTwo`,
+		`serviceImgUrlThree`,
+		`serviceImgUrlFour`,
+		`serviceCostTypeID`,
+		`serviceIntro`,
+		`serviceCity`,
+		`country`,
+		`serviceCostInclude`,
+		`serviceStartDate`,
+		`serviceEndDate`,
+		`schoolRegion`,
+		`schoolNameByCN`,
+		`majoyNameByCN`,
+		`schoolNameByROK`,
+		`majoyNameByROK`,
+		`goodAtMajoy`,
+		`hospitalName`,
+		`serviceHour`,
+		`uploadDataUrl`,
+		`releaseTime`,
+		`browseNumber`,
+		`weight`,
+		`auditStatus`
+		)
+		VALUES
+		(
+		#{services.stid },
+		#{services.userID },
+		#{services.resourceID },
+		#{services.serviceTitle },
+		#{services.serviceFuTitle },
+		#{services.downloadTitle },
+		#{services.servicePrice },
+		#{services.serviceCoverImg },
+		#{services.serviceImgUrlOne },
+		#{services.serviceImgUrlTwo },
+		#{services.serviceImgUrlThree },
+		#{services.serviceImgUrlFour },
+		#{services.serviceCostTypeID },
+		#{services.serviceIntro },
+		#{services.serviceCity },
+		#{services.country
+		},
+		#{services.serviceCostInclude },
+		#{services.serviceStartDate,jdbcType=DATE },
+		#{services.serviceEndDate,jdbcType=DATE },
+		#{services.schoolRegion },
+		#{services.schoolNameByCN },
+		#{services.majoyNameByCN },
+		#{services.schoolNameByROK },
+		#{services.majoyNameByROK },
+		#{services.goodAtMajoy },
+		#{services.hospitalName },
+		#{services.serviceHour },
+		#{services.uploadDataUrl },
+		NOW(),
+		0,
+		#{services.weight },
+		1
+		);
+	</insert>
+
+	<!-- 商家收到的退款查询 -->
+	<select id="queryrefund" resultType="RefundListVo">
+		SELECT
+		*
+		FROM
+		`refund`
+		WHERE
+		`orderID` IN
+		(SELECT
+		orderID
+		FROM `orders`
+		WHERE serviceID IN (SELECT
+		serviceID FROM
+		services WHERE userID=#{uid
+		}))
+	</select>
+	<select id="queryrefundbyid" resultType="RefundListVo">
+		SELECT
+		*
+		FROM
+		`refund`
+		WHERE `refundID` = #{id }
+	</select>
+
+	<update id="ordersrefundstatusupdate">
+		UPDATE `orders`
+		SET
+		`refundstatus` = #{refundstatus }
+		WHERE
+		`orderID` = #{orderID }
+	</update>
+
+	<update id="refundrefundstatusupdate">
+		UPDATE
+		`refund`
+		SET
+		`businessRemarks` =#{businessRemarks
+		},
+		`auditTime` = NOW(),
+		`auditStatus` = #{auditStatus }
+		WHERE `refundID`
+		= #{refundID }
+	</update>
+
+	<update id="usermoneyupdate">
+		UPDATE
+		`user`
+		SET
+		<if test="jiajian==1">
+			`userMoney` =`userMoney`+ #{money }
+		</if>
+		<if test="jiajian==2">
+			`userMoney` =`userMoney` - #{money }
+		</if>
+
+		WHERE `userID`
+		= #{uid };
+	</update>
 </mapper>

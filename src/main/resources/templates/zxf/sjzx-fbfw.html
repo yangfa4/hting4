@@ -280,40 +280,7 @@ p.upload_img_name {
 			</ul>
 		</div>
 	</div>
-	<!--header end-->
-
-	<script language="javascript">
-		function ordercancel(_oid) {
-			location.href = "/index.php?m=Home&c=Member&a=setzt&oid="
-					+ _oid
-					+ '&act=cancel&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTU';
-		}
-		function ordersuccess(_oid) {
-			location.href = "/index.php?m=Home&c=Member&a=setzt&oid="
-					+ _oid
-					+ '&act=success&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTU';
-		}
-		function orderaccept(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=accept&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTU';
-		}
-		function ordercancelSeller(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=cancel&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTU';
-		}
-		function orderservice(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=submit&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTU';
-		}
-		function orderShou(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=Shou&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTU';
-		}
-	</script>
+	
 
 	<a href="/index.php/Home/About/help.html" class="zy_box">预定流程指引</a>
 	<script language="javascript">
@@ -321,6 +288,7 @@ p.upload_img_name {
 			$('.zy_box').hide();
 			$('.h_top').addClass('seller_h_top');
 		});
+	 
 		function showcitys(countryid) {
 			if (countryid == '') {
 				$(".city").hide();
@@ -342,16 +310,20 @@ p.upload_img_name {
 			</div>
 			<h2 class="sev_h2_title">发布留学中介服务</h2>
 			<form method="post" id="formpost" onSubmit="return chkServ();"
-				action="/zg/c/addServiceslxzj" enctype="multipart/form-data">
+				action="/zxf/mvc/fbfw" enctype="multipart/form-data">
 				<input type="hidden" name="stid" value="3">
+					<input type="hidden" name="userID" th:value="${session.user.userID}">
 				<dl class="info_form_dl">
 					<dt>服务类别</dt>
 					<dd>
 						<!--<select class="sel_f sel_f2 sel_b5 validate[required]" name="catid">-->
 						<select class="sel_f sel_f2 sel_b5 " name="resourceID">
-							<option value="">请选择服务类别</option>
-							<option value="179">韩国留学</option>
-							<option value="180">日本留学</option>
+							<div th:each="tep,index:${typelist }" >
+								<option th:value="${tep.stid }"
+									th:text="${tep.stName }">观光类</option>
+								<option th:each="tep2,index2:${tep.servicetypelist }"
+									th:value="${tep2.stid }" th:text="'-------'+${tep2.stName }">观光类</option>
+							</div>
 						</select>
 					</dd>
 				</dl>
@@ -368,11 +340,11 @@ p.upload_img_name {
 					<dt class="mopa">国家</dt>
 					<dd class="c_4 f14">
 						<select class="sel_f sel_f2 sel_b2"
-							onChange="showcitys(this.value)" name="countryid">
-							<option value="">请选择</option>
+							onChange="showcitys(this.value)" name="country">
+				 			<option value="">请选择</option> 
 							<option value="399">中国</option>
 							<option value="400">韩国</option>
-							<option value="1023">测试地址</option>
+			
 						</select>
 					</dd>
 				</dl>
@@ -487,7 +459,7 @@ p.upload_img_name {
 						<ul class="jcrop_upload_ul" id="pic1">
 							<li>
 								<p class="upload_img_name" style="width: 500px">
-									封面图 <input name="serviceCoverImg" type="file"
+									封面图 <input name="serviceCoverImg1" type="file"
 										id="serviceCoverImg" style="display: none"> <img
 										src="">
 								<div class="sel_file_d">
@@ -513,7 +485,7 @@ p.upload_img_name {
 							<li>
 
 								<p class="upload_img_name" style="width: 500px">
-									细节图 <input name="serviceImgUrlOne" type="file"
+									细节图 <input name="serviceImgUrlOne1" type="file"
 										id="serviceImgUrlOne" style="display: none"> <img
 										src="">
 								<div class="sel_file_d">
@@ -539,7 +511,7 @@ p.upload_img_name {
 							<li>
 
 								<p class="upload_img_name" style="width: 500px">
-									细节图 <input name="serviceImgUrlTwo" type="file"
+									细节图 <input name="serviceImgUrlTwo1" type="file"
 										id="serviceImgUrlTwo" style="display: none"> <img
 										src="" id="tp">
 								<div class="sel_file_d">
@@ -564,7 +536,7 @@ p.upload_img_name {
 						<ul class="jcrop_upload_ul" id="pic4">
 							<li>
 								<p class="upload_img_name" style="width: 500px">
-									细节图 <input name="serviceImgUrlThree" type="file"
+									细节图 <input name="serviceImgUrlThree1" type="file"
 										id="serviceImgUrlThree" style="display: none"> <img
 										src="" id="tp">
 								<div class="sel_file_d">
@@ -589,7 +561,7 @@ p.upload_img_name {
 						<ul class="jcrop_upload_ul" id="pic5">
 							<li>
 								<p class="upload_img_name" style="width: 500px">
-									细节图 <input name="serviceImgUrlFour" type="file"
+									细节图 <input name="serviceImgUrlFour1" type="file"
 										id="serviceImgUrlFour" style="display: none"> <img
 										src="" id="tp">
 								<div class="sel_file_d">
@@ -618,7 +590,7 @@ p.upload_img_name {
 					<dt>副标题</dt>
 					<dd>
 						<input type="text" class="input_c inf_inc validate[required]"
-							value="" name="servicefutitle" />
+							value="" name="serviceFuTitle" />
 					</dd>
 				</dl>
 				<dl class="info_form_dl">
@@ -626,7 +598,7 @@ p.upload_img_name {
 					<dd class="mt10">
 						<input type="text" value=""
 							class="input_c inf_inc mt5 validate[required,custom[integer]]"
-							name="serviceprice" />
+							name="servicePrice" />
 						<p class="c_4 zc_info">我们会对您的交易收取10%的服务费</p>
 					</dd>
 				</dl>
@@ -634,10 +606,10 @@ p.upload_img_name {
 					<dt class="mopa">费用包含</dt>
 					<dd>
 						<span class="mrsp_10"><label><input type="checkbox"
-								name="servicecostinclude" value="中介费"
+								name="serviceCostInclude1" value="中介费"
 								class="checkbox_input validate[required]" /> 中介费</label></span><span
 							class="mrsp_10"><label><input type="checkbox"
-								name="servicecostinclude"
+								name="serviceCostInclude1"
 								class="checkbox_input validate[required]" value="资料费" /> 资料费</label></span>
 					</dd>
 				</dl>
@@ -645,13 +617,13 @@ p.upload_img_name {
 					<dt>费用说明</dt>
 					<dd class="mt10">
 						<textarea class="input_c fy_sh1 validate[required]"
-							name="servicecosttypeid"></textarea>
+							name="serviceCostTypeID"></textarea>
 					</dd>
 				</dl>
 				<dl class="info_form_dl">
 					<dt>服务简介</dt>
 					<dd class="mt10">
-						<textarea class="input_c fy_sh2" name="serviceintro"
+						<textarea class="input_c fy_sh2" name="serviceIntro"
 							style="width: 700px; height: 600px;" id="description"></textarea>
 					</dd>
 				</dl>
@@ -660,18 +632,18 @@ p.upload_img_name {
 					<dd>
 						<div class="bodys">
 							<div>
-								<input type="text" class="input_c inf_inc6" name="downloadtitle"
+								<input type="text" class="input_c inf_inc6" name="downloadTitle"
 									id="title0" placeholder="标题" />
 								<div class="a_b_edit">
-									<textarea name="uploaddataurl" id="body0"
+									<textarea  id="body0"
 										style="width: 700px; height: 300px;"> </textarea>
 								</div>
 								<!--  <input name="acid[]" type="hidden" value="0" />	-->
-								<a href="javascript:;" class="del_i" onClick="deldesc(this)"
+								<a href="javascript:;"   class="del_i" onClick="deldesc(this)"
 									rel="0">删除描述223</a>
 							</div>
 							<p>
-								<a href="javascript:;" class="add_i">增加描述</a>
+								<a href="javascript:;" type="hidden" class="add_i">增加描述</a>
 							</p>
 							<p class="c_4 ptt2">服务描述能为用户提供下载，图片请控制宽度不超过680px</p>
 					</dd>

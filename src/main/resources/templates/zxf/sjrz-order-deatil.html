@@ -92,7 +92,7 @@
 						class="big_font d_ff">管理员拒绝</span> <span
 						th:if="${order.orderStatus==5 and  order.refundstatus==5}"
 						class="big_font d_ff">退款完成</span> <span
-						th:if="${order.orderStatus==5 and  order.refundstatus==5}"
+						th:if="${order.orderStatus==5 and  order.refundstatus==6}"
 						class="big_font d_ff">退款取消</span> <span
 						th:if="${order.orderStatus==6}" class="big_font d_ff">服务取消</span>
 					<span th:if="${order.orderStatus==7}" class="big_font d_ff">未接单</span>
@@ -233,15 +233,14 @@
 	</div>
 	<!--站内信 弹框 end-->
 
-
 </body>
 <script type="text/javascript" src="/Public/js/sessionHeader.js"></script>
 <script type="text/javascript" src="/Public/js/headLeftNav.js"></script>
 <script type="text/javascript" src="/Public/js/grzx-interlinkage.js"></script>
 <script type="text/javascript" th:inline="javascript">
-var stid=[[${order.ser.stid}]];
-$.getJSON("/c/szy/order/querySerType",{"stid":stid},function(data){
-	$("[name=ser]").html(data.stname);
+var stid='[[${order.ser.stid}]]';
+$.getJSON("/zxf/api/getstName",{"stid":stid},function(data){
+	$("[name=ser]").html(data);
 })
 </script>
 </html>

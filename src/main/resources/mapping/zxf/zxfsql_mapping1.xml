@@ -8,7 +8,7 @@
 		select * from
 		`hanting4`.`user` where `userID` = #{uid }
 	</select>
-     <!-- 查系统配置 -->
+	<!-- 查系统配置 -->
 	<select id="Querysystem" resultType="System">
 		SELECT
 		*
@@ -44,6 +44,25 @@
 		`majortype`
 	</select>
 
-
+	<resultMap type="ServiceTypeVo" id="ServiceTypeMap">
+		<id column="stid" property="stid"></id>
+		<collection property="servicetypelist"
+			select="findsubclass" column="stid"/>
+	</resultMap>
+	<select id="findsubclass" resultType="Servicetype">
+		SELECT
+		*
+		FROM
+		`servicetype`
+		where stPid = #{0 }
+	</select>
+	<!-- 查申请服务类别(包括其子类) -->
+	<select id="queryservicetypebystpid" resultMap="ServiceTypeMap">
+		SELECT
+		*
+		FROM
+		`servicetype`
+		where stPid = #{stPid }
+	</select>
 
 </mapper>
