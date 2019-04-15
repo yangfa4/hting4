@@ -43,12 +43,12 @@ public class LogInaction {
 			return "zl/ok";//模板文件名
 	}
 	@RequestMapping("/registerss")
-	public String logincg(String email,String username,String password)throws Exception {
+	public String logincg(String email,String nickName,String password)throws Exception {
 //		Map<String, String> message=new HashMap<String,String>();
 		User user =new User();
 		Login login=new Login();
-		System.out.println(username);
-		user.setUserRealName(username);
+		System.out.println(nickName);
+		user.setUserRealName(nickName);
 		
 			login.setUserPwd(password);
 		login.setUserEmail(email);
