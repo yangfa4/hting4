@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>预定广告位</title>
+		<link rel="stylesheet" th:href="@{/Public/css/bootstrap.min.css}" />
+	</head>
+	<body>
+		<form th:action="@{/lhq/api/addAdvertisementApply}"  id="modifyAdvertise" class="form-horizontal"  method="post"   enctype="multipart/form-data">
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">广告标题：</label>
+				<div class="col-md-8">
+					<input  type="text"  class="form-control" id="txtName" placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">开始时间</label>
+				<div class="col-md-8">
+					<input name="startTime" v-model="advertisementapply.startTime" type="date" class="form-control"  placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">结束时间</label>
+				<div class="col-md-8">
+					<input name="endTime" v-model="advertisementapply.endTime" type="date" class="form-control"  placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">租赁天数</label>
+				<div class="col-md-8">
+					<input name="rentAMonth" v-model="advertisementapply.rentAMonth" type="text" class="form-control"  placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">所需金币</label>
+				<div class="col-md-8">
+					<input name="price" v-model="advertisementapply.price" type="text" class="form-control"  placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">图片：</label>
+				<div class="col-md-8">
+					<input name="aimgPath" v-model="advertisementapply.aimgPath"  type="file" class="form-control" placeholder="">
+					<img src="" style="display:none;" width="100">
+						<div class="sel_file_d">
+							<a href="javascript:void(0);" class="sel_file_a" id="picbt3" onclick="aimgPath.click();">上传图片</a>
+					  </div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">PC端链接路径：</label>
+				<div class="col-md-8">
+					<input name="apcUrl" v-model="advertisementapply.apcUrl" type="text" class="form-control"  placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="txtName" class="col-md-2 control-label">手机端链接路径:</label>
+				<div class="col-md-8">
+					<input name="aappUrl" v-model="advertisementapply.aappUrl" type="text" class="form-control" id="txtName" placeholder="">
+				</div>
+			</div>
+			<div class="form-group">
+				<div  class="col-sm-offset-5 col-md-2">
+					<input @click="addAdvertisement()" type="button" id="save" data-dismiss="modal" class="btn btn-default" value="保存" />
+				</div>
+			</div>
+		</form>
+	</body>
+	<script type="text/javascript" th:src="@{/demo/js/jquery-1.12.4.js}" ></script>
+	<script type="text/javascript" th:src="@{/Public/js/vue.js}" ></script>
+	<script type="text/javascript" th:src="@{/Public/js/dialog.js}" ></script>
+	<script>
+		//var aid=window.sessionStorage.getItem("aid");
+		var aid=16;
+		var price=24;
+		alert("点击:"+"aid:"+aid+",price:"+price);
+		modifyAdvertise=new Vue({
+			el:"#modifyAdvertise",
+			data:{
+				advertisementapply:{
+					userID:"",aid:"",aimgPath:"",apcUrl:"",
+					aappUrl:"",price:"",rentAMonth:"",startTime:"",
+					endTime:"",
+					applyTime:"",auditTime:null,auditStatus:1,
+				}
+			},
+			methods:{
+				addAdvertisement:function(){
+					alert("123");
+					alert("月数："+advertisementapply.rentAMonth);
+					var apply=this;
+					$.ajax({
+					type:"post",
+					url:"127.0.0.1:1234/lhq/api/addAdvertisementApply",
+					contentType: "application/json",
+					data:JSON.stringify(apply.advertisementapply),
+					dataType:"json",
+					success:function(jsonData){
+						if(jsonData.code=="200"){
+							showAlertDialog("广告位申请成功");
+							closeWindowDialog();
+						}else{
+							showAlertDialog("广告位申请成功失败");
+						}
+					} 
+				});
+				}
+			},
+			created:function(){
+				/* var advertisement=this;
+				if(aid){
+					$.getJSON("http://127.0.0.1:4321/sys/api/advertise/getAdvertisementByid",{aid:aid},function(data){
+					   advertisement.advertise=data;
+				   })
+				} */
+				
+			}
+		})
+	</script>
+	
+</html>

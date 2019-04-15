@@ -91,4 +91,8 @@
 	<update id="updateAdvertisementapply" parameterType="Advertisementapply">
 	    update advertisementapply  set auditStatus=${auditStatus} where aaID=${aaID}
 	</update>
+	
+	<select id="findByAtid" resultType="com.sy.demo.pojo.Advertisement">
+	   select *from advertisement where atid  IN(16,17,18,19,20) ORDER BY aorder asc
+	</select>
 </mapper>

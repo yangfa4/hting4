@@ -1,9 +1,11 @@
 package com.sy.demo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sy.demo.biz.lhq.AdvertisementBiz;
+import com.sy.demo.pojo.Advertisement;
 import com.sy.demo.pojo.Advertisementapply;
 import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.User;
@@ -90,6 +93,28 @@ public class LhqAdvertisementTest {
 	@Test
 	public void updateAdvertisementapply() {
 		advertiseBiz.updateAdvertisementapply(1,2);
+	}
+	
+	/**
+	 * 查询星级广告位
+	 * @return
+	 */
+	@Test
+	public void findByAtid(){
+		List<Advertisement> advert=advertiseBiz.findByAtid();
+		System.out.println("输出星级广告位长度"+advert.size());
+		List<Advertisement> recommendStidByOneList=new ArrayList<Advertisement>();
+		for (Advertisement advertisement : advert) {
+			if(advertisement.getAtid()==16) {
+				recommendStidByOneList.add(advertisement);//自驾游
+				System.out.println("输出自驾游"+recommendStidByOneList);
+			}
+		}
+		/*for (Advertisement advertisement : advert) {
+			
+			System.out.println("输出星级广告位"+advertisement);
+		}*/
+		System.out.println("输出星级广告位");
 	}
 	
 }

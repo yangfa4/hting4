@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.sy.demo.pojo.Advertisement;
 import com.sy.demo.pojo.Advertisementapply;
 import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.User;
@@ -58,4 +59,9 @@ public interface IAdvertisementDao {
 	 */
 	public int updateAdvertisementapply(@Param("aaID")Integer aaID,@Param("auditStatus")Integer auditStatus);
 	
+	/**
+	 * 查询星级广告位
+	 * @return
+	 */
+	public List<Advertisement> findByAtid();
 }

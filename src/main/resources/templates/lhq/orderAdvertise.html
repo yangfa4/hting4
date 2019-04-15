@@ -6,6 +6,7 @@
 <title>首页_韩汀社区</title>
 <link rel="stylesheet" th:href="@{/Public/css/common.css}" />
 <link rel="stylesheet" th:href="@{/Public/css/owl.carousel.css}" />
+<link rel="stylesheet" th:href="@{/Public/css/bootstrap.min.css}" />
 </head>
 
 <body>
@@ -108,28 +109,34 @@
 					<div class="owl-wrapper"
 						th:style="|width: ${recommendStidByOneList.size()*400*2}px; left: 0px; display: block; transition: all 800ms ease 0s; transform: translate3d(0px, 0px, 0px);|">
 						<div class="owl-item" style="width: 400px;"
-							th:each="temp,iter : ${recommendStidByOneList}">
-							<div class="item">
+							th:each="temp,iter : ${recommendStidByOneList}" th:onclick="'javascript:advertisementParam('+${temp.aid}+','+${temp.price}+')'">
+							<div class="item" >
 								<a href="javascript:void(0);">
 									<div class="star_img">
-										<img th:src="${temp.shopImg}" th:alt="${temp.userName}">
+										<img th:src="${temp.aimgPath}" th:alt="${temp.atitle}">
 									</div>
 									<dl class="star_user_dl">
-										<dt>
+										<!-- <dt>
 											<img th:src="${temp.userImgPath}" th:alt="${temp.userName}"
 												class="star_user_photo">
-										</dt>
+										</dt> -->
 										<dd>
 											<div class="star_user_name_s">
-												<h3 class="star_user_name" th:text="${temp.userName}">
-												</h3>
-												<div class="star_pl"><!--  -->
-													<span class="star_pl_sp"
-														th:style="|width:${temp.merchantLevel*20}%;|"></span>
+												<!-- //<h3 class="star_user_name" th:text="${temp.atitle}"></h3> -->
+												
+												<div class="star_pl2 star_user_name " th:switch="${temp.state}">
+												  <span  th:case="1">
+												          未租
+												  </span>
+												   <span th:case="2">
+												          已租
+												  </span>
+												  <span th:text="${temp.price}"></span><span>&nbsp;元/月</span>
+												
 												</div>
 											</div>
-											<p class="star_user_text" th:utext="${temp.selfIntroduction}">For
-												man is man and master of his fate.</p>
+											<!-- <p class="star_user_text" th:utext="${temp.atitle}">For
+												man is man and master of his fate.</p> -->
 										</dd>
 									</dl>
 								</a>
@@ -157,7 +164,7 @@
 			<a target="_blank" href="/c/lsm/serviceUrl?htmlUrl=fw-zjyTAB&stid=1"
 				class="btn_a_more">查看更多<span class="sp_i_1"></span></a>
 		</div>
-		<div class="star_recommend_show" style="display: none;">
+		<!-- <div class="star_recommend_show" style="display: none;">
 			<div id="star_recommend_part_0"
 				class="owl-carousel star_recommend_part owl-theme"
 				style="opacity: 0; display: block;">
@@ -376,7 +383,7 @@
 
 			<a target="_blank" href="/c/lsm/serviceUrl?htmlUrl=fw-xxzyTAB&stid=5"
 				class="btn_a_more">查看更多<span class="sp_i_1"></span></a>
-		</div>
+		</div> -->
 		<div class="ad_box">
 			<div class="fl ad_left">
 				<a href=""><img th:src="${homeTopAdvertingList[0].aimgPath}"
@@ -872,9 +879,28 @@
 	<!--联系我们的浮层 end-->
 
 </body>
+<script type="text/javascript" th:src="@{/demo/js/jquery-1.12.4.js}"></script>
+<script type="text/javascript" th:src="@{/Public/js/bootstrap.min.js}"></script>
+
 <script type="text/javascript" th:src="@{/Public/js/jquery-1.8.3.min.js}"></script>
 <script type="text/javascript" th:src="@{/Public/js/sessionHeader.js}"></script>
 <script type="text/javascript" th:src="@{/Public/js/headLeftNav.js}"></script>
+<script type="text/javascript" th:src="@{/Public/js/dialog.js}"></script>
+
+
+<script type="text/javascript">
+
+function advertisementParam(aid,price){
+	
+	alert("点击:"+"aid:"+aid+",price:"+price);
+	window.sessionStorage.setItem("aid",aid);
+	//showAlertDialog("广告位申请成功");
+	window.loaction.href='/lhq/api/orderAdvertise';
+	//showWindowDialog('/lhq/api/orderAdvertise','会员信息');
+	//window.location.href = "/advertisementapply.html";
+}
+
+</script>
 <script type="text/javascript" th:inline="javascript">
 		jQuery(function(){
 			var slideshowSize = [[${homeSlideshowList.size()}]];	//轮播图图片集合长度

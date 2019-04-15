@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sy.demo.dao.lhq.IAdvertisementDao;
+import com.sy.demo.pojo.Advertisement;
 import com.sy.demo.pojo.Advertisementapply;
 import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.User;
@@ -85,5 +86,12 @@ public class AdvertisementBiz {
 		advertiseDao.updateAdvertisementapply(aaID, auditStatus);
 	}
 	
+	/**
+	 * 查询星级广告位
+	 * @return
+	 */
+	public List<Advertisement> findByAtid(){
+		return advertiseDao.findByAtid();
+	}
 
 }
