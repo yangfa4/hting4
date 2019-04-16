@@ -47,7 +47,9 @@ public class LogInaction {
 //		Map<String, String> message=new HashMap<String,String>();
 		User user =new User();
 		Login login=new Login();
+		System.out.println(username);
 		user.setUserRealName(username);
+		
 			login.setUserPwd(password);
 		login.setUserEmail(email);
 		biz.LogInBiz(user,login);
