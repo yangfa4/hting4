@@ -103,8 +103,7 @@ public class AdvertisementAction {
 	
 	@GetMapping("homeUrlOrder")
 	public String queryHomeOrder(Model model) {
-		//1.首页轮播图,2.首页社区服务中间广告位查询,3.首页社区上方左右广告位查询
-		//4.首页社区下方广告位查询
+		//1.首页轮播图
 		List<AdvertisementVO> listVo=advertiseBiz.queryByAtid(1);
 		
 	    List<AdvertisementVO> homeSlideshowList =listVo;
