@@ -61,23 +61,24 @@
 
 	<div class="bg_c4 pt1">
 		<div class="b_box">
-			<!--member left-->
+		<!--member left-->
 			<div class="member_left">
 				<h1 class="member_left_title seller_title">商家中心</h1>
 				<ul class="member_system_ul sj_left_ul">
-					<li><a href=""><span class="msp2 pre_c1"></span>我收到的预定</a></li>
-					<li><a href=""><span class="msp2 pre_c2"></span>我发布的服务</a></li>
-					<li><a href=""><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
-					<li><a href=""><span class="msp2 pre_c4"></span>我收到的评价</a></li>
-					<li><a href=""><span class="msp2 pre_c5"></span>我发出的物流</a></li>
-					<li class="cur"><a href=""><span class="msp2 pre_c6"></span>我收到的退款<span
+					<li><a th:href="|/zxf/mvc/tosddyd?uid=${session.user.userID}|"><span
+							class="msp2 pre_c1"></span>我收到的预定</a></li>
+					<li><a th:href="|/zxf/mvc/tofbdfw?uid=${session.user.userID}&p=1&s=3&auditStatus=0&title=|"><span
+							class="msp2 pre_c2"></span>我发布的服务</a></li>
+					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
+					<li><a href="#"><span
+							class="msp2 pre_c4"></span>我收到的评价</a></li>
+					<li><a href="/zxf/mvc/to?path=zxf/sjzx-logistics"><span class="msp2 pre_c5"></span>我发出的物流</a></li>
+					<li><a th:href="|/zxf/mvc/tosjtk?uid=${session.user.userID}|"><span class="msp2 pre_c6"></span>我收到的退款<span
 							class="sp_acon_1"></span></a></li>
-					<li><a href=""><span class="msp2 pre_c3"></span>我的服务类别</a></li>
-					<li><a href=""><span class="msp2 pre_c3"></span>我提交的托管</a></li>
+					<li><a href="#"><span class="msp2 pre_c3"></span>我的服务类别</a></li>
+					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的托管</a></li>
 				</ul>
-				<div class="ad_left_1">
-					<a href=""><img src="" alt="" /></a>
-				</div>
+				<div class="ad_left_1"></div>
 			</div>
 			<!--member left end-->
 
