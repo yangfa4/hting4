@@ -102,11 +102,11 @@
 							class="msp2 pre_c1"></span>我收到的预定</a></li>
 					<li><a th:href="|/zxf/mvc/tofbdfw?uid=${session.user.userID}&p=1&s=3&auditStatus=0&title=|"><span
 							class="msp2 pre_c2"></span>我发布的服务</a></li>
-					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
-					<li><a href="|zxf/mvc/tosddyd?uid='${session.user.userID}'|"><span
+					<li><a href="/zxf/mvc/to"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
+					<li><a href="#"><span
 							class="msp2 pre_c4"></span>我收到的评价</a></li>
-					<li><a href="#"><span class="msp2 pre_c5"></span>我发出的物流</a></li>
-					<li><a href="#"><span class="msp2 pre_c6"></span>我收到的退款<span
+					<li><a href="/zxf/mvc/to?path=zxf/sjzx-logistics"><span class="msp2 pre_c5"></span>我发出的物流</a></li>
+					<li><a th:href="|/zxf/mvc/tosjtk?uid=${session.user.userID}|"><span class="msp2 pre_c6"></span>我收到的退款<span
 							class="sp_acon_1"></span></a></li>
 					<li><a href="#"><span class="msp2 pre_c3"></span>我的服务类别</a></li>
 					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的托管</a></li>
@@ -170,13 +170,13 @@
 				<div class="db_sx_title">待办事项</div>
 				<ul class="pre_about_info pl15">
 					<li><a
-						href="/c/szy/order/queryAllOrder?orderStatus=1&refundstatus=0&pageNum=1&pageSize=5&orderID=">待接单<span
+						th:href="|/zxf/mvc/tosddyd?uid=${session.user.userID}&stat=2|">待接单<span
 							class="pre_asp" name="jiedan">[[${num.waitinglist }]]</span></a></li>
 					<li><a
-						href="/c/szy/order/queryAllOrder?orderStatus=3&refundstatus=0&pageNum=1&pageSize=5&orderID=">待服务<span
+						th:href="|/zxf/mvc/tosddyd?uid=${session.user.userID}&stat=3|">待服务<span
 							class="pre_asp" name="fuwu">[[${num.forservice }]]</span></a></li>
 					<li class="last"><a
-						href="/c/szy/order/queryAllOrder?orderStatus=5&refundstatus=1&pageNum=1&pageSize=5&orderID=">待退款<span
+						th:href="|/zxf/mvc/tosddyd?uid=${session.user.userID}&stat=6|">待退款<span
 							class="pre_asp" name="tuikan">[[${num.cancelservice }]]</span></a></li>
 				</ul>
 				<h2 class="pre_h2_title">最新预订</h2>
@@ -311,7 +311,6 @@
 <script type="text/javascript" src="/Public/js/headLeftNav.js"></script>
 <script type="text/javascript" src="/Public/js/grzx-interlinkage.js"></script>
 <script type="text/javascript">
-
 ShopStarRating([[${session.user.creditScore}]],$(".star_pl .star_pl_sp"));
 ShopLevel([[${session.user.merchantExp}]],$(".jp_ul_list li"));
 //商铺星级评定显示   integral(取User表的信誉积分(默认300/满分500 100为1颗星/50半星)) goals(星级显示目标JQuery对象)

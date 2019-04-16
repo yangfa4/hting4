@@ -245,28 +245,7 @@ p.upload_img_name{
         </ul>
 	</div>
 </div>
-<!--header end-->
 
-<script language="javascript">
-function ordercancel(_oid){
-    location.href = "/index.php?m=Home&c=Member&a=setzt&oid="+_oid+'&act=cancel&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTY';
-}
-function ordersuccess(_oid){
-    location.href = "/index.php?m=Home&c=Member&a=setzt&oid="+_oid+'&act=success&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTY';
-}
-function orderaccept(_oid){
-    location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="+_oid+'&act=accept&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTY';
-}
-function ordercancelSeller(_oid){
-    location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="+_oid+'&act=cancel&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTY';
-}
-function orderservice(_oid){
-    location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="+_oid+'&act=submit&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTY';
-}
-function orderShou(_oid){
-    location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="+_oid+'&act=Shou&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHA*bT1Ib21lJmM9U2VsbGVyJmE9ZWRpdHN2JmNhdGlkPTY';
-}
-</script>
 
 <a href="/index.php/Home/About/help.html" class="zy_box">预定流程指引</a>
 <script language="javascript">
@@ -274,6 +253,7 @@ $(function(){
 	$('.zy_box').hide();
     $('.h_top').addClass('seller_h_top');
 });
+ 
 function showcitys(countryid){
 	if(countryid==''){
 		$(".city").hide();
@@ -290,19 +270,16 @@ function showcitys(countryid){
     	<div class="sv_path border_c sv_nbor">
             <a href="/index.php/Home/Seller/index.html">商家中心</a><span class="s_sp_v">-</span><a href="/index.php/Home/Seller/services.html">我发布的服务</a><span class="s_sp_v">-</span>发布韩语翻译        </div>
 		<h2 class="sev_h2_title">发布韩语翻译服务</h2>
-		<form method="post"  id="formpost" onSubmit="return chkServ();" action="zg/c/addServiceshyfy" enctype="multipart/form-data">
-		<input   type="hidden"  name="stid" value="4">			
+		<form method="post"  id="formpost" onSubmit="return chkServ();" action="/zxf/mvc/fbfw" enctype="multipart/form-data">
+		<input   type="hidden"  name="stid" value="4">	
+			<input type="hidden" name="userID" th:value="${session.user.userID}">		
 			<dl class="info_form_dl">
 				<dt>标题</dt>
 				<dd class="mt10">
 					<input type="text" name="serviceTitle" value="" class="input_c inf_inc validate[required]" />
 				</dd>
 			</dl>
-			<dl class="info_form_dl">
-				<dt class="mopa">擅长专业</dt>
-				<dd class="city_list_dd">
-							<span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="11" class="checkbox_input"  />视觉设计</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="43" class="checkbox_input"  />理科</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="44" class="checkbox_input"  />工科</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="45" class="checkbox_input"  />电子信息学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="46" class="checkbox_input"  />应用科学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="47" class="checkbox_input"  />生命科学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="48" class="checkbox_input"  />国际学部</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="49" class="checkbox_input"  />艺术设计学</label></span><span class="mrsp_10"><label><input type="checkbox" id="areaids" name="typeid" value="50" class="checkbox_input"  />体育学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="42" class="checkbox_input"  />生活科学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="41" class="checkbox_input"  />酒店观光</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="12" class="checkbox_input"  />人口学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="13" class="checkbox_input"  />人类学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="14" class="checkbox_input"  />社会学</label></span><span class="mrsp_10"><label><input type="checkbox" name="typeid" value="15" class="checkbox_input"  />旅游学</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="38" class="checkbox_input"  />经营管理</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="51" class="checkbox_input"  />其它</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="39" class="checkbox_input"  />国语国文</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="69" class="checkbox_input"  />测试专业1</label></span><span class="mrsp_10"><label><input type="checkbox"  name="typeid" value="40" class="checkbox_input"  />经济学</label></span>				</dd>
-			</dl>
+			
 			
 			<dl class="info_form_dl">
 				<dt class="mopa">上传服务图片</dt>
@@ -311,7 +288,7 @@ function showcitys(countryid){
 					<ul class="jcrop_upload_ul" id="pic1">
 								<li>
 						<p class="upload_img_name" style="width: 500px">封面图
-							<input name="serviceCoverImg" type="file" id="serviceCoverImg" style="display: none">
+							<input name="serviceCoverImg1" type="file" id="serviceCoverImg" style="display: none">
 								<img src=""  >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"  style="margin-left:180px;"  class="sel_file_a"  onclick="serviceCoverImg.click();">上传图片</a>
@@ -331,7 +308,7 @@ function showcitys(countryid){
 					<ul  class="jcrop_upload_ul"  id="pic2">
 						<li>
 							<p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlOne" type="file" id="serviceImgUrlOne" style="display: none">
+							<input name="serviceImgUrlOne1" type="file" id="serviceImgUrlOne" style="display: none">
 						<img src=""  >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" style="margin-left:180px;" class="sel_file_a"  onclick="serviceImgUrlOne.click();">上传图片</a>
@@ -351,7 +328,7 @@ function showcitys(countryid){
 					<ul  class="jcrop_upload_ul"  id="pic3">
 					<li>
 					<p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlTwo" type="file" id="serviceImgUrlTwo" style="display: none">
+							<input name="serviceImgUrlTwo1" type="file" id="serviceImgUrlTwo" style="display: none">
 						<img src="" id="tp" >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"   style="margin-left:180px;" class="sel_file_a"  onclick="serviceImgUrlTwo.click();">上传图片</a>
@@ -371,7 +348,7 @@ function showcitys(countryid){
 					<ul  class="jcrop_upload_ul"  id="pic4">
 						<li>
 					 <p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlThree" type="file" id="serviceImgUrlThree" style="display: none">
+							<input name="serviceImgUrlThree1" type="file" id="serviceImgUrlThree" style="display: none">
 						<img src="" id="tp" >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"   style="margin-left:180px;"  class="sel_file_a"  onclick="serviceImgUrlThree.click();">上传图片</a>
@@ -391,7 +368,7 @@ function showcitys(countryid){
 					<ul  class="jcrop_upload_ul"  id="pic5">
 						<li>
 								<p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlFour" type="file" id="serviceImgUrlFour" style="display: none">
+							<input name="serviceImgUrlFour1" type="file" id="serviceImgUrlFour" style="display: none">
 						<img src="" id="tp" >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" style="margin-left:180px;"    class="sel_file_a"  onclick="serviceImgUrlFour.click();">上传图片</a>
@@ -428,7 +405,7 @@ function showcitys(countryid){
 		<dl class="info_form_dl">
 			<dt class="mopa">费用包含</dt>
 				<dd>
-					<span class="mrsp_10"><label><input type="checkbox" name="serviceCostInclude" value="服务费" class="checkbox_input validate[required]"  /> 服务费</label></span><span class="mrsp_10"><label><input type="checkbox" name="serviceCostInclude" value="翻译费" class="checkbox_input validate[required]"  /> 翻译费</label></span><span class="mrsp_10"><label><input type="checkbox" name="serviceCostInclude" value="代写费" class="checkbox_input validate[required]"  /> 代写费</label></span>				</dd>
+					<span class="mrsp_10"><label><input type="checkbox" name="serviceCostInclude1" value="服务费" class="checkbox_input validate[required]"  /> 服务费</label></span><span class="mrsp_10"><label><input type="checkbox" name="serviceCostInclude1" value="翻译费" class="checkbox_input validate[required]"  /> 翻译费</label></span><span class="mrsp_10"><label><input type="checkbox" name="serviceCostInclude1" value="代写费" class="checkbox_input validate[required]"  /> 代写费</label></span>				</dd>
 			</dl>			<dl class="info_form_dl">
 				<dt>费用说明</dt>
 				<dd class="mt10">
