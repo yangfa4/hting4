@@ -108,7 +108,7 @@
 							<th width="120">可预定时间</th>
 							<th width="80">价格</th>
 							<th width="60">浏览数</th>
-							<th width="70"><select name="zt" onchange="query2()">
+							<th width="70"><select name="ztxz" onchange="query2()">
 									<option value="0">全部</option>
 									<option value="1">待审核</option>
 									<option value="2">审核成功</option>
@@ -303,9 +303,10 @@
 	</div>
 </body>
 <script type="text/javascript">
+ 
 	function query2() {
 		location.href = '/zxf/mvc/tofbdfw?uid=[[${session.user.userID}]]&p=1&s=3&title=[[${title}]]&auditStatus='
-				+ $('[name=zt]').val();
+				+ $('[name=ztxz]').val();
 	}
 </script>
 </html>

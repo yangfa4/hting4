@@ -10,6 +10,7 @@ import com.sy.demo.pojo.Servicetype;
 import com.sy.demo.pojo.Sharea;
 import com.sy.demo.pojo.System;
 import com.sy.demo.pojo.User;
+import com.sy.demo.vo.zxf.ServiceTypeVo;
 
 public interface ZXF_IDao1 {
 
@@ -29,4 +30,7 @@ public interface ZXF_IDao1 {
 
 	// 查专业
 	List<Majortype> QuerymajortypeAll();
+
+	// 查申请服务类别(包括其子类)
+	List<ServiceTypeVo> queryservicetypebystpid(@Param("stPid") Integer stPid);
 }

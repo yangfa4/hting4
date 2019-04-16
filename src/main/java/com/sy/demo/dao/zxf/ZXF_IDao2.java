@@ -9,6 +9,7 @@ import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.Services;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.zxf.Ordersvo1;
+import com.sy.demo.vo.zxf.RefundListVo;
 
 public interface ZXF_IDao2 {
 
@@ -53,6 +54,84 @@ public interface ZXF_IDao2 {
 	 * @return
 	 *
 	 */
-	List<Ordersvo1> queryOrders(@Param("uid") Integer uid,@Param("oid") String oid,@Param("oids") String oids);
+	List<Ordersvo1> queryOrders(@Param("uid") Integer uid, @Param("oid") String oid, @Param("oids") String oids,
+			@Param("stat") Integer stat);
+
+	/**
+	 * 修改订单状态
+	 * 
+	 * @methodName: ordersStatupdate
+	 * @param orderID
+	 * @param stat
+	 * @return
+	 *
+	 */
+	Integer ordersStatupdate(@Param("orderID") String orderID, @Param("stat") Integer stat);
+
+	/**
+	 * 订单退款状态修改
+	 * 
+	 * @methodName: ordersrefundstatusupdate
+	 * @param orderID
+	 * @param refundstatus
+	 * @return
+	 *
+	 */
+	Integer ordersrefundstatusupdate(@Param("orderID") String orderID, @Param("refundstatus") Integer refundstatus);
+
+	/**
+	 * 商家审核状态修改
+	 * 
+	 * @methodName: refundrefundstatusupdate
+	 * @param refundID
+	 * @param auditStatus
+	 * @return
+	 *
+	 */
+	Integer refundrefundstatusupdate(@Param("refundID") Integer refundID, @Param("auditStatus") Integer auditStatus,
+			@Param("businessRemarks") String businessRemarks);
+
+	/**
+	 * 金币修改
+	 * 
+	 * @methodName: usermoneyupdate
+	 * @param uid
+	 * @param money
+	 * @param jiajian  1/加 , 2/减
+	 * @return
+	 *
+	 */
+	Integer usermoneyupdate(@Param("uid") Integer uid, @Param("money") Float money,
+			@Param("jiajian") Integer jiajian);
+
+	/**
+	 * 发布服务
+	 * 
+	 * @methodName: addservices
+	 * @param services
+	 * @return
+	 *
+	 */
+	Integer addservices(@Param("services") Services services);
+
+	/**
+	 * 商家收到的退款查询
+	 * 
+	 * @methodName: queryrefund
+	 * @param uid
+	 * @return
+	 *
+	 */
+	List<RefundListVo> queryrefund(@Param("uid") Integer uid);
+
+	/**
+	 * 查询退款详情
+	 * 
+	 * @methodName: queryrefundbyid
+	 * @param id
+	 * @return
+	 *
+	 */
+	RefundListVo queryrefundbyid(@Param("id") Integer id);
 
 }

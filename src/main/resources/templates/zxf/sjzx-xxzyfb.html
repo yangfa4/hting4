@@ -238,6 +238,7 @@ $(function(){
 	$('.zy_box').hide();
     $('.h_top').addClass('seller_h_top');
 });
+ 
 function showcitys(countryid){
 	if(countryid==''){
 		$(".city").hide();
@@ -254,23 +255,20 @@ function showcitys(countryid){
     	<div class="sv_path border_c sv_nbor">
             <a href="/index.php/Home/Seller/index.html">商家中心</a><span class="s_sp_v">-</span><a href="/index.php/Home/Seller/services.html">我发布的服务</a><span class="s_sp_v">-</span>发布学习资源        </div>
 		<h2 class="sev_h2_title">发布学习资源服务</h2>
-		<form method="post" id="formpost" onSubmit="return chkServ();" action="zg/c/addServicesxxzy" enctype="multipart/form-data">
+		<form method="post" id="formpost" onSubmit="return chkServ();" action="/zxf/mvc/fbfw" enctype="multipart/form-data">
 			<input type="hidden"  name="stid" value="5">
+				<input type="hidden" name="userID" th:value="${session.user.userID}">
 			<dl class="info_form_dl">
 				<dt>服务类别</dt>
 				<dd>
 					<!--<select class="sel_f sel_f2 sel_b5 validate[required]" name="catid">-->
 						<select class="sel_f sel_f2 sel_b5 " name="resourceID">
-							<option value="">请选择资源类别</option>
-							<option value="152"
-																>英语资料</option>
-								<option value="154">—英语视频</option><option value="155">—英语小说</option><option value="183"
-																>毕业论文</option>
-								<option value="184">—工科学院</option><option value="185">—电子信息学院</option><option value="186">—应用科学院</option><option value="187">—生命科学院</option><option value="188">—国际学院</option><option value="189">—外国语学院</option><option value="190">—艺术设计学院</option><option value="191">—体育学院</option><option value="192">—文化传媒学院</option><option value="204"
-																>校园资料</option>
-								<option value="153"
-																>韩语资料</option>
-								<option value="177">—韩语初级资料</option><option value="193">—韩语中级资料</option><option value="182">—韩语高级资料</option>						</select>
+						<div th:each="tep,index:${typelist }">
+								<option th:value="${tep.stid }" th:text="${tep.stName }">观光类</option>
+								<option th:each="tep2,index2:${tep.servicetypelist }"
+									th:value="${tep2.stid }" th:text="'-------'+${tep2.stName }">观光类</option>
+						</div>
+						</select>
 				</dd>
 			</dl>
 			<dl class="info_form_dl">
@@ -288,7 +286,7 @@ function showcitys(countryid){
 					<ul class="jcrop_upload_ul" id="pic1">
 						<li >
 						<p class="upload_img_name" style="width: 500px">封面图
-							<input name="serviceCoverImg" type="file" id="serviceCoverImg" style="display: none">
+							<input name="serviceCoverImg1" type="file" id="serviceCoverImg" style="display: none">
 								<img src=""  >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"  style="margin-left:180px;"  class="sel_file_a"  onclick="serviceCoverImg.click();">上传图片</a>
@@ -310,7 +308,7 @@ function showcitys(countryid){
 						<li>
 				
 							<p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlOne" type="file" id="serviceImgUrlOne" style="display: none">
+							<input name="serviceImgUrlOne1" type="file" id="serviceImgUrlOne" style="display: none">
 						<img src=""  >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" style="margin-left:180px;" class="sel_file_a"  onclick="serviceImgUrlOne.click();">上传图片</a>
@@ -332,7 +330,7 @@ function showcitys(countryid){
 							<li>
 	
 						<p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlTwo" type="file" id="serviceImgUrlTwo" style="display: none">
+							<input name="serviceImgUrlTwo1" type="file" id="serviceImgUrlTwo" style="display: none">
 						<img src="" id="tp" >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"   style="margin-left:180px;" class="sel_file_a"  onclick="serviceImgUrlTwo.click();">上传图片</a>
@@ -353,7 +351,7 @@ function showcitys(countryid){
 					<ul  class="jcrop_upload_ul"  id="pic4">
 							<li>
 								<p class="upload_img_name" style="width: 500px">细节图
-							<input name="serviceImgUrlThree" type="file" id="serviceImgUrlThree" style="display: none">
+							<input name="serviceImgUrlThree1" type="file" id="serviceImgUrlThree" style="display: none">
 						<img src="" id="tp" >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"   style="margin-left:180px;"  class="sel_file_a"  onclick="serviceImgUrlThree.click();">上传图片</a>
@@ -374,7 +372,7 @@ function showcitys(countryid){
 					<ul  class="jcrop_upload_ul"  id="pic5">
 						<li>
 						<p class="upload_img_name" style="width: 500px">细节图
-						<input name="serviceImgUrlFour" type="file" id="serviceImgUrlFour" style="display: none">
+						<input name="serviceImgUrlFour1" type="file" id="serviceImgUrlFour" style="display: none">
 						<img src="" id="tp" >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);" style="margin-left:180px;"    class="sel_file_a"  onclick="serviceImgUrlFour.click();">上传图片</a>
@@ -410,10 +408,9 @@ function showcitys(countryid){
 			<dl class="info_form_dl">
 				<dt class="mopa">学校地区</dt>
 				<dd class="c_4 f14">
-				<select class="sel_f sel_f2 sel_b2" id="shengid" onChange="setarea(this.value, 'cityid')">
+				  <select class="sel_f sel_f2 sel_b2" id="shengid" onChange="setarea(this.value, 'cityid')">
 						<option value="400" >韩国</option>					</select>
 					<select class="sel_f sel_f2 sel_b2" id="cityid" name="schoolRegion">
-						<option value="">请选择</option>
 						<option value="首尔特别市" >首尔特别市</option><option value="首尔特别市" >釜山广域市</option><option value="大邱广域市" >大邱广域市</option><option value="仁川广域市" >仁川广域市</option><option value="光州广域市" >光州广域市</option><option value="大田广域市" >大田广域市</option><option value="蔚山广域市" >蔚山广域市</option><option value="济州特别自治道" >济州特别自治道</option><option value="江原道" >江原道</option><option value="庆尚北道" >庆尚北道</option><option value="庆尚南道" >庆尚南道</option><option value="忠清北道" >忠清北道</option><option value="忠清南道" >忠清南道</option><option value="全罗北道" >全罗北道</option><option value="全罗南道" >全罗南道</option><option value="京畿道" >京畿道</option><option value="世宗特别自治市" >世宗特别自治市</option>					</select>
 				
 					</dd>
@@ -456,7 +453,7 @@ function showcitys(countryid){
 				<dd>
 					<p class="c_4 pat1 dx_text">请上传相关资料，最大图片请勿超过25<span class="zmdx">M</span>。如超过25<span class="zmdx">M</span>,建议上传到云盘<br/>
 					支持文件格式: gif、jpg、jpeg、png</p>
-						<input name="uploadDataUrl" type="file" id="uploadDataUrl" style="display: none">
+						<input name="uploadDataUrl1" type="file" id="uploadDataUrl" style="display: none">
 						<img src=""  >
 						<div class="sel_file_d">
 							<a href="javascript:void(0);"   style="margin-left:180px;" class="sel_file_a"  onclick="uploadDataUrl.click();">上传图片</a>

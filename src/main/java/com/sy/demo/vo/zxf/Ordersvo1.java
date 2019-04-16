@@ -61,8 +61,19 @@ public class Ordersvo1 {
 
 	private String remarks;// 备注
 
-	private Services ser;
-	private User u;
+	private Services ser = new Services();
+
+	private User u; // 客户
+
+	private User u2; // 商家
+
+	public User getU2() {
+		return u2;
+	}
+
+	public void setU2(User u2) {
+		this.u2 = u2;
+	}
 
 	public User getU() {
 		return u;
