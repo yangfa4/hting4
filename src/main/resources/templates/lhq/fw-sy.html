@@ -18,7 +18,23 @@
 						class="ht_line"></span> <a href="">帮助中心</a><span class="ht_line"></span>
 					<a href="">关于韩汀</a><span class="ht_line"></span> <a href="">联系我们</a>
 				</div>
-				<div class="top_right"></div>
+				<div  th:if="${session.USER!=null}"  class="top_right2" style="float: right; margin-right: 25px; font-size: 14px;">
+				     <div th:if="${session.USER.merchantType!=0}">
+				                      欢迎&nbsp;<span style="color: red" th:text="${session.USER.userName}"></span>&nbsp;<span class="ht_line"></span>
+                         <a th:href="@{'/grzx/SelectByuser/'+${session.USER.userID}}">个人中心</a><span class="ht_line"></span>
+			            <!--  <a th:href="@{/zxf/mvc/toshop}">商家中心</a><span class="ht_line"></span> -->
+			             <a href="/lhq/api/outLogin">退出登录</a>
+				     </div>
+				      <div th:if="${session.USER.merchantType==0}">
+				                     欢迎&nbsp;<span style="color: red" th:text="${session.USER.userName}"></span>&nbsp;<span class="ht_line"></span>
+				         <a th:href="@{'/grzx/SelectByuser/'+${session.USER.userID}}" target="_blank">个人中心</a><span class="ht_line"></span>
+				         <a href="/lhq/api/outLogin">退出登录</a>
+				     </div>
+				</div>
+				<div th:if="${session.USER==null}" style="float: right; margin-right: 25px; font-size: 14px;">
+				         <a href="/zl/szy-login.html">登录</a><span class="ht_line"></span>
+			             <a href="/zl/szy-zuce.html">注册</a>
+				</div>
 			</div>
 		</div>
 		<div class="b_box nav_header community_header">

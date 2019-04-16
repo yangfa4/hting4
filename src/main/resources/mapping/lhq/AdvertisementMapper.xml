@@ -30,7 +30,7 @@
 				`atid` = 1
 			</if>
 			<if test="flag==2">
-				`atid` IN(4,5,6,7)
+				`atid` IN(5,6,4,7)
 			</if>
 			<if test="flag==3">
 				`atid` = 2
@@ -40,7 +40,7 @@
 			</if>
 		</where>
 		<if test="flag==1">
-			ORDER BY `aorder` 
+			<!-- ORDER BY `aorder`  -->
 		</if>
 	</select>
 	<!--  根据广告版块类别编号查询图片宽高 -->
