@@ -109,9 +109,9 @@
 					<div class="owl-wrapper"
 						th:style="|width: ${recommendStidByOneList.size()*400*2}px; left: 0px; display: block; transition: all 800ms ease 0s; transform: translate3d(0px, 0px, 0px);|">
 						<div class="owl-item" style="width: 400px;"
-							th:each="temp,iter : ${recommendStidByOneList}" th:onclick="'javascript:advertisementParam('+${temp.aid}+','+${temp.price}+')'">
+							th:each="temp,iter : ${recommendStidByOneList}" th:onclick="'javascript:advertisementParam('+${temp.aid}+','+${temp.price}+','+${temp.state}+')'">
 							<div class="item" >
-								<a href="javascript:void(0);">
+								<a  th:href="${temp.state==1?'/lhq/api/orderAdvertise':'javascript:void(0);'}" th:attr="data-start=${temp.getState()}" >
 									<div class="star_img">
 										<img th:src="${temp.aimgPath}" th:alt="${temp.atitle}">
 									</div>
@@ -889,15 +889,16 @@
 
 
 <script type="text/javascript">
-
-function advertisementParam(aid,price){
+//$(".datapath").attr("data-start");
+function advertisementParam(aid,price,state){
 	
-	alert("点击:"+"aid:"+aid+",price:"+price);
-	window.sessionStorage.setItem("aid",aid);
-	//showAlertDialog("广告位申请成功");
-	window.loaction.href='/lhq/api/orderAdvertise';
-	//showWindowDialog('/lhq/api/orderAdvertise','会员信息');
-	//window.location.href = "/advertisementapply.html";
+	alert("点击:"+"aid:"+aid+",price:"+price+",state:"+state);
+	if(state!=2 && price!=null && aid!=null){
+		window.sessionStorage.setItem("aid",aid);
+		window.sessionStorage.setItem("price",price);
+	}else{
+		alert("在租用期不可租用");
+	}
 }
 
 </script>

@@ -4,67 +4,73 @@
 <meta charset="UTF-8">
 <title>预定广告位</title>
 <link rel="stylesheet" th:href="@{/Public/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/Public/css/common.css}" />
+<link rel="stylesheet" th:href="@{/Public/css/owl.carousel.css}" />
+<style type="text/css">
+   input{
+      width: 10rem;
+   }
+</style>
 </head>
 <body>
-	<form action="/lhq/mvc/addAdvertisementApply"
-		id="modifyAdvertise" class="form-horizontal" method="post"
-		enctype="multipart/form-data">
-		<input type="hidden" name="userID" value="22">
-		<input type="hidden" name="aid" value="22">
+	<form action="/lhq/mvc/addAdvertisementApply" id="modifyAdvertise"
+		class="form-horizontal" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="userID" value="22"> <input
+			type="hidden" name="aid" value="22">
 		<div class="form-group">
-			<label for="txtName" class="col-md-2 control-label">广告标题：</label>
+		<!-- 	<label for="txtName" class="col-md-2 control-label">广告标题：</label>
 			<div class="col-md-8">
-				<input type="text" class="form-control" id="txtName" placeholder="">
-			</div>
+				<input type="text" style="width: 35rem" class="form-control" id="txtName" placeholder="">
+			</div> -->
 		</div>
 		<div class="form-group">
 			<label for="txtName" class="col-md-2 control-label">开始时间</label>
 			<div class="col-md-8">
-				<input name="startTime" type="date" class="form-control"
+				<input name="startTime" type="date" style="width: 35rem" class="form-control"
 					placeholder="">
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="txtName" class="col-md-2 control-label">结束时间</label>
+			<label for="txtName" class="col-md-2 control-label" >结束时间</label>
 			<div class="col-md-8">
-				<input name="endTime" onclick="jsdate()" type="date" class="form-control"
-					placeholder="">
+				<input name="endTime" onclick="jsdate()" type="date"  style="width: 35rem"
+					class="form-control" placeholder="">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="txtName" class="col-md-2 control-label">租赁天数</label>
 			<div class="col-md-8">
-				<input name="rentAMonth" type="text" class="form-control"
+				<input name="rentAMonth" type="text" class="form-control" style="width: 35rem"
 					placeholder="">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="txtName" class="col-md-2 control-label">所需金币</label>
 			<div class="col-md-8">
-				<input name="price" type="text" class="form-control" placeholder="">
+				<input name="price" type="text" style="width: 35rem;clear:both;" class="form-control" placeholder="">
+				&nbsp;元&nbsp;<span>(</span><span class="monthPrice" style="color: red"></span><span>&nbsp;元/天)</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="txtName" class="col-md-2 control-label">图片</label>
-				<div class="col-md-8">
-					<input name="Img1" type="file" id="shopimgData"
-						style="display: none;"><img class="images" src="" style="display: none;"
-						width="100">&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="javascript:void(0);" class="sel_file_a" id="picbt3"
-							onclick="shopimgData.click();">上传图片</a>
-				
-				</div>
+			<div class="col-md-8">
+				<input name="Img1" type="file" id="shopimgData" 
+					style="display: none;"><img class="images" src=""
+					style="display: none;" width="100">&nbsp;&nbsp;&nbsp;&nbsp; <a
+					href="javascript:void(0);" class="sel_file_a changeButtonName" id="picbt3"
+					onclick="shopimgData.click();">上传图片</a>
+			</div>
 		</div>
 		<div class="form-group">
 			<label for="txtName" class="col-md-2 control-label">PC端链接路径：</label>
 			<div class="col-md-8">
-				<input name="apcUrl"  type="text" class="form-control" placeholder="">
+				<input name="apcUrl" type="text" style="width: 35rem" class="form-control" placeholder="">
 			</div>
 		</div>
-		<div class="form-group">
+	<div class="form-group">
 			<label for="txtName" class="col-md-2 control-label">手机端链接路径:</label>
 			<div class="col-md-8">
-				<input name="aappUrl" type="text" class="form-control" id="txtName"
+				<input name="aappUrl" type="text" style="width: 35rem" class="form-control" id="txtName"
 					placeholder="">
 			</div>
 		</div>
@@ -85,27 +91,20 @@
 <script type="text/javascript" th:src="@{/Public/js/headLeftNav.js}"></script>
 <script type="text/javascript">
 $(function(){
+	var aid=window.sessionStorage.getItem("aid");
+	//var aid=16;
+	var price=window.sessionStorage.getItem("price");
+	$(".monthPrice").html(price);
+	$("[name=aid]").val(aid);
+	alert("点击:"+"aid:"+aid+",price:"+price);
 	
-	/* function jsdate(){
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
-		 Date one;  
-	     Date two;  
-	     long days=0;  
-	         one = df.parse($("[name=startTime]").val());  
-	         two = df.parse($("[name=endTime]").val());  
-	         long time1 = one.getTime();  
-	         long time2 = two.getTime();  
-	         long diff ;  
-	         if(time1<time2) {  
-	             diff = time2 - time1;  
-	         } else {  
-	             diff = time1 - time2;  
-	         }  
-	         days = diff / (1000 * 60 * 60 * 24); 
-	         alert("one:"+one+",two:"+two+",days:"+days);
+	 $("[name=endTime]").change(function(){
+		var startTime=$("[name=startTime]").val();
+		var endTime=$("[name=endTime]").val();
+		alert("点击时间:"+"startTime:"+startTime+",endTime:"+endTime);
 		
-	} */
-	 
+	})
+	
 })
 
 </script>
@@ -132,13 +131,11 @@ $("[type=file]").on("change",
 				var base64Data = this.result;//获得base编码字符串格式
 				el.next().attr("src",base64Data).show();
 				el.next().next().find("a").text("重新上传");
-				$("#picbt3").html("");
-				$("#picbt3").html("上传图片");
+				/* $(".changeButtonName").html("");
+				$(".changeButtonName").html("上传图片"); */
 			};
-			var img=$(".images").attr("src");
-			
-				$("#picbt3").html("");
-				$("#picbt3").html("更换图片");
+				$(".changeButtonName").html("");
+				$(".changeButtonName").html("更换图片");
 		
 		}
 	);

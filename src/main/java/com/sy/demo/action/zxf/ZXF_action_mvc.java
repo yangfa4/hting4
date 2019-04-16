@@ -66,10 +66,9 @@ public class ZXF_action_mvc {
 		String path = "zxf//sjzx-index"; // 默认url《商家中心》
 		if (uid != null) {
 			us = biz.queryby(uid); // 获取当前登录用户信息
-		
 		}
 		session.setAttribute("user", us);
-	
+
 		session.setAttribute("system", biz.Querysystem().get(0));
 		if (us.getAuditStatus() == 2) { // 2：是商家
 			mod.addAttribute("servicetype", biz.QueryservicetypeAll());

@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,8 +42,8 @@ public class orderAdvertisementApplyAction {
 	@PostMapping("addAdvertisementApply")
 	public String shrz(Integer userID,Integer aid,String apcUrl,String aappUrl,float price,Integer rentAMonth,String startTime ,
 			String endTime,
-			MultipartFile Img1) throws Exception {
-		
+			MultipartFile Img1,HttpSession session) throws Exception {
+		User use=(User) session.getAttribute("USER");
         System.out.println("输出userID:"+userID+",apcUrl:"+apcUrl+",price:"+price+",startTime:"+startTime);
 		String path = null;// 文件路径	
 		String fileName = Img1.getOriginalFilename();// 文件原名称
@@ -54,7 +56,6 @@ public class orderAdvertisementApplyAction {
              if ("GIF".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase())) {
                  // 项目在容器中实际发布运行的根路径
                String realPath = "F://image/";
-        
                  // 自定义的文件名称
                  String trueFileName = String.valueOf(System.currentTimeMillis()) + "." + type;
                  System.out.println("自定义的文件名称"+trueFileName);
