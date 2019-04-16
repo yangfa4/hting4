@@ -58,7 +58,7 @@ public class ForumAction {
 		model.addAttribute("lname", biz.findTitleName(pid));
 		model.addAttribute("Page_list", biz.findPostList(pid, title, forumid, orderId, essence, p, s));
 		User u=biz.findUserInfo(26);
-		session.setAttribute("USER", u);
+		
 		return "hx/lt-forum";
 	}
 	/**
@@ -280,15 +280,21 @@ public class ForumAction {
 	@GetMapping("MyPost")
 	public String Mypost(HttpSession session,Model model,Integer type,@RequestParam(required=false)String title,@RequestParam(defaultValue="1") Integer p) {
 		User u=(User)session.getAttribute("USER");
-		 PageInfo<PostVo> mypost = null;
-		List<Forummanagement> list=biz.findBlock();
-		if(type==1) {
-			mypost=biz.findUserPost(p, 5, u.getUserID(), title);
-		}else if(type==2) {
-			mypost=biz.findUserCollect(p, 5, u.getUserID(), title);
-		}else if(type==3) {
-			mypost=biz.findUserComment(p, 5, u.getUserID(), title);
+		PageInfo<PostVo> mypost = null;
+		if(u==null) {
+			return "szy-login";
+		}else {
+			if(type==1) {
+				mypost=biz.findUserPost(p, 5, u.getUserID(), title);
+			}else if(type==2) {
+				mypost=biz.findUserCollect(p, 5, u.getUserID(), title);
+			}else if(type==3) {
+				mypost=biz.findUserComment(p, 5, u.getUserID(), title);
+			}	
 		}
+		 
+		List<Forummanagement> list=biz.findBlock();
+		
 		model.addAttribute("LIST",list);
 		model.addAttribute("MYPOST", mypost);
 		return "hx/lt-myforum";
