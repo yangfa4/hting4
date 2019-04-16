@@ -18,7 +18,7 @@ public class OrderQuantity {
 	private int cancelservice;// 服务取消
 	private int getmoneyend; // 已退款
 	private int duegetmoneyend;// 未接单
-	// 1待付款2待接单3待提供服务4已提供服务6服务完成6服务取消7未接单8已退款
+	// 1待付款2待接单3待提供服务4已提供服务5服务完成6服务取消7未接单8已退款
 	public int getAllorder() {
 		return allorder;
 	}
