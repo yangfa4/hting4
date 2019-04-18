@@ -32,24 +32,32 @@ public class AdvertisementAction {
 	@Autowired
 	private AdvertisementBiz advertiseBiz;
 	
-	
 	/**
 	 * MVC:首页地址
 	 * @param model
 	 * @return
 	 */
 	@GetMapping("homeUrl")
-	public String queryHome(Model model) {
+	public String queryHome(Model model,HttpSession session) {
 		//1.首页轮播图,2.首页社区服务中间广告位查询,3.首页社区上方左右广告位查询
 		//4.首页社区下方广告位查询
+		User use=(User) session.getAttribute("USER");
+		System.out.println("用户信息2222："+use);
 		List<AdvertisementVO> listVo=advertiseBiz.queryByAtid(1);
 		
 	    List<AdvertisementVO> homeSlideshowList =listVo;
 	    for (AdvertisementVO advertisementVO : homeSlideshowList) {
 			System.out.println("输出AappUrl："+advertisementVO.getAimgPath());
 		}
+	    
 		//首页社区服务中间广告位查询
+	    System.out.println("输出中间：");
 		List<AdvertisementVO> homeMidAdvertingList=advertiseBiz.queryByAtid(2);
+		
+		for (AdvertisementVO advertisementVO : homeMidAdvertingList) {
+			System.out.println("输出中间："+advertisementVO.getAtitle());
+		}
+		System.out.println("输出中间：");
 		//首页社区上方左右广告位查询
 		List<AdvertisementVO> homeTopAdvertingList=advertiseBiz.queryByAtid(3);
 		//首页社区下方广告位查询
@@ -95,8 +103,7 @@ public class AdvertisementAction {
 	
 	@GetMapping("homeUrlOrder")
 	public String queryHomeOrder(Model model) {
-		//1.首页轮播图,2.首页社区服务中间广告位查询,3.首页社区上方左右广告位查询
-		//4.首页社区下方广告位查询
+		//1.首页轮播图
 		List<AdvertisementVO> listVo=advertiseBiz.queryByAtid(1);
 		
 	    List<AdvertisementVO> homeSlideshowList =listVo;
@@ -163,54 +170,10 @@ public class AdvertisementAction {
 		return  "lhq/advertiseapply";
 	}
 	
-	@PostMapping("addAdvertisementApply")
-	public String merchantMove(HttpSession session,String aimgPath) {
-		System.out.println("申请");
-		try {
-			//String showimgPath = Upload.uploadFile(aimgPath);
-			System.out.println("图片路径"+aimgPath);
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//User loginUser = (User)session.getAttribute("USER");	//登录用户
-		/*float bond = biz.queryBond();	//入驻缴纳保证金金额要求
-		if(loginUser.getUsermoney()>=bond) {	//如果当前登录用户的金额足够缴纳保证金
-			if(serviceID.split(",").length==2) {	//如果用户选择的服务类别为两个
-				user.setFirstserviceid(Integer.parseInt(serviceID.split(",")[0]));
-				user.setSecondserviceid(Integer.parseInt(serviceID.split(",")[1]));	
-			}else {
-				user.setFirstserviceid(Integer.parseInt(serviceID));
-			}
-			try {
-				String shopimgDataFName = Upload.uploadFile(shopimgData);
-				String identitypositiveimgDataFName = Upload.uploadFile(identitypositiveimgData);
-				String identitynegativeimgDataFName = Upload.uploadFile(identitynegativeimgData);
-				String identityhandimgDataFName = Upload.uploadFile(identityhandimgData);
-				user.setShopimg(shopimgDataFName);	//设置数据库存储图片路径
-				user.setIdentitypositiveimg(identitypositiveimgDataFName);
-				user.setIdentitynegativeimg(identitynegativeimgDataFName);
-				user.setIdentityhandimg(identityhandimgDataFName);
-				user.setUserid(loginUser.getUserid());//当前登录用户编号赋给修改对象
-			} catch (IllegalStateException | IOException e) {
-				// TODO 自动生成的 catch 块
-				e.printStackTrace();
-			}
-			if(biz.merchantMove(user,bond)>0) {//商家入驻受影响行数
-				biz.saveGoldNotes(loginUser.getUserid(), 4, "商家入驻缴纳保证金",-bond , 2);	//添加金币流向记录
-				szyUserBiz.saveXtxx(loginUser.getUserid(), "您好，您已成功提交商家入驻的申请，请等待管理员审核。");
-				return "redirect:/sjrz-shzl.html";
-			}else {
-				return "redirect:/Public/error/500.html";
-			}
-		}else {
-			return "redirect:/Public/error/500.html";
-		}*/
-		return null;
+	@GetMapping("outLogin")
+	public String outLogin(HttpSession session) {
+		session.removeAttribute("USER");
+		return "redirect:/zl/szy-login.html";
 	}
 	
 }

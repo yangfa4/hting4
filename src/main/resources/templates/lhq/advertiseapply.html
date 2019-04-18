@@ -1,74 +1,148 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>预定广告位</title>
-		<link rel="stylesheet" th:href="@{/Public/css/bootstrap.min.css}" />
-	</head>
-	<body>
-		<form th:action="@{/lhq/api/addAdvertisementApply}"  id="modifyAdvertise" class="form-horizontal"  method="post"   enctype="multipart/form-data">
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">广告标题：</label>
-				<div class="col-md-8">
-					<input  type="text"  class="form-control" id="txtName" placeholder="">
-				</div>
+<head>
+<meta charset="UTF-8">
+<title>预定广告位</title>
+<link rel="stylesheet" th:href="@{/Public/css/bootstrap.min.css}" />
+<link rel="stylesheet" th:href="@{/Public/css/common.css}" />
+<link rel="stylesheet" th:href="@{/Public/css/owl.carousel.css}" />
+<style type="text/css">
+   input{
+      width: 10rem;
+   }
+</style>
+</head>
+<body>
+	<form action="/lhq/mvc/addAdvertisementApply" id="modifyAdvertise"
+		class="form-horizontal" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="userID" value="22"> <input
+			type="hidden" name="aid" value="22">
+		<div class="form-group">
+		<!-- 	<label for="txtName" class="col-md-2 control-label">广告标题：</label>
+			<div class="col-md-8">
+				<input type="text" style="width: 35rem" class="form-control" id="txtName" placeholder="">
+			</div> -->
+		</div>
+		<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label">开始时间</label>
+			<div class="col-md-8">
+				<input name="startTime" type="date" style="width: 35rem" class="form-control"
+					placeholder="">
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">开始时间</label>
-				<div class="col-md-8">
-					<input name="startTime"  type="date" class="form-control"  placeholder="">
-				</div>
+		</div>
+		<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label" >结束时间</label>
+			<div class="col-md-8">
+				<input name="endTime" onclick="jsdate()" type="date"  style="width: 35rem"
+					class="form-control" placeholder="">
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">结束时间</label>
-				<div class="col-md-8">
-					<input name="endTime"  type="date" class="form-control"  placeholder="">
-				</div>
+		</div>
+		<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label">租赁天数</label>
+			<div class="col-md-8">
+				<input name="rentAMonth" type="text" class="form-control" style="width: 35rem"
+					placeholder="">
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">租赁天数</label>
-				<div class="col-md-8">
-					<input name="rentAMonth"  type="text" class="form-control"  placeholder="">
-				</div>
+		</div>
+		<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label">所需金币</label>
+			<div class="col-md-8">
+				<input name="price" type="text" style="width: 35rem;clear:both;" class="form-control" placeholder="">
+				&nbsp;元&nbsp;<span>(</span><span class="monthPrice" style="color: red"></span><span>&nbsp;元/天)</span>
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">所需金币</label>
-				<div class="col-md-8">
-					<input name="price"  type="text" class="form-control"  placeholder="">
-				</div>
+		</div>
+		<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label">图片</label>
+			<div class="col-md-8">
+				<input name="Img1" type="file" id="shopimgData" 
+					style="display: none;"><img class="images" src=""
+					style="display: none;" width="100">&nbsp;&nbsp;&nbsp;&nbsp; <a
+					href="javascript:void(0);" class="sel_file_a changeButtonName" id="picbt3"
+					onclick="shopimgData.click();">上传图片</a>
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">图片：</label>
-				<div class="col-md-8">
-					<input name="aimgPath"  type="file" class="form-control" placeholder="">
-					<img src="" style="display:none;" width="100">
-						<div class="sel_file_d">
-							<a href="javascript:void(0);" class="sel_file_a" id="picbt3" onclick="aimgPath.click();">上传图片</a>
-					  </div>
-				</div>
+		</div>
+		<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label">PC端链接路径：</label>
+			<div class="col-md-8">
+				<input name="apcUrl" type="text" style="width: 35rem" class="form-control" placeholder="">
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">PC端链接路径：</label>
-				<div class="col-md-8">
-					<input name="apcUrl"  type="text" class="form-control"  placeholder="">
-				</div>
+		</div>
+	<div class="form-group">
+			<label for="txtName" class="col-md-2 control-label">手机端链接路径:</label>
+			<div class="col-md-8">
+				<input name="aappUrl" type="text" style="width: 35rem" class="form-control" id="txtName"
+					placeholder="">
 			</div>
-			<div class="form-group">
-				<label for="txtName" class="col-md-2 control-label">手机端链接路径:</label>
-				<div class="col-md-8">
-					<input name="aappUrl"  type="text" class="form-control" id="txtName" placeholder="">
-				</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-5 col-md-2">
+				<input th:onclick="addAdvertisement()" type="submit" id="save"
+					data-dismiss="modal" class="btn btn-default" value="保存" />
 			</div>
-			<div class="form-group">
-				<div  class="col-sm-offset-5 col-md-2">
-					<input th:onclick="addAdvertisement()" type="submit" id="save" data-dismiss="modal" class="btn btn-default" value="保存" />
-				</div>
-			</div>
-		</form>
-	</body>
-	<script type="text/javascript" th:src="@{/demo/js/jquery-1.12.4.js}" ></script>
+		</div>
+	</form>
+</body>
+<script type="text/javascript"
+	th:src="@{/Public/js/jquery-1.8.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/Public/js/vue.js}"></script>
+<script type="text/javascript"
+	th:src="@{/Public/js/kindeditor/kindeditor-all-min.js}"></script>
+<script type="text/javascript" th:src="@{/Public/js/sessionHeader.js}"></script>
+<script type="text/javascript" th:src="@{/Public/js/headLeftNav.js}"></script>
+<script type="text/javascript">
+$(function(){
+	var aid=window.sessionStorage.getItem("aid");
+	//var aid=16;
+	var price=window.sessionStorage.getItem("price");
+	$(".monthPrice").html(price);
+	$("[name=aid]").val(aid);
+	alert("点击:"+"aid:"+aid+",price:"+price);
 	
-	<!-- <script>
+	 $("[name=endTime]").change(function(){
+		var startTime=$("[name=startTime]").val();
+		var endTime=$("[name=endTime]").val();
+		alert("点击时间:"+"startTime:"+startTime+",endTime:"+endTime);
+		
+	})
+	
+})
+
+</script>
+<script type="text/javascript">
+$("[type=file]").on("change",
+		function(e) {
+			//当前元素
+			var el = $(this);
+			var fr = new FileReader();//读取文件
+			var file = this.files[0];//选择第一个文件
+			var _temp = file.name.match(/\.jpg|\.jpeg|\.png|\.gif|\.bmp/i);
+			if (!_temp) {
+				this.value = "";
+				alert("目前只支持jpg,jpeg,bmp,gif,png格式图片文件");
+				return false;
+			} else if (file.size > (1024 * 1024 * 5)) {
+				this.value = "";
+				alert("目前只支持小于5M大小图片文件");
+				return false;
+			}
+			fr.readAsDataURL(file);//读取文件
+			//操作文件事件
+			fr.onload = function() {
+				var base64Data = this.result;//获得base编码字符串格式
+				el.next().attr("src",base64Data).show();
+				el.next().next().find("a").text("重新上传");
+				/* $(".changeButtonName").html("");
+				$(".changeButtonName").html("上传图片"); */
+			};
+				$(".changeButtonName").html("");
+				$(".changeButtonName").html("更换图片");
+		
+		}
+	);
+
+</script>
+
+<!-- <script>
 		//var aid=window.sessionStorage.getItem("aid");
 		var aid=16;
 		var price=24;
