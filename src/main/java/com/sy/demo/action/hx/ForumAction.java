@@ -300,12 +300,7 @@ public class ForumAction {
 		return "hx/lt-myforum";
 	}
 	
-	@GetMapping("login")
-	public String login(HttpSession session) {
-		User u=biz.findUserInfo(26);
-		session.setAttribute("USER", u);
-		return "hx/lt-myforum";
-	}
+	
 	
 	
 	
