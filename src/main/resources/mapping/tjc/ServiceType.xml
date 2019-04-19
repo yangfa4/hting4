@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sy.demo.dao.tjc.IServiceTypeDao">
+
+    <select id="queryServicetypeBystPid" resultType="Servicetype">
+        SELECT * FROM `servicetype`
+        <where>
+            <if test="stPid!=null">stPid = #{stPid}</if>
+        </where>
+    </select>
+
+    <select id="queryServicetypeBystid" resultType="Servicetype">
+        SELECT * FROM `servicetype`  where stid =  #{stid}
+    </select>
+
+    <update id="updateServicetypeBystid">
+        UPDATE
+  `hanting4`.`servicetype`
+SET
+  `stid` = #{st.stid},
+  `stPid` = #{st.stPid},
+  `stName` =#{st.stName},
+  `sort` = #{st.sort},
+  `display` = #{st.display},
+  `operationTime` = #{st.operationTime},
+  `confirmTime` = #{st.confirmTime},
+  `violatedNumber` = #{st.violatedNumber},
+  `proportion` = #{st.proportion},
+  `toExamine` = #{st.toExamine},
+  `advertisement` = #{st.advertisement}
+WHERE `stid` = #{st.stid};
+    </update>
+
+    <delete id="delServicetypeBystid">
+DELETE
+FROM
+  `hanting4`.`servicetype`
+WHERE `stPid` = #{stid};
+        DELETE
+FROM
+  `hanting4`.`servicetype`
+WHERE `stid` = #{stid};
+    </delete>
+
+    <insert id="addServicetype">
+INSERT INTO `hanting4`.`servicetype` (
+
+  `stPid`,
+  `stName`,
+  `sort`,
+  `display`,
+  `operationTime`,
+  `confirmTime`,
+  `violatedNumber`,
+  `proportion`,
+  `toExamine`,
+  `advertisement`
+)
+VALUES
+  (
+
+    #{st.stPid},
+   #{st.stName},
+    #{st.sort},
+    #{st.display},
+    #{st.operationTime},
+    #{st.confirmTime},
+    #{st.violatedNumber},
+    #{st.proportion},
+    #{st.toExamine},
+    #{st.advertisement}
+  );
+
+    </insert>
+
+
+</mapper>

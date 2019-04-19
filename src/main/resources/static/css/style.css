@@ -1,0 +1,113 @@
+body {
+	font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica,
+		sans-serif;
+	color: #4f6b72;
+	background: #E6EAE9;
+	margin: 8px;
+}
+
+h1 {
+	display: block;
+	font-size: 2em;
+	margin-block-start: 0.67em;
+	margin-block-end: 0.67em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+	font-weight: bold;
+}
+
+a {
+	color: #c75f3e;
+	text-decoration: none;
+}
+
+.ys {
+	display: inline-block;
+	padding: .3em .5em;
+	background-image: linear-gradient(#ddd, #bbb);
+	border: 1px solid rgba(0, 0, 0, .2);
+	border-radius: .3em;
+	box-shadow: 0 1px white inset;
+	text-align: center;
+	text-shadow: 0 1px 1px black;
+	color: white;
+	font-weight: bold;
+}
+
+.ys:active {
+	box-shadow: .05em .1em .2em rgba(0, 0, 0, .6) inset;
+	border-color: rgba(0, 0, 0, .3);
+	background: #bbb;
+}
+
+#mytable {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+caption {
+	padding: 0 0 5px 0;
+	width: 700px;
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-align: right;
+}
+
+th {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA no-repeat;
+	text-align: center;
+}
+/*power by www.winshell.cn*/
+th.nobg {
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+}
+
+td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	font-size: 11px;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+/*power by www.winshell.cn*/
+td.alt {
+	background: #F5FAFA;
+	color: #797268;
+}
+
+th.spec {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #fff no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+th.specalt {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #797268;
+}
+/*---------for IE 5.x bug*/
+html>body td {
+	font-size: 11px;
+}
+
+body, td, th {
+	font-family: ËÎÌו, Arial;
+	font-size: 12px;
+}

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sy.demo.dao.tjc.IPersonalDao">
+    <select id="queryUserById" resultType="User">
+        select * from user where userId = #{id}
+    </select>
+
+    <select id="queryOrdersByIdAndStatusId" resultType="com.sy.demo.vo.tjc.OrderDetail">
+        SELECT * FROM orders o
+        JOIN services  s
+        ON o.`serviceID`=s.`serviceID`
+
+        WHERE o.userId = #{uid}
+        and o.orderStatus =#{statusId}
+        ORDER BY o.orderTime DESC
+
+    </select>
+
+    <select id="queryOrderByOid" resultType="com.sy.demo.vo.tjc.OrderDetail">
+        SELECT * FROM orders o
+        JOIN services  s
+        ON o.`serviceID`=s.`serviceID`
+        JOIN USER u
+        ON s.`userID`=u.`userID`
+        JOIN servicetype  st
+        ON  s.`stid`=st.stid
+        WHERE o.orderID = #{oid}
+    </select>
+
+    <update id="orderPay">
+        UPDATE  orders
+        SET
+            paymentTime=NOW(),
+            orderStatus = 2
+        WHERE orderId= #{oid};
+
+        UPDATE USER
+        SET
+            userMoney = userMoney-#{totalPrice},
+            userIntegral = userIntegral+#{Integral}
+        WHERE userID = #{uid}
+    </update>
+
+    <update id="orderCancel">
+        UPDATE orders
+        SET orderStatus = 6
+        WHERE orderID = #{oid}
+    </update>
+
+    <select id="queryMyCollectByUid" resultType="com.sy.demo.vo.tjc.CollectVo">
+        SELECT * FROM `servicecollection` sc
+         JOIN services s
+         ON sc.`serviceID`=s.`serviceID`
+         JOIN `user` u
+          ON u.`userID`=s.`userID`
+        WHERE sc.userID = #{uid}
+        ORDER BY sc.`collectionTime`  DESC
+    </select>
+
+    <insert id="addOrderRefund">
+        INSERT INTO `hanting4`.`refund` (
+
+            `point`,
+            `orderID`,
+            `userID`,
+            `refundReason`,
+            `refundExplain`,
+            `refundImg`,
+            `applyRefundMoney`,
+            `applicationTime`
+        )
+        VALUES
+        (
+            #{refund.point},
+            #{refund.orderID},
+            #{refund.userID},
+            #{refund.refundReason},
+            #{refund.refundExplain},
+            #{refund.refundImg},
+            #{refund.applyRefundMoney},
+            #{refund.applicationTime}
+
+        );
+        UPDATE orders
+        SET refundstatus = 1
+        WHERE orderID =  #{refund.orderID}
+    </insert>
+
+    <select id="queryRefundDetail" resultType="com.sy.demo.vo.tjc.RefundVo">
+        SELECT * FROM refund r
+        JOIN orders  o
+        ON  r.`orderID`=o.`orderID`
+        JOIN services s
+        ON s.serviceID = o.`serviceID`
+        WHERE r.userID = #{uid}
+        ORDER BY applicationTime DESC
+    </select>
+
+    <select id="queryRefundDetailByOid" resultType="com.sy.demo.vo.tjc.RefundVo">
+        SELECT * FROM refund r
+        JOIN orders  o
+        ON  r.`orderID`=o.`orderID`
+        JOIN services s
+        ON s.serviceID = o.`serviceID`
+        JOIN USER U
+        ON U.`userID` = r.`userID`
+        WHERE o.orderID = #{oid}
+    </select>
+
+    <update id="applyAdmin">
+        UPDATE refund
+        SET POINT = 2,
+            adminStatus=1
+        WHERE refundID = #{rid};
+
+
+        UPDATE orders
+        SET refundstatus=3
+        WHERE orderID = #{oid}
+    </update>
+</mapper>

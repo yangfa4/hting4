@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sy.demo.dao.tjc.IDriveDao">
+
+   <select id="queryCountries" resultType="Sharea">
+       SELECT *FROM `sharea`  WHERE LEVEL = 0
+   </select>
+
+    <select id="queryCities" resultType="Sharea">
+        SELECT * FROM sharea  WHERE pid = #{id}
+    </select>
+
+    <select id="queryLevel" resultType="Servicelevel">
+        SELECT * FROM `servicelevel` WHERE stid = #{id}
+    </select>
+
+    <select id="queryServices" resultType="com.sy.demo.vo.tjc.ServiceDetail">
+      
+        
+        SELECT * FROM services s
+        JOIN `USER` u ON s.userId = u.userId
+	    JOIN sharea sh ON sh.areaId = u.liveCityID
+    
+        WHERE s.stid =#{stid}
+        AND s.auditStatus =2
+        ORDER BY s.releaseTime DESC
+    </select>
+
+    <select id="queryOrderCount" resultType="int">
+      SELECT COUNT(*) FROM Orders WHERE serviceId=#{id}
+    </select>
+
+    <select id="querySd" resultType="com.sy.demo.vo.tjc.ServiceDetail">
+        SELECT * FROM services s
+        JOIN USER u ON s.userId = u.userId
+	    JOIN sharea sh ON sh.areaId = u.liveCityID
+        WHERE s.serviceID = #{id}
+        AND s.auditStatus =2
+        ORDER BY s.releaseTime DESC
+    </select>
+
+    <select id="queryCollectCount" resultType="int">
+        SELECT COUNT(*) FROM `servicecollection` WHERE serviceId = #{id}
+    </select>
+
+    <select id="queryCollectByUidAndSid" resultType="Servicecollection">
+        SELECT * FROM `servicecollection` 
+        WHERE userId = #{uid}  AND serviceId=#{sid}
+    </select>
+    
+    <insert id="addCollect">
+        INSERT INTO `hanting4`.`servicecollection` (
+          `serviceID`,
+          `userID`
+        )
+        VALUES
+          (
+            #{sid},
+            #{uid}
+          );
+    </insert>
+
+    <delete id="delCollet">
+        DELETE
+        FROM
+          `hanting4`.`servicecollection`
+        WHERE `serColleID` = #{id};
+    </delete>
+
+    <insert id="addOrder">
+        INSERT INTO `hanting4`.`orders` (
+            `orderID`,
+            `userID`,
+            `serviceID`,
+            `orderTime`,
+            `remarks`,
+            `scheduledStartTime`,
+            `scheduledEndTime`,
+            `population`,
+            `totalPrice`,
+            `orderStatus`
+        )
+        VALUES
+        (
+            #{order.orderID},
+            #{order.userID},
+            #{order.serviceID},
+            #{order.orderTime},
+            #{order.remarks},
+            #{order.scheduledStartTime},
+            #{order.scheduledEndTime},
+            #{order.population},
+            #{order.totalPrice},
+            #{order.orderStatus}
+        );
+    </insert>
+</mapper>

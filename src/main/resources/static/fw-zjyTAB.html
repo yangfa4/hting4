@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>自驾游_韩汀社区</title>
+		<link rel="stylesheet" href="public/css/common.css" />
+		
+		<style type="text/css">
+			.tubiao img{
+				height: 18px;
+			    width: 18px;
+			    margin-right: 19px;
+			}
+			.login_right{
+				margin-left: 1000px;
+			}
+		</style>
+	</head>
+	<body>
+		<iframe name="topost" id="topost" style="display:none;"></iframe>
+		<!--header-->
+		<div class="header" id="botop">
+				<div class="h_top">
+				<div class="b_box">
+					<div class="top_nav"><a href="javascript:void(0)">首页</a><span class="ht_line"></span><a href="#">商家入驻</a><span class="ht_line"></span><a href="javascript:void(0)Home/About/help.html">帮助中心</a><span class="ht_line"></span><a href="javascript:void(0)Home/About/index.html">关于韩汀</a><span class="ht_line"></span><a href="javascript:void(0)Home/About/contact.html">联系我们</a></div>
+					<div class="login_right">
+						<a href="javascript:void(0)">登录</a>			<span class="ht_line"></span>
+						<a href="javascript:void(0)">退出</a>
+		            	<span class="ht_line"></span><a href="javascript:void(0)Home/Member/sms.html"><img src="Public/images/e_i.png" alt=""></a>
+					</div>
+				</div>
+			</div>
+		    <div class="b_box nav_header community_header">
+				<a href="javascript:void(0)" class="logo logo_community">御品韩汀.社区</a>
+				<ul class="nav_ul">
+					<li class="cur"><a href="javascript:void(0)"><span class="community_sp csp1"></span><br>自驾游</a></li>
+					<li><a href="javascript:void(0)"><span class="community_sp csp2"></span><br>微整形</a></li>
+					<li><a href="javascript:void(0)"><span class="community_sp csp3"></span><br>留学中介</a></li>
+					<li><a href="javascript:void(0)"><span class="community_sp csp4"></span><br>韩语翻译</a></li>
+					<li><a href="javascript:void(0)"><span class="community_sp csp5"></span><br>学习资源</a></li>
+					<li><a href="javascript:void(0)"><span class="community_sp csp6"></span><br>韩汀物流</a></li>
+					<li><a href="javascript:void(0)"><span class="community_sp csp7"></span><br>韩汀·论坛 中文</a></li>
+				</ul>
+			</div>     
+		</div>
+
+		<!--banner-->
+		<div class="other_banner banner_1" style="background:url(Uploads/desc/2017-01/20170105010410-93736.jpg) center center"></div>
+		<!--banner end-->
+
+		<a href="javascript:void(0)Home/About/help.html" target="_blank" class="zy_box">预定流程指引</a>
+
+		<div class="bg_c2 pt1" id="vmCnt">
+			<div class="b_box">
+				<dl class="community_dl">
+					<dt>韩汀自驾游，去哪不用愁</dt>
+					<dd>
+						<div class="search_sec">
+							<form method="post" action="javascript:void(0)Home/Service/learning.html"><input type="text" name="findkey" placeholder="自驾游搜索" class="s_sec_input"><input type="button" class="s_sec_btn" @click="queryServices(1)"><input type="hidden" name="__hash__" value="d2d1b9e1875b57e5099abeb8716d7882_a89ff3f6a76adff42855327dbb39b670"></form>
+						</div>
+					</dd>
+				</dl>
+		
+				<div class="sel_box">
+					<dl class="sel_dl_box">
+						<dt><span class="sel_sp ss1"></span>时间</dt>
+						<dd>
+							<form method="post" action="javascript:void(0)" >
+								<input name="startDate" type="date" /><span class="z_span">至</span><input name="endDate" type="date"/>
+								<input type="button" value="搜索" class="submit_c" name="timeSel">
+							</form>
+						</dd>
+					</dl>
+					<dl class="sel_dl_box" style="display:block;">
+						<dt><span class="sel_sp ss4"></span>国家</dt>
+						<dd>
+							<a class="cur" href="javascript:void(0);" id="countryAll"> 全部</a>
+							<a  v-for="(temp,index) in Countries" href="javascript:void(0);" v-text="temp.name" @click="queryCities(temp.areaID)">中国</a>
+						</dd>
+						<dd>
+						</dd>
+					</dl>
+					<dl class="sel_dl_box" id="city" style="display:none;">
+						<dt><span class="sel_sp ss2"></span>城市</dt>
+						<dd>
+							<a class="cur" href="javascript:void(0);" id="cityAll"> 全部</a>
+							<a href="javascript:void(0);" id="cityAll" v-for="(temp,index) in Cities" v-text="temp.mergerName" @click="queryCities(temp.areaID)">全部</a>
+						</dd>
+					</dl>
+					<dl class="sel_dl_box tubiao" >
+						<dt><span><img src="Public/Wap/images/fenlei.png"></span>类别</dt>
+						<dd>
+							<a class="cur" href="javascript:void(0);" id="typeAll">全部</a>
+							<a v-for="(temp,index) in Services.list" v-text="temp.stName" style="cursor: pointer;" @click="querySecondService(temp.stid)">全部</a>
+						</dd>
+					</dl>
+					<dl class="sel_dl_box sonType" style="display:none;">
+						<dt><span><img src="public/Wap/images/zilei.png"></span>子类别</dt>
+						<dd>
+							<a class="cur" style="cursor: pointer;">全部</a>
+							<a style="cursor: pointer;" v-for="(temp,index) in SecondServices.list" v-text="temp.stName">韩语初级资料</a>			
+						</dd>
+					</dl>
+					<dl class="sel_dl_box" >
+						<dt><span class="sel_sp ss3"></span>级别</dt>
+						<dd>
+							<a class="cur" href="javascript:void(0);" id="levelAll">全部</a>
+							<a v-for="(temp,index) in Levels" v-text="temp.serlevelName" style="cursor: pointer;">钻石商家</a>
+						</dd>
+					</dl>
+					<dl class="sel_dl_box">
+						<dt><span class="sel_sp ss4"></span>鉴定</dt>
+						<dd data-id="0"><a class="cur" href="javascript:void(0);" id="authenticationAll" data-id="0">全部</a>
+
+						<a href="javascript:void(0);" data-id="1">官方鉴定</a>
+						<a href="javascript:void(0);" data-id="2">商家自营</a></dd>
+					</dl>
+				</div>
+				
+				<ul class="rank_ul">
+					<li class="cur" id="synthesizeOrderBy"><a href="javascript:void(0);">综合排序</a></li>
+		            <li id="pop"><a href="javascript:void(0);">人气<span class="rank_i"></span></a></li>
+		            <li id="price"><a href="javascript:void(0);">价格<span class="rank_i"></span></a></li>
+				</ul>
+				
+		        <div class="rank_box" >
+		        	<ul class="rank_list_ul" >
+						<li v-for="(temp,index) in PageServices.list">
+		                	<a  class="rank_one_a">
+			                    <div class="star_img">
+			                    	<img style="z-index:3;position: absolute;" src="Public/images/tj.png" width="50" height="50"> 
+			                    	<img  width="380" height="254" :src="'Uploads/image/2019-3/'+temp.serviceCoverImg" @click="detail(temp.serviceID)">
+			                    </div>
+			                    <dl class="rank_text_dl">
+			                    	<dt v-text="temp.serviceTitle">测试资源主标题</dt>
+			                        <dd>
+			                        	<div class="i_3" v-text="temp.servicePrice">100</div>
+			                        	<div class="star_pl">
+			                        		<span v-if="temp.merchantLevel==0" class="star_pl_sp" style="width:0%;"></span>
+			                        		<span v-if="temp.merchantLevel==1" class="star_pl_sp" style="width:20%;"></span>
+			                        		<span v-if="temp.merchantLevel==2" class="star_pl_sp" style="width:40%;"></span>
+			                        		<span v-if="temp.merchantLevel==3" class="star_pl_sp" style="width:60%;"></span>
+			                        		<span v-if="temp.merchantLevel==4" class="star_pl_sp" style="width:80%;"></span>
+			                        		<span v-if="temp.merchantLevel==5" class="star_pl_sp" style="width:100%;"></span>
+			                        	</div>
+			                        </dd>
+			                    </dl>
+							</a>
+							<a href="javascript:void(0);" class="rank_sec_a">
+			                    <dl class="star_user_dl">
+			                        <dt>
+			                        	<img  class="star_user_photo" src="Uploads/image/2018-10/20181006080400-28059.jpg">
+		                        		<img src="Public/images/hg_i.png" alt="" class="hg_i l_hi">   
+			                        </dt>
+			                        <dd>
+			                            <div class="star_user_name_s">
+			                            	<h3 class="star_user_name" v-text="temp.userName">小明同学</h3>
+			                            </div>
+			                            <p class="star_user_text" ></p>
+			                        </dd>
+			                    </dl>
+		                    </a>
+		                </li>
+		            </ul>
+		            
+		            <!--page-->
+		            <div class="page_w">
+		            	<div class="page">
+							<div class="nav">
+								<a class="page_prev prevdisabled" href="javascript:void(0);" >上一页</a>
+									<span >1</span>
+									<a  >2</a> 
+								<a  class="page_next" href="javascript:void(0);"  @click="queryServices(pageInfo.nextPage)">下一页</a>
+							</div>                
+						</div>
+		            </div>
+		            <!--page end-->
+		        </div>
+				
+					<!--ad-->
+				<div class="ad_box2">
+				<a href=""><img src="Uploads/adv/2018-04/20180414123932-28064.jpg" alt="底部广告 说吧"></a>	</div>
+				<!--ad end-->
+			</div>
+		</div>
+
+
+<div class="b_box"></div>
+
+<!--footer-->
+<div class="footer community_footer_dl">
+	<dl class="footer_dl">
+		<dt>
+		<div class="footer_ewm_box"><img src="Public/images/footer_ewm.png" alt=""></div>
+			<span class="ft_ewm_name">御品韩汀</span>
+		</dt>
+		<dd>
+			<p class="flink"><a href="javascript:void(0)Home/Member/seller.html">商家入驻</a>|<a href="javascript:void(0)Home/About/help.html">帮助中心</a>|<a href="javascript:void(0)Home/About/index/key/jobs.html">人才招聘</a>|<a href="javascript:void(0)Home/About/contact.html">联系我们</a>|<a href="javascript:void(0)Home/About/sitemap.html">网站地图</a>|<a href="javascript:void(0)Home/About/terms.html">使用条款</a></p>
+			<p>湘ICP备16017200号-2 | 地址：湖南省株洲市天元区丽景滨江二栋2502号 |网站负责人：夏先生 |   邮编：412000</p>
+
+			<p>官方QQ：3119683838 | 微信公众号：御品韩汀 | 官网邮箱：3119683838@qq.com | 官方热线电话：0731-2286-7673</p>
+
+			<p>Copyright © 2017 - 2018 yphting.com 版权所有</p>		</dd>
+	</dl>
+</div>
+<!--footer end-->
+
+<!--right nav-->
+<ul class="right_nav">
+	<li><a href="javascript:void(0);" class="rn_tel">客服电话</a><div class="over_show kf_tel">0731-2286-7673</div></li>
+	<li><a href="javascript:void(0);" class="rn_wx">官方微信</a><div class="over_show"><img src="Public/images/r_ewm.jpg" alt="" class="gw_ewm"></div></li>
+	<li><a href="tencent://Message/?Uin=3119683838&amp;websiteName=http://yphting.zglxkj.com=&amp;Menu=yes" class="rn_kf">在线客服</a></li>
+	<li><a href="#" class="rn_top" style="display: none;">Back top</a></li>
+</ul>
+
+</body>
+	<script type="text/javascript " src="Public/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="Public/js/vue.js"></script>
+	<script type="text/javascript">
+		
+		/*获取一级菜单Id【删除】*/
+		window.sessionStorage.setItem("fmid",3);
+		var fmid = window.sessionStorage.getItem("fmid");		
+		/*获取用户Id【删除】*/
+		window.sessionStorage.setItem("uid",4);
+		var uid = window.sessionStorage.getItem("uid");
+		
+		
+		var	vmCnt = new Vue({
+			el:"#vmCnt",
+			data:{
+				Countries:[],
+				Services:{},
+				Levels:[],
+				Cities:[],
+				SecondServices:{},
+				PageServices:{}
+			},
+			methods:{
+				queryCountries:function(){
+					myVm = this;
+					$.getJSON("/api/queryCountries",function(jason){
+						myVm.Countries=jason;
+					})
+				},
+				queryServices:function(fmid){
+					myVm = this;
+					$.getJSON("/api/queryServicetypeBystPid/1/100/"+fmid,function(jason){
+						myVm.Services=jason;
+					});
+				},
+				queryLevel:function(fmid){
+					myVm = this;
+					$.getJSON("/api/queryLevel/"+fmid,function(jason){
+						myVm.Levels=jason;
+					});
+				},
+				queryCities:function(id){
+					myVm = this;
+					$.getJSON("/api/queryCities/"+id,function(jason){
+						if(jason.length>0){
+							myVm.Cities=jason;
+							$("#city").show();
+						}
+						
+					});
+				},
+				querySecondService:function(id){
+					myVm = this;
+					$.getJSON("/api/queryServicetypeBystPid/1/100/"+id,function(jason){
+						if(jason.list.length>0){
+							$(".sonType").show();
+							myVm.SecondServices=jason;
+						}
+						
+					});
+				},
+				querypageServices:function(fmid){
+					myVm = this;
+					$.getJSON("/api/queryServices/1/6/"+fmid,function(jason){
+						myVm.PageServices=jason;
+					});
+				},
+				detail:function(serviceId){
+					/*根据服务Id查详情*/
+					window.sessionStorage.setItem("serviceId",serviceId);
+					location.href="fw-zjyXQ.html";
+				}
+				
+				
+			},
+			created:function(){
+				/*查询所有国家*/
+				this.queryCountries();
+				this.queryServices(fmid);
+				this.queryLevel(fmid);
+				this.querypageServices(fmid);
+			}
+		})
+		
+		
+		
+		
+		
+	</script>
+
+</html>

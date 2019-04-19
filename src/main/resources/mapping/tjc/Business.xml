@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sy.demo.dao.tjc.IBusinessDao">
+
+    <select id="queryAllRefund" resultType="com.sy.demo.vo.tjc.RefundVo">
+
+        SELECT * FROM refund r
+        JOIN orders  o
+        ON  r.`orderID`=o.`orderID`
+        JOIN services s
+        ON s.serviceID = o.`serviceID`
+        WHERE s.userID = #{sid}
+        ORDER BY applicationTime DESC
+    </select>
+
+    <update id="agreeRefund">
+        UPDATE refund
+        SET
+            auditStatus = 2,
+            auditTime = #{handleTime}
+        WHERE refundID = #{rid};
+
+        UPDATE orders
+           SET refundstatus = 5
+        WHERE orderID =#{oid};
+
+        UPDATE USER
+        SET
+            userMoney = userMoney+#{money},
+            userIntegral = userIntegral-#{integral}
+        WHERE userID = 24
+
+    </update>
+
+    <update id="disagreeRefund">
+        UPDATE refund
+        SET
+            auditStatus = 3,
+            auditTime = #{handleTime},
+            businessRemarks = #{reason}
+        WHERE refundID = #{rid};
+
+        UPDATE orders
+        SET refundstatus = 2
+        WHERE orderID =#{oid}
+    </update>
+</mapper>

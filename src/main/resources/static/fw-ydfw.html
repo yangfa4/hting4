@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>预订服务_韩汀社区</title>
+		<link rel="stylesheet" href="Public/css/common.css" />
+	</head>
+<body>
+	<iframe name="topost" id="topost" style="display:none;"></iframe>
+
+
+	<!--header-->
+	<div class="header" id="botop">
+			<div class="h_top">
+			<div class="b_box">
+				<div class="top_nav">
+					<a href="/index.php/">首页</a><span class="ht_line"></span><a href="/index.php/Home/Member/seller.html">商家入驻</a><span class="ht_line"></span><a href="/index.php/Home/About/help.html">帮助中心</a><span class="ht_line"></span><a href="/index.php/Home/About/index.html">关于韩汀</a><span class="ht_line"></span><a href="/index.php/Home/About/contact.html">联系我们</a>
+				</div>
+				<div class="top_right login_right">
+					<a href="/index.php/Home/Seller/index.html">透</a>
+					<span class="ht_line"></span>
+					<a href="/index.php/Home/Member/logout.html">退出</a>
+	            	<span class="ht_line"></span>
+	            	<a href="/index.php/Home/Member/sms.html"><img src="Public/images/e_i.png" alt=""></a>
+				</div>
+			</div>
+		</div>
+	    <div class="b_box nav_header community_header">
+			<a href="/index.php/" class="logo logo_community">御品韩汀.社区</a>
+			<h1 class="header_h1">预定服务</h1>
+		</div>        
+	</div>
+
+	<a href="/index.php/Home/About/help.html" class="zy_box">预定流程指引</a>
+
+	<div class="bg_c3 pt1" >
+		<div class="b_box" >
+			<h3 class="yd_sev_h3">预定信息</h3>
+	        <div class="yd_box">
+	        	<table cellpadding="0" cellspacing="0" class="table_d">
+	            	<tbody>
+	            		<tr>
+		                	<td class="yd_t_img" id="serviceImg">
+		                		
+		                	</td>
+		                    <td class="tcel2">
+		                    	<div class="yd_xm_title" ></div>
+		                        <p id="title">标题</p>
+		                        <p id="fuTitle">副标题</p>
+		                        <p><span class="num_1"  id="price">单价</span>&nbsp;
+								<span id="hours"></span>/小时/天
+								</p>
+		                    </td>
+		                  	
+		                    <td  class="tcel3">
+		                    	<p class="c_2">预约开始日期</p>
+		                        <p id="ydDateStart">2018-10-31</p>
+		                    </td>
+		                     <td  class="tcel3">
+		                    	<p class="c_2">预约结束日期</p>
+		                        <p id="ydDateEnd">2018-10-31</p>
+		                    </td>
+				            <td  class="tcel4">
+		                    	<p class="c_2">
+		                    	预约人数
+		                    	</p>
+		                        <p > <span id="ydPersonCount"></span>人</p>
+		                    </td>
+		                    <td  class="tcel5">
+		                    	<p class="c_2">预约天数</p>
+		                        <p><span id="yddateCount"></span>天</p>
+		                    </td>
+						
+		                    <td class="tcel6">
+		                    	<p class="c_2">小计</p>
+		                        <p><span class="num_2" id="priceSum">6</span></p>
+		                    </td>
+		                </tr>
+	            	</tbody>
+	        	</table>
+	        </div>
+	        <form id="formbook" method="post" action="/c/lsm/serReserve" enctype="multipart/form-data">
+		        <div class="yd_info">
+					
+		       		
+		            <div class="fa_part">
+		            	<p>备注留言</p>
+		                <textarea class="text_area_fa" id="remarks" placeholder="预定前请联系客服"></textarea>
+		            </div>
+		        </div>
+		        <!-- 服务编号 -->
+				<input type="hidden" name="serviceID" >
+				<!-- 一级服务类别编号 -->
+				<input type="hidden" name="serviceTypeID" >
+				<!-- 预约开始时间：自驾游 -->
+				<input  type="hidden" name="reserveStartDate" >	
+				<!-- 预约结束时间：自驾游 -->
+				<input  type="hidden" name="reserveEndDate" >
+				<!-- 预约天数：自驾游 -->
+				<input  type="hidden" name="reserveDayCount" >
+				<!-- 预约日期：微整形 -->
+				<input type="hidden" name="reserveDate" >
+				<!-- 人数：自驾游、微整形、留学中介 -->
+				<input  type="hidden" name="personCount" >
+				<!-- 数量：韩语翻译 -->
+				<input type="hidden" name="quantity" >
+				<!-- 小计 -->
+				<input type="hidden" name="subtotal" >
+		        <div class="fa_xz">
+		        	<div class="fa_zf_r">需要支付<span class="jy_num"  id="payNeed">6</span><a href="javascript:void(0);" class="btn_jy_a f22" onclick="submitCheck()">提交预定</a></div>
+		        	<a href="/index.php/Home/About/trading.html" target="_blank" class="jyxz_btn">交易须知</a>
+		        </div>
+		    </form>
+		</div>
+	</div>
+
+<!--footer-->
+<div class="footer community_footer_dl">
+	<dl class="footer_dl">
+		<dt>
+		<div class="footer_ewm_box"><img src="Public/images/footer_ewm.png" alt=""></div>
+			<span class="ft_ewm_name">御品韩汀</span>
+		</dt>
+		<dd>
+			<p class="flink"><a href="/index.php/Home/Member/seller.html">商家入驻</a>|<a href="/index.php/Home/About/help.html">帮助中心</a>|<a href="/index.php/Home/About/index/key/jobs.html">人才招聘</a>|<a href="/index.php/Home/About/contact.html">联系我们</a>|<a href="/index.php/Home/About/sitemap.html">网站地图</a>|<a href="/index.php/Home/About/terms.html">使用条款</a></p>
+			<p>湘ICP备16017200号-2 | 地址：湖南省株洲市天元区丽景滨江二栋2502号 |网站负责人：夏先生 |   邮编：412000</p>
+
+			<p>官方QQ：3119683838 | 微信公众号：御品韩汀 | 官网邮箱：3119683838@qq.com | 官方热线电话：0731-2286-7673</p>
+
+			<p>Copyright © 2017 - 2018 yphting.com 版权所有</p>		</dd>
+	</dl>
+</div>
+<!--footer end-->
+
+<!--right nav-->
+<ul class="right_nav">
+	<li><a href="javascript:void(0);" class="rn_tel">客服电话</a><div class="over_show kf_tel" style="display: none;">0731-2286-7673</div></li>
+	<li><a href="javascript:void(0);" class="rn_wx">官方微信</a><div class="over_show" style="display: none;"><img src="Public/images/r_ewm.jpg" alt="" class="gw_ewm"></div></li>
+	<li><a href="tencent://Message/?Uin=3119683838&amp;websiteName=http://yphting.zglxkj.com=&amp;Menu=yes" class="rn_kf">在线客服</a></li>
+	<li><a href="#" class="rn_top" style="display: none;">Back top</a></li>
+</ul>
+
+
+
+</body>
+	<script type="text/javascript" src="js/jquery-1.12.4.js" ></script>
+	<script type="text/javascript" src="js/vue.js" ></script>
+	<script type="text/javascript" src="js/layui.all.js" ></script>
+	<script type="text/javascript">
+		
+		/*得到预定服务Id*/
+		var id = window.sessionStorage.getItem("ydId");
+		
+		var uid = window.sessionStorage.getItem("uid");
+		
+		var ydDate = window.sessionStorage.getItem("ydDate");
+		
+		/*获得预约天数*/
+		var time = ydDate.split("至");
+		var dateCount = (new Date(time[1]).getTime()-new Date(time[0]))/(1000*60*60*24)+1;
+		
+		/*预定开始日期*/		
+		var ydDateStart =$("#ydDateStart").html(time[0]);
+		/*预定结束日期*/
+	    var ydDateStart = $("#ydDateEnd").html(time[1]);
+		
+		$("#ydPersonCount").text(ydpersonCount);
+		$("#yddateCount").html(dateCount);
+		/*预定人数*/
+		var ydpersonCount = window.sessionStorage.getItem("ydpersonCount");
+		
+		
+		
+		queryServiceById(id);
+
+		
+		function queryServiceById(id){
+			$.getJSON("/api/querySd/"+id,function(data){
+				/*渲染服务基本信息*/
+				$("#serviceImg").append("<img src='Uploads/image/2019-3/"+data.serviceCoverImg +"'/>");
+				$("#title").html(data.serviceTitle);
+				$("#fuTitle").html(data.serviceFuTitle);
+				$("#price").html(data.servicePrice);
+				$("#hours").html(data.serviceHour);
+				/*小计*/
+				$("#priceSum").html($("#price").html()*dateCount);
+				priceSum=$("#payNeed").html($("#priceSum").html());
+				
+			});						
+		}
+		
+		
+		function submitCheck(){
+			//loading层
+			var index = layer.load(3, {
+			shade: [0.2,'#fff'] //0.1透明度的白色背景
+			,time: 2*1000
+			});
+						
+			/*留言内容*/
+			var remakes = $("#remarks").val();
+			var priceSum=$("#payNeed").html();
+			
+			$.getJSON("/api/addOrder/"+priceSum+"/"+uid+"/"+time[0]+"/"+time[1]+"/"+ydpersonCount+"/"+id+"/"+remakes,function(data){
+				
+			});
+			setTimeout(function(){
+				//layer.msg("预定成功!",{ icon: 1, time: 3000 });
+				location.href="grzx-index.html";
+			},3000);
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		jQuery(".right_nav li a.rn_tel, a.rn_wx").hover(function(){
+			jQuery(this).next().show(300);
+		},function(){
+			jQuery(this).next().hide();
+		})
+		jQuery(window).scroll(function() {
+			if(jQuery(window).scrollTop() >= 500) {
+				jQuery(".rn_top").fadeIn(300);
+			} else {
+				jQuery(".rn_top").fadeOut(300);
+			}
+		})
+		jQuery(".rn_top").click(function() {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 500);
+		});
+		
+		
+		//提交预定
+
+	</script>
+	
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+	
+		<meta charset="UTF-8">
+		<title>服务类型管理</title>
+	</head>
+	<style>
+body {
+	font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica,
+		sans-serif;
+	color: #4f6b72;
+	background: #E6EAE9;
+}
+
+a {
+	color: #c75f3e;
+	text-decoration: none;
+}
+
+.ys {
+	display: inline-block;
+	padding: .3em .5em;
+	background-image: linear-gradient(#ddd, #bbb);
+	border: 1px solid rgba(0, 0, 0, .2);
+	border-radius: .3em;
+	box-shadow: 0 1px white inset;
+	text-align: center;
+	text-shadow: 0 1px 1px black;
+	color: white;
+	font-weight: bold;
+}
+
+.ys:active {
+	box-shadow: .05em .1em .2em rgba(0, 0, 0, .6) inset;
+	border-color: rgba(0, 0, 0, .3);
+	background: #bbb;
+}
+
+---------------------
+作者：An丶 
+来源：CSDN 
+原文：https: //blog.csdn.net
+	/AnPHPer/article/details/79480097?utm_source=copy 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+ 
+#mytable {
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+caption {
+	padding: 0 0 5px 0;
+	width: 700px;
+	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	text-align: right;
+}
+
+th {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #4f6b72;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA no-repeat;
+	text-align: center;
+}
+/*power by www.winshell.cn*/
+th.nobg {
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+}
+
+td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	font-size: 11px;
+	padding: 6px 6px 6px 12px;
+	color: #4f6b72;
+}
+/*power by www.winshell.cn*/
+td.alt {
+	background: #F5FAFA;
+	color: #797268;
+}
+
+th.spec {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #fff no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+th.specalt {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa no-repeat;
+	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #797268;
+}
+/*---------for IE 5.x bug*/
+html>body td {
+	font-size: 11px;
+}
+
+body, td, th {
+	font-family: 宋体, Arial;
+	font-size: 12px;
+}
+---------------------
+作者：Clear_Love
+来源：CSDN
+原文：https
+:
+/
+/
+blog.csdn.net
+/
+sminhrosunny
+/
+article
+/
+details
+/
+6625790
+?
+utm_source
+=
+copy
+版权声明：本文为博主原创文章，转载请附上博文链接！ /* table {
+	border-collapse: collapse;
+	margin: 0 auto;
+	text-align: center;
+}
+
+table td, table th {
+	border: 1px solid #cad9ea;
+	color: #666;
+	height: 30px;
+}
+
+table thead th {
+	background-color: #CCE8EB;
+	width: 100px;
+}
+
+table tr:nth-child(odd) {
+	background: #fff;
+}
+
+table tr:nth-child(even) {
+	background: #F5FAFA;
+}
+---------------------
+作者：RoyanWang
+来源：CSDN
+原文：https
+:
+/
+/
+blog.csdn.net
+/
+hello_mr_anan
+/
+article
+/
+details
+/
+70257627
+?
+utm_source
+=
+copy
+版权声明：本文为博主原创文章，转载请附上博文链接！ */
+</style>
+	<body>
+		<div id="listCnt">
+			<div id="first-floor">
+				<h1>服务类别管理</h1>
+				<form method="get" name="search_form" action="/lzkservice/querytype">
+				<table border=0 class="tablesorter" cellSpacing=1 cellPadding=6 width="100%">
+				<tbody>
+					<tr>
+						<td>服务类型：
+						<select name="stid" id="stid" @change="querySecondMenu()">
+		                    <option value="0">所有的</option>
+		                    <option value="1">自驾游</option>
+		                    <option value="2">微整形</option>
+		                    <option value="3">留学中介</option> 
+							<option value="4">韩语翻译</option> 
+							<option value="5">学习资源</option> 
+						</select>
+						
+						<select name="stPid" id="stPid" @change="queryThirdMenu()">
+		                    <option>所有的</option>
+		                    
+						</select>
+						
+					</tr>
+				</tbody>
+				</table>
+				</form>
+			</div>
+			<div id="two-floor">
+					<table id="posts" border=0 class="tablesorter" cellSpacing=1 cellPadding=6 width="100%">
+						<thead>
+							<tr>
+								<th width="80">序号</th>
+								<th width="80">分类名称</th>
+								<th width="80">排序</th>
+								<th width="80">是否显示</th>
+								<th width="80">操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(temp,index) in pageInfo.list">
+								<td align="center" v-text="index+1">1</td>
+								<td align="center" v-text="temp.stName">自驾游</td>
+								<td align="center" ><input type="text" v-model="temp.sort"></td>
+								<td align="center" >
+									<span v-if="temp.display==1">显示</span>
+									<span v-if="temp.display==0">不显示</span>
+									</td>
+								<td align="center" ><a href="javascript:void(0)">修改</a>  <a  href="javascript:void(0)" @click="del(temp.stid)">删除</a></td>
+							</tr>
+						</tbody>
+					</table>
+					 <table id="itemlist" class="tablesorter" border=0 cellSpacing=1 cellPadding=6 width="100%">
+	                <tr>
+	                    <td colspan="8">
+	                        <table width="100%" border="0">
+	                            <tr>
+	                              <td width="33%" >
+	                                    <input id="insert" value="增加栏目" type="submit" name="insert">
+	                                    </td>
+	                                <td width="67%" ></td>
+	                            </tr>
+	                        </table>
+	                    </td>
+	                </tr>
+	          </table>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="js/jquery-1.12.4.js" ></script>
+	<script type="text/javascript" src="js/vue.js" ></script>
+	<script type="text/javascript" src="js/layui.all.js" ></script>
+	
+	<script type="text/javascript">
+		
+
+		
+		var	listCnt = new Vue({
+			el:"#listCnt",
+			data:{
+				pageInfo:{}
+			},
+			methods:{
+				/*根据父级Id查询所有服务类别*/
+				queryServicetypeBystPid:function(id){
+					myVue = this;
+					$.getJSON("/api/queryServicetypeBystPid/1/10/"+id,function(jason){
+						myVue.pageInfo=jason;
+						$("#stPid").html("");
+						if(jason.total==0&&id!=0){
+							$("#stPid").append("<option value=0>无</option>");
+						}else{
+							$("#stPid").append("<option value=0>所有的</option>");
+							$.each(jason.list, function(index,obj) {
+								$("#stPid").append("<option value="+obj.stid+">"+obj.stName+"</option>");
+							});
+						}
+					});
+				},
+				querySecondMenu:function(){
+					/*根据一级菜单查询所有二级菜单*/
+					var id = $("#stid").val();
+					if(id==0){
+						this.loading();
+					}
+					this.queryServicetypeBystPid(id);
+				},
+				queryThirdMenu:function(){
+					/*根据二级菜单查询所有三级菜单*/
+					var id = $("#stPid").val();
+					if(id==0){
+						this.loading();
+					}
+						myVue = this;
+					$.getJSON("/api/queryServicetypeBystPid/1/10/"+id,function(jason){
+						myVue.pageInfo=jason;
+					});
+				},
+				del:function(id){
+					/*提示该菜单下还剩多少子菜单*/
+					$.getJSON("/api/queryServicetypeBystPid/1/10/"+id,function(jason){
+						var count = jason.total;
+						layer.confirm('该服务类型下还有【'+count+'】条子服务,确定删除吗？', {
+						  btn: ['确认', '取消'] //可以无限个按钮
+			
+						}, function(index, layero){
+						  //删除该服务类型及下面所有的子服务
+						  	layer.close();
+						  	$.ajax({
+							type:"delete",
+							url:"/api/delServicetypeBystid/"+JSON.stringify(id),
+							contentType:"application/json",
+							dataType:"json",
+							success:function(json){
+								if(json.code==200){
+									layer.alert("删除成功");
+									this.loading();
+								}
+							}
+						
+						});
+						});
+						
+						
+					});
+				},
+				loading:function(){
+					myVue = this;
+					$.getJSON("/api/queryServicetypeBystPid/1/100",function(jason){
+					myVue.pageInfo=jason;
+					/*查询所有二级菜单*/
+					$.each(jason.list, function(index,obj) {
+						$("#stPid").append("<option value="+obj.stid+">"+obj.stName+"</option>");
+					});
+				});
+				}
+			},
+			created:function(){
+				this.loading();
+			}
+			
+		});
+	
+	</script>
+</html>
