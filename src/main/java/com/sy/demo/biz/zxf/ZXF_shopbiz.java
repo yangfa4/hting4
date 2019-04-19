@@ -11,6 +11,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sy.demo.dao.zxf.ZXF_IDao1;
 import com.sy.demo.dao.zxf.ZXF_IDao2;
+import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Bond;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
@@ -249,15 +250,29 @@ public class ZXF_shopbiz {
 	 * @return
 	 *
 	 */
-	public Integer ordersrefundstatusupdate(RefundListVo rv,String businessremarks) {
-		if(businessremarks==null) {
-			dao2.usermoneyupdate(rv.getOrder().getU().getUserID(), rv.getApplyRefundMoney(),1); // 改客户金币 +
-			dao2.usermoneyupdate(rv.getOrder().getU2().getUserID(),rv.getOrder().getTotalPrice(), 2); // 改商家金币 -
+	public Integer ordersrefundstatusupdate(RefundListVo rv, String businessremarks) {
+		if (businessremarks == null) {
+			dao2.usermoneyupdate(rv.getOrder().getU().getUserID(), rv.getApplyRefundMoney(), 1); // 改客户金币 +
+			dao2.usermoneyupdate(rv.getOrder().getU2().getUserID(), rv.getOrder().getTotalPrice(), 2); // 改商家金币 -
 			dao2.ordersrefundstatusupdate(rv.getOrderID(), 5); // 改订单表退款状态
 			return dao2.refundrefundstatusupdate(rv.getRefundID(), 2, null); // 改退款表商家审核状态
-		}else {
+		} else {
 			dao2.ordersrefundstatusupdate(rv.getOrderID(), 2); // 改订单表退款状态
 			return dao2.refundrefundstatusupdate(rv.getRefundID(), 3, businessremarks); // 改退款表商家审核状态
 		}
 	}
+
+	/**
+	 * 查询鉴定记录
+	 * 
+	 * @methodName: queryAppraisalapplyByStidAndUserID
+	 * @param stid
+	 * @param userID
+	 * @return
+	 *
+	 */
+	public Appraisalapply queryAppraisalapplyByStidAndUserID(Integer stid, Integer userID) {
+		return dao1.queryAppraisalapplyByStidAndUserID(stid, userID);
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.sy.demo.action.zxf;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sy.demo.biz.zxf.ZXF_shopbiz;
+import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Bond;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
@@ -25,6 +27,7 @@ import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.Services;
 import com.sy.demo.pojo.User;
 import com.sy.demo.util.zxf.Number;
+import com.sy.demo.vo.zxf.AuthVo;
 import com.sy.demo.vo.zxf.OrderQuantity;
 import com.sy.demo.vo.zxf.Ordersvo1;
 import com.sy.demo.vo.zxf.RefundListVo;
@@ -400,7 +403,7 @@ public class ZXF_action_mvc {
 		mod.addAttribute("refund", biz.queryrefundbyid(refundID));
 		return "zxf/sjzx-refund-detail";
 	}
-   
+
 	/**
 	 * 去商家不同意退款备注页面
 	 * 
@@ -412,33 +415,71 @@ public class ZXF_action_mvc {
 	 */
 	@RequestMapping("tosjtkbty")
 	public String tosjtkbty(Model mod, Integer refundID) {
-		 mod.addAttribute("rid", refundID);
+		mod.addAttribute("rid", refundID);
 		return "zxf/sjzx-refund-why";
 	}
+
 	/**
 	 * 拒绝退款
+	 * 
 	 * @methodName: refundno
 	 * @param refundID
 	 * @return
 	 *
 	 */
 	@PostMapping("refundno")
-	public String refundno(Integer refundID,String businessremarks,HttpSession session) {
+	public String refundno(Integer refundID, String businessremarks, HttpSession session) {
 		RefundListVo rv = biz.queryrefundbyid(refundID);
-		biz.ordersrefundstatusupdate(rv,businessremarks);
+		biz.ordersrefundstatusupdate(rv, businessremarks);
 		return "redirect:/zxf/mvc/tosjtk?uid=" + ((User) session.getAttribute("user")).getUserID();
 	}
+
 	/**
-	 * 去我提交的鉴定
+	 * 查询我提交的鉴定
 	 * 
 	 * @methodName: tosjjd
 	 * @return
 	 *
 	 */
 	@RequestMapping("tosjjd")
-	public String tosjjd(Model mod) {
-
+	public String tosjjd(Model mod, HttpSession session) {
+		System.out.println(1111);
+		User us = (User) session.getAttribute("user");
+		List<AuthVo> list = new ArrayList<AuthVo>();
+		AuthVo auth = getAuthVo(us.getFirstServiceID(),us.getUserID());
+		if(auth!=null) {
+			list.add(auth);
+		}
+		AuthVo auth2 = getAuthVo(us.getSecondServiceID(),us.getUserID());
+		if(auth2!=null) {
+			list.add(auth2);
+		}
+		System.out.println(list.size());
+		mod.addAttribute("LIST", list);
 		return "zxf/sjzx-auth";
 	}
-
+	
+	public AuthVo getAuthVo(Integer ServiceID,Integer userID) {
+		if (isNull(ServiceID.toString())) {
+			 Appraisalapply ap = biz.queryAppraisalapplyByStidAndUserID(ServiceID,userID);
+			 if(ap==null) {
+				 return  new AuthVo(null, null, null, 0, ServiceID);
+			 }else {
+				 return new AuthVo(null, ap.getSubmitTime(),ap.getAuditTime(),ap.getAuditStatus(),ServiceID);
+			 }
+		}
+		return null;
+	}
+    /**
+     * 字符串验证非空
+     * @methodName: isNull
+     * @param text
+     * @return
+     *
+     */
+	public boolean isNull(String text) {
+		if (text != null && !text.trim().equals("")) 
+            return true;
+		return false;
+	}
 }

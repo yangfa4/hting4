@@ -47,7 +47,7 @@
 	<resultMap type="ServiceTypeVo" id="ServiceTypeMap">
 		<id column="stid" property="stid"></id>
 		<collection property="servicetypelist"
-			select="findsubclass" column="stid"/>
+			select="findsubclass" column="stid" />
 	</resultMap>
 	<select id="findsubclass" resultType="Servicetype">
 		SELECT
@@ -64,5 +64,10 @@
 		`servicetype`
 		where stPid = #{stPid }
 	</select>
-
+	<!-- 查询鉴定记录 -->
+	<select id="queryAppraisalapplyByStidAndUserID"
+		resultType="Appraisalapply">
+		SELECT * FROM `appraisalapply` WHERE userID =#{userID } AND
+		stid = #{stid }
+	</select>
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
 import com.sy.demo.pojo.Servicetype;
@@ -33,4 +34,7 @@ public interface ZXF_IDao1 {
 
 	// 查申请服务类别(包括其子类)
 	List<ServiceTypeVo> queryservicetypebystpid(@Param("stPid") Integer stPid);
+
+	// 查询鉴定记录
+	Appraisalapply queryAppraisalapplyByStidAndUserID(@Param("stid") Integer stid, @Param("userID") Integer userID);
 }
