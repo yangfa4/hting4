@@ -75,7 +75,7 @@
 							<a href="/Forum/findHotPost"><span class="line"></span>热门话题</a>
 						</li>
 						<li>
-							<a href="#"><span class="line"></span>我的韩汀论坛</a>
+							<a href="/Forum/MyPost?type=1"><span class="line"></span>我的韩汀论坛</a>
 						</li>
 						<li th:each="c,i:${list}" th:data-pid="${c.fmID}">
 							<a th:href="@{/Forum/findBlock(pid=${c.fmID},essence=0)}"><span class="line"></span>[[${c.fmName}]]</a>
@@ -116,7 +116,7 @@
 						</a>
 					</div>
 					<div class="bbs_rank">
-						<a  class="btn_ft"><!--th:href="@{/c/sxy/toAddForum(pid=${param.pid},fmid=${param.forumId})}"-->
+						<a th:href="@{/Forum/toAddForum(pid=${param.pid},fmid=${param.forumId})}" class="btn_ft">
 							<span class="ft_i"></span>发帖
 						</a>
 						排序:

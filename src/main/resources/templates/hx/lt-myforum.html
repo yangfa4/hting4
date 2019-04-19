@@ -69,13 +69,13 @@
 			<div class="bbs_left_bar">
 				<h1 class="bbs_left_title">韩汀·论坛</h1>
 				<ul class="bbs_left_list">
-					<li><a th:href="@{/c/sxy/hotPost(page=1)}"><span
+					<li><a href="/Forum/findHotPost"><span
 							class="line"></span>热门话题</a></li>
 					<li class="cur"><a th:href="@{/c/sxy/myPost(type=1,page=1,title=${param.title})}"><span class="line"></span>我的韩汀论坛</a>
 					</li>
 					<!-- 版块列表 -->
-						<li th:each="temp,item : ${BLIST}">
-							<a th:href="@{/c/sxy/column(pid=${temp.fmid},page=1,orderId=${param.orderId},essence=0)}"><span class="line"></span><span th:text="${temp.fmname}"></span></a>
+						<li th:each="temp,item : ${LIST}">
+							<a th:href="@{/Forum/findBlock(pid=${temp.fmID},essence=0)}"><span class="line"></span><span th:text="${temp.fmName}"></span></a>
 						</li>
 				</ul>
 			</div>
@@ -93,40 +93,41 @@
 						<span class="bbs_top_title">我的韩汀论坛</span>
 					</dt>
 					<dd>
-						<form method="get" th:action="@{/c/sxy/myPost}" id="formfind">
+						<form method="get" action="" id="formfind">
 							<div class="search_sec">
-								<input type="hidden" name="type" th:value="${param.type}" /> 
-								<input type="hidden" name="page" th:value="1" /> 
-								<input type="text" name="title" placeholder="帖子搜索" class="s_sec_input">
+									<input type="hidden" name="type" th:value="${param.type}" /> 
+									<input type="hidden" name="page" th:value="1"/>
+									<input type="hidden" name="essence" th:value="0">
+									<input type="text" name="title" placeholder="帖子搜索" class="s_sec_input">
 								<input type="submit" value="" class="s_sec_btn">
 							</div>
 						</form>
 					</dd>
 				</dl>
 				<div class="bbs_tag">
-					<a th:data-type="1" th:href="@{/c/sxy/myPost(type=1,page=1)}">我的发贴</a>
-					<a th:data-type="2" th:href="@{/c/sxy/myPost(type=2,page=1)}">我的收藏</a> 
-					<a th:data-type="3"	th:href="@{/c/sxy/myPost(type=3,page=1)}">我的回复</a>
+					<a th:data-type="1" th:href="@{/Forum/MyPost(type=1)}">我的发贴</a>
+					<a th:data-type="2" th:href="@{/Forum/MyPost(type=2)}">我的收藏</a> 
+					<a th:data-type="3"	th:href="@{/Forum/MyPost(type=3)}">我的回复</a>
 				</div>
 				<ul class="bbs_list_ul">
-					<li th:each="temp,item : ${MYPOST_PAGE.list}">
+					<li th:each="temp,item : ${MYPOST.list}">
 						<p class="bbs_user_photo">
 							<a
-								th:href="@{/c/sxy/toCenter(userId=${temp.user.userid},type=1,page=1)}"><img
-								th:src="${temp.user.userimgpath}" th:alt="${temp.user.username}"> </a>
+								th:href="@{/c/sxy/toCenter(userId=${temp.User},type=1,page=1)}"><img
+								th:src="${temp.user.userImgPath}" th:alt="${temp.user.userName}"> </a>
 						</p>
 						<div class="bbs_user_text">
 							<h3 class="bbs_text_title">
-								<a th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}" th:text="${temp.title}">默默</a>
+								<a th:href="@{/Forum/findPostDes(postId=${temp.PostID},fmid=${temp.Forum.FmID})}" th:text="${temp.title}">默默</a>
 							</h3>
 							<p class="bbs_user_i">
-								<a th:href="@{/c/sxy/column(pid=${temp.forum.pid},page=1,forumId=${temp.forum.fmid},orderId=0,essence=0)}" th:text="${temp.forum.fmname}">生活情感</a><span
-									class="bbs_dot">·</span><a th:href="@{/c/sxy/toCenter(userId=${temp.user.userid},type=1,page=1)}" th:text="${temp.user.username}">倾心</a></a><span
+								<a th:href="@{/Forum/findPostDes(postId=${temp.PostID})}" th:text="${temp.Forum.FmName}">生活情感</a><span
+									class="bbs_dot">·</span><a th:href="@{/Forum/findUserPost(userId=${temp.User.userID},type=1)}" th:text="${temp.user.userName}">倾心</a></a><span
 									class="bbs_dot">·</span><a
-									th:href="@{/c/sxy/postDetail(postId=${temp.postid},fmid=${temp.forum.fmid},pfmid=${temp.forum.pid},fmname=${temp.forum.fmname})}"><span th:text="${temp.count}">0</span>条回复</a><span
+									th:href="@{/Forum/findPostDes(postId=${temp.PostID})}"><span th:text="${temp.count}">0</span>条回复</a><span
 									class="bbs_dot">·</span>
 									<span th:if="${temp.count!=0}">最后回复									
-									<a href="javascript:;" class="lst_nem" th:text="${temp.lastcomment.user.username}">chaki</a></span>
+									<a href="javascript:;" class="lst_nem" th:text="${temp.lastcomment.User.userName}">chaki</a></span>
 							</p>
 						</div>
 					</li>
@@ -134,9 +135,9 @@
 				<div class="page_w">
 					<div class="page">
 						<div class="nav">
-							<a th:if="${MYPOST_PAGE.isHasPreviousPage()}" class="page_prev prevdisabled" th:href="@{/c/sxy/myPost(type=${param.type},page=${MYPOST_PAGE.prePage},title=${param.title})}">上一页</a> 
-							<a th:href="@{/c/sxy/myPost(type=${param.type},page=${item.count},title=${param.title})}" th:data-page="${item.count}" th:each="temp,item : ${MYPOST_PAGE.navigatepageNums}" th:text="${item.count}">1</a> 
-							<a th:if="${MYPOST_PAGE.isHasNextPage()}" th:href="@{/c/sxy/myPost(type=${param.type},page=${MYPOST_PAGE.nextPage},title=${param.title})}">下一页</a>
+							<a th:if="${MYPOST.isHasPreviousPage()}" class="page_prev prevdisabled" th:href="@{/c/sxy/myPost(type=${param.type},page=${MYPOST.prePage},title=${param.title})}">上一页</a> 
+							<a th:href="@{/c/sxy/myPost(type=${param.type},page=${item.count},title=${param.title})}" th:data-page="${item.count}" th:each="temp,item : ${MYPOST.navigatepageNums}" th:text="${item.count}">1</a> 
+							<a th:if="${MYPOST.isHasNextPage()}" th:href="@{/c/sxy/myPost(type=${param.type},page=${MYPOST.nextPage},title=${param.title})}">下一页</a>
 						</div>
 					</div>
 				</div>
@@ -211,7 +212,7 @@
 <script type="text/javascript" src="/Public/js/sessionHeader.js"></script>
 <script type="text/javascript">
 	$("[data-type=[[${param.type}]]]").addClass("cur");
-	$("[data-page=[[${MYPOST_PAGE.pageNum}]]]").addClass("cur");
+	$("[data-page=[[${MYPOST.pageNum}]]]").addClass("cur");
 	$("[data-orderid=[[${param.orderId}]]]").removeClass("bbscura");
 </script>
 </html>

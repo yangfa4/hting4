@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.Forummanagement;
 import com.sy.demo.pojo.Postcollection;
+import com.sy.demo.pojo.Postcomment;
 import com.sy.demo.pojo.Postfabulous;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.hx.PostVo;
@@ -144,5 +146,36 @@ public interface IForumDao {
 	 * @return
 	 */
 	public Integer savaCollection(@Param("coll")Postcollection coll);
+	
+	/**
+	 * 新增评论
+	 * @param comm
+	 * @return
+	 */
+	public void saveComment(@Param("comm")Postcomment comm);
+	
+	
+	/**
+	 * 发布帖子
+	 * @param forum
+	 * @return
+	 */
+	public int savePost(@Param("post")Post post);
+	
+	
+	/**
+	 * 发帖增加积分
+	 * @param userId
+	 */
+	public void updateJIntegral(@Param("userId")Integer userId);
+	
+	
+	/**
+	 * 查询当天发帖次数
+	 * @param userId
+	 * @return
+	 */
+	public int checkPostCount(@Param("userId")Integer userId);
+	
 	
 }

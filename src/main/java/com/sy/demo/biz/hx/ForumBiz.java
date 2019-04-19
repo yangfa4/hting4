@@ -10,7 +10,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sy.demo.dao.hx.IForumDao;
 import com.sy.demo.pojo.Forummanagement;
+import com.sy.demo.pojo.Post;
 import com.sy.demo.pojo.Postcollection;
+import com.sy.demo.pojo.Postcomment;
 import com.sy.demo.pojo.Postfabulous;
 import com.sy.demo.pojo.User;
 import com.sy.demo.vo.hx.PostVo;
@@ -195,5 +197,31 @@ public class ForumBiz {
 	 */
 	public Integer saveCollection(Postcollection coll) {
 		return dao.savaCollection(coll);
+	}
+	/**
+	 * 新增评论
+	 * @param comm
+	 */
+	public void saveComment(Postcomment comm) {
+		 dao.saveComment(comm);
+	}
+	/**
+	 * 发布帖子
+	 * @param post
+	 */
+	public int savePost(Post post) {
+		return dao.savePost(post);
+	}
+	
+	/**
+	 * 发帖加积分
+	 * @param userId
+	 */
+	public void updateJIntegral(Integer userId) {
+		dao.updateJIntegral(userId);
+	}
+	
+	public int checkPostCount(Integer userId) {
+		return dao.checkPostCount(userId);
 	}
 }
