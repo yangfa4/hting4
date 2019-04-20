@@ -31,6 +31,7 @@ import com.sy.demo.vo.zxf.AuthVo;
 import com.sy.demo.vo.zxf.OrderQuantity;
 import com.sy.demo.vo.zxf.Ordersvo1;
 import com.sy.demo.vo.zxf.RefundListVo;
+import com.sy.demo.vo.zxf.ReturnEvaluation;
 
 @Controller
 @RequestMapping("/zxf/mvc")
@@ -66,12 +67,14 @@ public class ZXF_action_mvc {
 	@RequestMapping("toshop")
 	public String toshop(Integer uid, HttpSession session, Model mod) {
 		User us = (User) session.getAttribute("USER");
+		if (us == null) {
+			us = (User) session.getAttribute("user");
+		}
 		String path = "zxf//sjzx-index"; // 默认url《商家中心》
 		if (uid != null) {
 			us = biz.queryby(uid); // 获取当前登录用户信息
 		}
 		session.setAttribute("user", us);
-
 		session.setAttribute("system", biz.Querysystem().get(0));
 		if (us.getAuditStatus() == 2) { // 2：是商家
 			mod.addAttribute("servicetype", biz.QueryservicetypeAll());
@@ -371,6 +374,27 @@ public class ZXF_action_mvc {
 	}
 
 	/**
+	 * 服务鉴定
+	 * 
+	 * @methodName: fbfw
+	 * @param session
+	 * @return
+	 *
+	 */
+	@PostMapping("tjjd")
+	public String tjjd(Appraisalapply ap, MultipartFile hospitalLicense1, MultipartFile translate1,
+			MultipartFile schoolReport1, MultipartFile koreaLicense1) throws Exception {
+		ap.setHospitalLicense(shangchu(hospitalLicense1));
+		ap.setTranslate(shangchu(translate1));
+		ap.setSchoolReport(shangchu(schoolReport1));
+		ap.setKoreaLicense(shangchu(koreaLicense1));
+		biz.addAppraisalapply(ap);
+		System.out.println(ap);
+
+		return "redirect:/zxf/mvc/tosjjd";
+	}
+
+	/**
 	 * 去商家退款
 	 * 
 	 * @methodName: tosjtk
@@ -443,43 +467,57 @@ public class ZXF_action_mvc {
 	 */
 	@RequestMapping("tosjjd")
 	public String tosjjd(Model mod, HttpSession session) {
-		System.out.println(1111);
 		User us = (User) session.getAttribute("user");
 		List<AuthVo> list = new ArrayList<AuthVo>();
-		AuthVo auth = getAuthVo(us.getFirstServiceID(),us.getUserID());
-		if(auth!=null) {
+		AuthVo auth = getAuthVo(us.getFirstServiceID(), us.getUserID());
+		if (auth != null) {
 			list.add(auth);
 		}
-		AuthVo auth2 = getAuthVo(us.getSecondServiceID(),us.getUserID());
-		if(auth2!=null) {
+		AuthVo auth2 = getAuthVo(us.getSecondServiceID(), us.getUserID());
+		if (auth2 != null) {
 			list.add(auth2);
 		}
-		System.out.println(list.size());
 		mod.addAttribute("LIST", list);
 		return "zxf/sjzx-auth";
 	}
-	
-	public AuthVo getAuthVo(Integer ServiceID,Integer userID) {
+
+	public AuthVo getAuthVo(Integer ServiceID, Integer userID) {
 		if (isNull(ServiceID.toString())) {
-			 Appraisalapply ap = biz.queryAppraisalapplyByStidAndUserID(ServiceID,userID);
-			 if(ap==null) {
-				 return  new AuthVo(null, null, null, 0, ServiceID);
-			 }else {
-				 return new AuthVo(null, ap.getSubmitTime(),ap.getAuditTime(),ap.getAuditStatus(),ServiceID);
-			 }
+			Appraisalapply ap = biz.queryAppraisalapplyByStidAndUserID(ServiceID, userID);
+			if (ap == null) {
+				return new AuthVo(null, null, null, 0, ServiceID);
+			} else {
+				return new AuthVo(null, ap.getSubmitTime(), ap.getAuditTime(), ap.getAuditStatus(), ServiceID);
+			}
 		}
 		return null;
 	}
-    /**
-     * 字符串验证非空
-     * @methodName: isNull
-     * @param text
-     * @return
-     *
-     */
+
+	/**
+	 * 字符串验证非空
+	 * 
+	 * @methodName: isNull
+	 * @param text
+	 * @return
+	 *
+	 */
 	public boolean isNull(String text) {
-		if (text != null && !text.trim().equals("")) 
-            return true;
+		if (text != null && !text.trim().equals(""))
+			return true;
 		return false;
+	}
+   /**
+    * 去我收到的评价
+    * @methodName: towdpj
+    * @param mod
+    * @param session
+    * @return
+    *
+    */
+	@RequestMapping("towdpj")
+	public String towdpj(Model mod, HttpSession session) {
+		User us = (User) session.getAttribute("user");
+		mod.addAttribute("PAGE_INFO", "");
+		return "zxf/sjzx-comment";
 	}
 }

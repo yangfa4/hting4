@@ -275,4 +275,15 @@ public class ZXF_shopbiz {
 		return dao1.queryAppraisalapplyByStidAndUserID(stid, userID);
 	}
 
+	/**
+	 * 新增服务鉴定
+	 * 
+	 * @methodName: addAppraisalapply
+	 * @param ap
+	 * @return
+	 *
+	 */
+	public int addAppraisalapply(Appraisalapply ap) {
+		return dao2.addAppraisalapply(ap);
+	}
 }

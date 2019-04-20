@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Bond;
 import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.Services;
@@ -97,12 +98,12 @@ public interface ZXF_IDao2 {
 	 * @methodName: usermoneyupdate
 	 * @param uid
 	 * @param money
-	 * @param jiajian  1/加 , 2/减
+	 * @param jiajian
+	 *            1/加 , 2/减
 	 * @return
 	 *
 	 */
-	Integer usermoneyupdate(@Param("uid") Integer uid, @Param("money") Float money,
-			@Param("jiajian") Integer jiajian);
+	Integer usermoneyupdate(@Param("uid") Integer uid, @Param("money") Float money, @Param("jiajian") Integer jiajian);
 
 	/**
 	 * 发布服务
@@ -134,4 +135,15 @@ public interface ZXF_IDao2 {
 	 */
 	RefundListVo queryrefundbyid(@Param("id") Integer id);
 
+	/**
+	 * 新增服务鉴定
+	 * 
+	 * @methodName: addAppraisalapply
+	 * @param ap
+	 * @return
+	 *
+	 */
+	int addAppraisalapply(@Param("ap")Appraisalapply ap);
+	
+     
 }

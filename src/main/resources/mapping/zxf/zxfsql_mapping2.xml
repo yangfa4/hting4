@@ -278,4 +278,103 @@
 		WHERE `userID`
 		= #{uid };
 	</update>
+
+	<insert id="addAppraisalapply">
+		INSERT INTO `appraisalapply` (
+		`userID`,
+		`stid`,
+		`name`,
+		`sex`,
+		`height`,
+		`constellation`,
+		`age`,
+		`visaType`,
+		`documentType`,
+		`certificates`,
+		`experience`,
+		`vehicle`,
+		`guideCard`,
+		`inKorea`,
+		`phone`,
+		`email`,
+		`country`,
+		`provincialID`,
+		`cityID`,
+		`detailed`,
+		`hospitalLicense`,
+		`cooperativeHospital`,
+		`cooperativeHospitalURL`,
+		`hospitalPhone`,
+		`translateType`,
+		`translate`,
+		`office`,
+		`officeCountry`,
+		`officeProvince`,
+		`officeCity`,
+		`officeDetailed`,
+		`koreaLicense`,
+		`translateWebsite`,
+		`studyMajor`,
+		`schoolReport`,
+		`officialNetworkURL`,
+		`submitTime`,
+		`auditTime`,
+		`adminOpinion`,
+		`auditStatus`,
+		`strength`
+		)
+		VALUES
+		(
+		#{ap.userID },
+		#{ap.stid },
+		#{ap.name },
+		#{ap.sex },
+		#{ap.height },
+		#{ap.constellation },
+		#{ap.age },
+		#{ap.visaType },
+		#{ap.documentType },
+		#{ap.certificates },
+		#{ap.experience },
+		#{ap.vehicle },
+		#{ap.guideCard },
+		#{ap.inKorea },
+		#{ap.phone },
+		#{ap.email },
+		#{ap.country },
+		#{ap.provincialID },
+		#{ap.cityID },
+		#{ap.detailed },
+		#{ap.hospitalLicense },
+		#{ap.cooperativeHospital },
+		#{ap.cooperativeHospitalURL },
+		#{ap.hospitalPhone },
+		#{ap.translateType },
+		#{ap.translate },
+		#{ap.office },
+		#{ap.officeCountry },
+		#{ap.officeProvince },
+		#{ap.officeCity },
+		#{ap.officeDetailed },
+		#{ap.koreaLicense },
+		#{ap.translateWebsite },
+		#{ap.studyMajor },
+		#{ap.schoolReport },
+		#{ap.officialNetworkURL },
+		NOW(),
+		#{ap.auditTime },
+		#{ap.adminOpinion },
+		1,
+		#{ap.strength }
+		)
+	</insert>
+
+
+
+
+
+
+
+
+
 </mapper>
