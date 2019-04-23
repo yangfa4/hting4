@@ -32,9 +32,8 @@
 <script type="text/javascript" src="/Public/js/swiper-3.4.2.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="/Public/css/swiper-3.4.2.min.css">
-		<link rel="stylesheet"
-			href="/Public/js/valid/css/validationEngine.jquery.css"
-			type="text/css" />
+<link rel="stylesheet"
+	href="/Public/js/valid/css/validationEngine.jquery.css" type="text/css" />
 <script>
 	_weburl = 'http://yphting.zglxkj.com';
 </script>
@@ -92,40 +91,6 @@
 			</ul>
 		</div>
 	</div>
-	<!--header end-->
-
-	<script language="javascript">
-		function ordercancel(_oid) {
-			location.href = "/index.php?m=Home&c=Member&a=setzt&oid="
-					+ _oid
-					+ '&act=cancel&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHAvSG9tZS9TZWxsZXIvY29tbWVudC5odG1s';
-		}
-		function ordersuccess(_oid) {
-			location.href = "/index.php?m=Home&c=Member&a=setzt&oid="
-					+ _oid
-					+ '&act=success&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHAvSG9tZS9TZWxsZXIvY29tbWVudC5odG1s';
-		}
-		function orderaccept(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=accept&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHAvSG9tZS9TZWxsZXIvY29tbWVudC5odG1s';
-		}
-		function ordercancelSeller(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=cancel&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHAvSG9tZS9TZWxsZXIvY29tbWVudC5odG1s';
-		}
-		function orderservice(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=submit&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHAvSG9tZS9TZWxsZXIvY29tbWVudC5odG1s';
-		}
-		function orderShou(_oid) {
-			location.href = "/index.php?m=Home&c=Seller&a=orderzt&oid="
-					+ _oid
-					+ '&act=Shou&continue=aHR0cDovL3lwaHRpbmcuemdseGtqLmNvbS9pbmRleC5waHAvSG9tZS9TZWxsZXIvY29tbWVudC5odG1s';
-		}
-	</script>
 
 	<a href="/index.php/Home/About/help.html" class="zy_box">预定流程指引</a>
 
@@ -141,11 +106,11 @@
 					<li><a th:href="|/zxf/mvc/tofbdfw?uid=${session.user.userID}&p=1&s=3&auditStatus=0&title=|"><span
 							class="msp2 pre_c2"></span>我发布的服务</a></li>
 					<li><a href="/zxf/mvc/tosjjd"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
-					<li><a href="/zxf/mvc/towdpj"><span
-							class="msp2 pre_c4"></span>我收到的评价</a></li>
-					<li><a href="/zxf/mvc/to?path=zxf/sjzx-logistics"><span class="msp2 pre_c5"></span>我发出的物流</a></li>
-					<li><a th:href="|/zxf/mvc/tosjtk?uid=${session.user.userID}|"><span class="msp2 pre_c6"></span>我收到的退款<span
-							class="sp_acon_1"></span></a></li>
+					<li><a href="/zxf/mvc/towdpj"><span class="msp2 pre_c4"></span>我收到的评价</a></li>
+					<li><a href="/zxf/mvc/to?path=zxf/sjzx-logistics"><span
+							class="msp2 pre_c5"></span>我发出的物流</a></li>
+					<li><a th:href="|/zxf/mvc/tosjtk?uid=${session.user.userID}|"><span
+							class="msp2 pre_c6"></span>我收到的退款<span class="sp_acon_1"></span></a></li>
 					<li><a href="#"><span class="msp2 pre_c3"></span>我的服务类别</a></li>
 					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的托管</a></li>
 				</ul>
@@ -176,17 +141,18 @@
 				<ul class="my_evaluation_list business_comment_list">
 					<li th:each="temp,iterState:${PAGE_INFO.list}">
 						<p class="my_evaluation_img">
-							<img th:src="${temp.userimgpath}" th:alt="${temp.username}" />
+							<img th:src="${temp.eu.userImgPath}" th:alt="${temp.eu.userName}" />
 						</p>
 						<p class="date_p fr">
 							<a href="javascript:void(0);" class="btna_s2 btna_hy_a f14">回应评价</a>
 						</p>
 						<div class="my_evaluation_text">
 							<h3 class="bbs_text_title c_4">
-								<a href="#" class="name_a_2">[[${temp.username}]]</a>评论了<a
-									href="#">[[${temp.servicetitle}]]</a>
+								<a href="#" class="name_a_2">【[[${temp.eu.userName}]]】</a>评论了<a
+									href="#">[[${temp.ser.serviceTitle}]]：</a>
 							</h3>
-							<div th:switch="${temp.serviceappraiselevel}">
+						   <p style="padding-top:10px;" class="pt_text2" th:text="${temp.serviceAppraiseContent}"></p>
+							<div th:switch="${temp.serviceAppraiseLevel}">
 								<div th:case="1">
 									<div class="star_pl">
 										<span class="star_pl_sp" style="width: 20%;"></span>
@@ -213,18 +179,42 @@
 									</div>
 								</div>
 							</div>
-							<p class="pt_text2" th:text="${temp.serviceappraisecontent}"></p>
-							<p class="c_4 f12" th:text="${temp.serviceappraisedate}"></p>
+							<p class="c_4 f12"
+								th:text="${#dates.format(temp.serviceAppraiseDate,'yyyy-MM-dd hh:mm:ss')}"></p>
+							<div style="padding: 0px 20px"
+								th:each="temp2,iterState2:${temp.re}">
+								<h3 th:if="${temp2.serviceAppraisePID==1&&temp2.serviceAppraiseLevel==temp.serviceAppraiseID}" class="bbs_text_title c_4">
+									<a  href="#" class="name_a_2"> 【我】回复了【[[${temp2.eu.userName}]]】的评论：&nbsp;&nbsp;&nbsp;</a>[[${temp2.serviceAppraiseContent}]]
+									<p>[[${#dates.format(temp2.serviceAppraiseDate,'yyyy-MM-dd hh:mm:ss')}]]</p>
+								</h3>
+								<h3 th:if="${temp2.serviceAppraisePID==2&&temp2.serviceAppraiseLevel==temp.serviceAppraiseID}" class="bbs_text_title c_4">
+									<a  href="#" class="name_a_2"> 【[[${temp2.eu.userName}]]】回复了【我】的评论：&nbsp;&nbsp;&nbsp;</a>[[${temp2.serviceAppraiseContent}]]
+									<p>[[${#dates.format(temp2.serviceAppraiseDate,'yyyy-MM-dd hh:mm:ss')}]]</p>
+								</h3>
+							</div>
 						</div> <!--回应-->
-						<div class="my_hy_box">
-							<textarea placeholder="您的回应" id="replymsg" rel="307"
+					 
+						<form class="my_hy_box" id="sjhf" action="/zxf/mvc/shophf" method="post">
+						   <input type="text" name="serviceID" th:value="${temp.serviceID}" hidden/>
+						   <input type="text" name="userID" th:value="${temp.userID}" hidden/>
+						    <input type="text" name="serviceAppraiseLevel" th:value="${temp.serviceAppraiseID}" hidden/>
+							<textarea placeholder="您的回应" id="replymsg" rel="307" name="serviceAppraiseContent"
 								class="input_c my_hy_area"></textarea>
 							<div class="my_hy_btn">
-								<a href="javascript:void(0);"
-									class="btn_jy_a btn_jy_a3 btn_reply">发布</a> <a
-									href="javascript:void(0);" class="btn_jy_a btn_jy_a4">取消</a>
+							<button type="submit" class="btn_jy_a btn_jy_a3 btn_reply">发布</button>
+								 <a href="javascript:void(0);"  class="btn_jy_a btn_jy_a4">取消</a>
 							</div>
-						</div> <!--回应 end-->
+							</form>
+							<script type="text/javascript">
+							  $("#sjhf").submit(function(){
+								  if($.trim($("#replymsg").val())==""){
+									 return false;
+								  }else{
+									  return true;
+								  }
+							  });
+							</script>
+					 
 					</li>
 
 				</ul>
@@ -233,16 +223,16 @@
 					<table>
 						<tr>
 							<td colspan="7" align="center"><a
-								th:href="@{queryEvaluation(pageNum=1,pageSize=${PAGE_INFO.pageSize})}">首页</a>
+								th:href="@{/zxf/mvc/towdpj(p=1,s=${PAGE_INFO.pageSize})}">首页</a>
 								&nbsp;&nbsp; <span th:if="${PAGE_INFO.isHasPreviousPage()}">
 									<a
-									th:href="@{queryEvaluation(pageNum=${PAGE_INFO.prePage},pageSize=${PAGE_INFO.pageSize})}">上一页</a>
+									th:href="@{/zxf/mvc/towdpj(p=${PAGE_INFO.prePage},s=${PAGE_INFO.pageSize})}">上一页</a>
 							</span> &nbsp;&nbsp; <span th:if="${PAGE_INFO.isHasNextPage()}">
 
 									<a
-									th:href="@{queryEvaluation(pageNum=${PAGE_INFO.nextPage},pageSize=${PAGE_INFO.pageSize})}">下一页</a>
+									th:href="@{/zxf/mvc/towdpj(p=${PAGE_INFO.nextPage},s=${PAGE_INFO.pageSize})}">下一页</a>
 							</span> &nbsp;&nbsp; <a
-								th:href="@{queryEvaluation(pageNum=${PAGE_INFO.lastPage},pageSize=${PAGE_INFO.pageSize})}">末页</a>
+								th:href="@{/zxf/mvc/towdpj(p=${PAGE_INFO.lastPage},s=${PAGE_INFO.pageSize})}">末页</a>
 								&nbsp;&nbsp;
 								&nbsp;&nbsp;第[[${PAGE_INFO.pageNum}]]页/共[[${PAGE_INFO.lastPage}]]页&nbsp;&nbsp;共[[${PAGE_INFO.total}]]条记录
 

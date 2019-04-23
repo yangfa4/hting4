@@ -6,11 +6,14 @@ import org.apache.ibatis.annotations.Param;
 
 import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Bond;
+import com.sy.demo.pojo.Evaluationservice;
 import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.Services;
 import com.sy.demo.pojo.User;
+import com.sy.demo.vo.zxf.EvaluationServiceVo;
 import com.sy.demo.vo.zxf.Ordersvo1;
 import com.sy.demo.vo.zxf.RefundListVo;
+import com.sy.demo.vo.zxf.ReturnEvaluation;
 
 public interface ZXF_IDao2 {
 
@@ -143,7 +146,35 @@ public interface ZXF_IDao2 {
 	 * @return
 	 *
 	 */
-	int addAppraisalapply(@Param("ap")Appraisalapply ap);
-	
-     
+	int addAppraisalapply(@Param("ap") Appraisalapply ap);
+
+	/**
+	 * 商家查评价
+	 * 
+	 * @methodName: queryEvaluation
+	 * @param uid
+	 * @return
+	 *
+	 */
+	List<EvaluationServiceVo> queryEvaluation(@Param("uid") Integer uid, @Param("statid") Integer statid);
+
+	/**
+	 * 商家回复
+	 * 
+	 * @methodName: addEvaluation
+	 * @param ev
+	 * @return
+	 *
+	 */
+	int addEvaluation(@Param("ev") Evaluationservice ev);
+
+	/**
+	 * 根据主键id查询服务
+	 * 
+	 * @methodName: querybyser
+	 * @param serviceID
+	 * @return
+	 *
+	 */
+	Services querybyser(@Param("serviceID") Integer serviceID);
 }

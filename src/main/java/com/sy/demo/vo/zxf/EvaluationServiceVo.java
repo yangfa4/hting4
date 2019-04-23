@@ -1,28 +1,27 @@
 package com.sy.demo.vo.zxf;
 
-import java.util.Date;
-
-import com.sy.demo.pojo.Evaluationservice;
-import com.sy.demo.pojo.User;
+import java.util.List;
 
 /**
- * 评价
+ * 评价(包含回复信息)
  * 
  * @className: EvaluationServiceVo
  * @author: zxf
  * @date: 2019年4月19日 下午9:32:44
  *
  */
-public class EvaluationServiceVo extends Evaluationservice {
+public class EvaluationServiceVo extends ReturnEvaluation {
 
-	private User eu; // 评价者
-
-	public User getEu() {
-		return eu;
+ 
+	private List<ReturnEvaluation> re;
+	
+	
+	public List<ReturnEvaluation> getRe() {
+		return re;
 	}
 
-	public void setEu(User eu) {
-		this.eu = eu;
+	public void setRe(List<ReturnEvaluation> re) {
+		this.re = re;
 	}
 
 	public EvaluationServiceVo() {

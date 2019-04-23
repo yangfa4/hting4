@@ -111,7 +111,7 @@
 	</resultMap>
 	<select id="querybyser" resultType="services">
 		SELECT * FROM services WHERE
-		`serviceID` = #{0 }
+		`serviceID` = #{serviceID }
 	</select>
 	<select id="querybyuser" resultType="user">
 		SELECT * FROM user WHERE
@@ -146,7 +146,7 @@
 		WHERE
 		`orderID` = #{orderID }
 	</update>
-
+	<!-- 新增服务 -->
 	<insert id="addservices">
 		INSERT INTO `services` (
 		`stid`,
@@ -236,6 +236,7 @@
 		services WHERE userID=#{uid
 		}))
 	</select>
+	<!-- 查退款详情 -->
 	<select id="queryrefundbyid" resultType="RefundListVo">
 		SELECT
 		*
@@ -243,7 +244,7 @@
 		`refund`
 		WHERE `refundID` = #{id }
 	</select>
-
+	<!-- 订单退款状态修改 -->
 	<update id="ordersrefundstatusupdate">
 		UPDATE `orders`
 		SET
@@ -251,7 +252,7 @@
 		WHERE
 		`orderID` = #{orderID }
 	</update>
-
+	<!-- 退款信息退款状态修改 -->
 	<update id="refundrefundstatusupdate">
 		UPDATE
 		`refund`
@@ -263,7 +264,7 @@
 		WHERE `refundID`
 		= #{refundID }
 	</update>
-
+	<!-- 用戶金币修改 -->
 	<update id="usermoneyupdate">
 		UPDATE
 		`user`
@@ -278,7 +279,7 @@
 		WHERE `userID`
 		= #{uid };
 	</update>
-
+	<!-- 服务鉴定 -->
 	<insert id="addAppraisalapply">
 		INSERT INTO `appraisalapply` (
 		`userID`,
@@ -368,9 +369,48 @@
 		#{ap.strength }
 		)
 	</insert>
-
-
-
+	<!-- 商家查评价 -->
+	<select id="queryEvaluation" resultType="EvaluationServiceVo">
+		SELECT
+		`serviceAppraiseID`,
+		`serviceID`,
+		`userID`,
+		`serviceAppraiseContent`,
+		`serviceAppraiseDate`,
+		`serviceAppraiseLevel`,
+		`serviceAppraisePID`
+		FROM
+		`evaluationservice`
+		WHERE `serviceID` IN (SELECT serviceID FROM
+		`services` WHERE `userID` =
+		#{uid }) AND
+		<if test="statid==0 ">
+			`serviceAppraisePID` = 0
+		</if>
+		<if test="statid!=0 ">
+			`serviceAppraisePID` != 0
+		</if>
+	</select>
+	<!-- 商家回复 -->
+	<insert id="addEvaluation">
+		INSERT INTO `evaluationservice` (
+		`serviceID`,
+		`userID`,
+		`serviceAppraiseContent`,
+		`serviceAppraiseDate`,
+		`serviceAppraiseLevel`,
+		`serviceAppraisePID`
+		)
+		VALUES
+		(
+		 #{ev.serviceID},
+		#{ev.userID},
+		#{ev.serviceAppraiseContent},
+		NOW(),
+		#{ev.serviceAppraiseLevel },
+		1
+		);
+	</insert>
 
 
 

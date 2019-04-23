@@ -59,7 +59,7 @@
 		<div class="b_box nav_header community_header">
 			<a class="logo my_logo" href="#">御品韩汀</a>
 			<ul class="member_nav_ul">
-				<li class="cur" id="li1"><a href="#">商家中心</a><span
+				<li class="cur" id="li1"><a href="/zxf/mvc/toshop">商家中心</a><span
 					class="my_nav_i"></span></li>
 				<style type="text/css">
 .layui-layer-btn .layui-layer-btn0 {
@@ -88,11 +88,10 @@
 				<ul class="member_system_ul sj_left_ul">
 					<li><a th:href="|/zxf/mvc/tosddyd?uid=${session.user.userID}|"><span
 							class="msp2 pre_c1"></span>我收到的预定</a></li>
-					<li><a
-						th:href="|/zxf/mvc/tofbdfw?uid=${session.user.userID}&p=1&s=3&auditStatus=0&title=|"><span
+					<li><a th:href="|/zxf/mvc/tofbdfw?uid=${session.user.userID}&p=1&s=3&auditStatus=0&title=|"><span
 							class="msp2 pre_c2"></span>我发布的服务</a></li>
-					<li><a href="#"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
-					<li><a href="#"><span class="msp2 pre_c4"></span>我收到的评价</a></li>
+					<li><a href="/zxf/mvc/tosjjd"><span class="msp2 pre_c3"></span>我提交的鉴定</a></li>
+					<li><a href="/zxf/mvc/towdpj"><span class="msp2 pre_c4"></span>我收到的评价</a></li>
 					<li><a href="/zxf/mvc/to?path=zxf/sjzx-logistics"><span
 							class="msp2 pre_c5"></span>我发出的物流</a></li>
 					<li><a th:href="|/zxf/mvc/tosjtk?uid=${session.user.userID}|"><span

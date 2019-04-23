@@ -21,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import com.sy.demo.biz.zxf.ZXF_shopbiz;
 import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Bond;
+import com.sy.demo.pojo.Evaluationservice;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
 import com.sy.demo.pojo.Orders;
@@ -75,6 +76,7 @@ public class ZXF_action_mvc {
 			us = biz.queryby(uid); // 获取当前登录用户信息
 		}
 		session.setAttribute("user", us);
+		session.setAttribute("USER", us);
 		session.setAttribute("system", biz.Querysystem().get(0));
 		if (us.getAuditStatus() == 2) { // 2：是商家
 			mod.addAttribute("servicetype", biz.QueryservicetypeAll());
@@ -506,18 +508,43 @@ public class ZXF_action_mvc {
 			return true;
 		return false;
 	}
-   /**
-    * 去我收到的评价
-    * @methodName: towdpj
-    * @param mod
-    * @param session
-    * @return
-    *
-    */
+
+	/**
+	 * 去我收到的评价
+	 * 
+	 * @methodName: towdpj
+	 * @param mod
+	 * @param session
+	 * @return
+	 *
+	 */
 	@RequestMapping("towdpj")
-	public String towdpj(Model mod, HttpSession session) {
+	public String towdpj(Model mod, HttpSession session,Integer p,Integer s) {
+		if(p==null) {
+			p = 1;
+		}
+		if(s==null) {
+			s = 3;
+		}
 		User us = (User) session.getAttribute("user");
-		mod.addAttribute("PAGE_INFO", "");
+		mod.addAttribute("PAGE_INFO", biz.queryEvaluation(us.getUserID(),p,s));
 		return "zxf/sjzx-comment";
 	}
+	
+	/**
+	 * 商家回复
+	 * 
+	 * @methodName: refundno
+	 * @param refundID
+	 * @return
+	 *
+	 */
+	@PostMapping("shophf")
+	public String shophf(Evaluationservice ev){
+		biz.addEvaluation(ev);
+		return "redirect:/zxf/mvc/towdpj";
+	}
+	
+	
+	
 }

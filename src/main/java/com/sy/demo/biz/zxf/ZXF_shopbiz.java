@@ -2,7 +2,6 @@ package com.sy.demo.biz.zxf;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,16 +12,18 @@ import com.sy.demo.dao.zxf.ZXF_IDao1;
 import com.sy.demo.dao.zxf.ZXF_IDao2;
 import com.sy.demo.pojo.Appraisalapply;
 import com.sy.demo.pojo.Bond;
+import com.sy.demo.pojo.Evaluationservice;
 import com.sy.demo.pojo.Languagetype;
 import com.sy.demo.pojo.Majortype;
-import com.sy.demo.pojo.Orders;
 import com.sy.demo.pojo.Services;
 import com.sy.demo.pojo.Servicetype;
 import com.sy.demo.pojo.Sharea;
 import com.sy.demo.pojo.System;
 import com.sy.demo.pojo.User;
+import com.sy.demo.vo.zxf.EvaluationServiceVo;
 import com.sy.demo.vo.zxf.Ordersvo1;
 import com.sy.demo.vo.zxf.RefundListVo;
+import com.sy.demo.vo.zxf.ReturnEvaluation;
 import com.sy.demo.vo.zxf.ServiceTypeVo;
 
 @Service
@@ -286,4 +287,47 @@ public class ZXF_shopbiz {
 	public int addAppraisalapply(Appraisalapply ap) {
 		return dao2.addAppraisalapply(ap);
 	}
+
+	/**
+	 * 商家查评价
+	 * 
+	 * @methodName: queryEvaluation
+	 * @param uid
+	 * @return
+	 *
+	 */
+	public PageInfo<EvaluationServiceVo> queryEvaluation(Integer uid, Integer p, Integer s) {
+		List<EvaluationServiceVo> lt = dao2.queryEvaluation(uid, 0);
+		for (ReturnEvaluation es : lt) {
+				EvaluationServiceVo ev = (EvaluationServiceVo)es;
+				ev.setEu(dao1.queryuser(es.getUserID()));
+				ev.setRe(toReturnEvaluation(dao2.queryEvaluation(uid, 1)));
+				ev.setSer(dao2.querybyser(ev.getServiceID()));
+		}
+		PageHelper.startPage(p, s);
+		return new PageInfo<EvaluationServiceVo>(lt);
+	}
+	
+	public List<ReturnEvaluation> toReturnEvaluation(List<EvaluationServiceVo> lt){
+		List<ReturnEvaluation> list = new ArrayList<ReturnEvaluation>();
+		for (EvaluationServiceVo ev : lt) {
+			ev.setEu(dao1.queryuser(ev.getUserID()));
+			list.add(ev);
+		}
+		return list;
+	}
+	
+	/**
+	 * 商家回复
+	 * 
+	 * @methodName: addEvaluation
+	 * @param ev
+	 * @return
+	 *
+	 */
+	public int addEvaluation(Evaluationservice ev) {
+		return dao2.addEvaluation(ev);
+	}
+	
+
 }
