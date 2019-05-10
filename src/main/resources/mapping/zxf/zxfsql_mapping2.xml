@@ -216,7 +216,7 @@
 		NOW(),
 		0,
 		#{services.weight },
-		1
+		2
 		);
 	</insert>
 
